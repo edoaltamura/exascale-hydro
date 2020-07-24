@@ -1,4 +1,4 @@
-exascale-hydro
+Exascale hydrodynamics
 ============
 This repository contains scripts for generating and analysing [SWIFT](https://github.com/SWIFTSIM)
 hydrodynamic simulations. Focus is on code performance and benchmarks in running hydrodynamics problems
