@@ -6,7 +6,7 @@ on an increasingly large number of threads and nodes.
 
 The tests mostly involve weak and strong-scaling. An example of scaling test is the one based on the Kelvin-Helmholtz (KH) instability. The following Twitter post includes the output image from a large KH simulation.
 
-<blockquote class="twitter-tweet" data-theme="light"><p lang="en" dir="ltr">Some nice eddies out of a large Kelvin-Helmholtz instability problem running on the <a href="https://twitter.com/DarkerMatters?ref_src=twsrc%5Etfw">@DarkerMatters</a>&#39; <a href="https://twitter.com/DiRAC_HPC?ref_src=twsrc%5Etfw">@DiRAC_HPC</a> cosma system <a href="https://t.co/peUBh8dEcq">pic.twitter.com/peUBh8dEcq</a></p>&mdash; SWIFT Simulation - (@SwiftSimulation) <a href="https://twitter.com/SwiftSimulation/status/1276814541486243843?ref_src=twsrc%5Etfw">June 27, 2020</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+<blockquote class="twitter-tweet" data-theme="light"><p lang="en" dir="ltr">Some nice eddies out of a large Kelvin-Helmholtz instability problem running on the <a href="https://twitter.com/DarkerMatters?ref_src=twsrc%5Etfw">@DarkerMatters</a>&#39; <a href="https://twitter.com/DiRAC_HPC?ref_src=twsrc%5Etfw">@DiRAC_HPC</a> cosma system <a href="https://t.co/peUBh8dEcq">pic.twitter.com/peUBh8dEcq</a></p>&mdash; SWIFT Simulation - (@SwiftSimulation) <a href="https://twitter.com/SwiftSimulation/status/1276814541486243843?ref_src=twsrc%5Etfw">June 27, 2020</a></blockquote>
 
 Computing architecture
 ------------
