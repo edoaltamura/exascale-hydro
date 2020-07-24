@@ -8,6 +8,10 @@ The tests mostly involve weak and strong-scaling. An example of scaling test is 
 
 <blockquote class="twitter-tweet" data-theme="light"><p lang="en" dir="ltr">Some nice eddies out of a large Kelvin-Helmholtz instability problem running on the <a href="https://twitter.com/DarkerMatters?ref_src=twsrc%5Etfw">@DarkerMatters</a>&#39; <a href="https://twitter.com/DiRAC_HPC?ref_src=twsrc%5Etfw">@DiRAC_HPC</a> cosma system. <a href="https://t.co/peUBh8dEcq">pic.twitter.com/peUBh8dEcq</a></p>&mdash; SWIFT Simulation - (@SwiftSimulation) <a href="https://twitter.com/SwiftSimulation/status/1276814541486243843?ref_src=twsrc%5Etfw">June 27, 2020</a></blockquote>
 
+The following are also on schedule:
+* MPI Kelvin-Helmholtz
+* Driven turbulence
+
 Computing architecture
 ------------
 Hydro simulations are run with single-node (OpenMP) and multi-node (MPI)  configurations, preferably on the `cosma6` and `cosma7` computer clusters. `Cosma7` is equipped with 
