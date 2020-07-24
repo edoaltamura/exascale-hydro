@@ -12,6 +12,8 @@ The following are also on schedule:
 * MPI Kelvin-Helmholtz
 * Driven turbulence
 
+This is part of the ExCALIBUR (Exascale Computing Algorithms and Infrastructures Benefitting UK Research) project. Visit the [ExCALIBUR-UKRI page](https://epsrc.ukri.org/funding/calls/excalibur-high-priority-use-cases-phase-1/) for more info.
+
 Computing architecture
 ------------
 Hydro simulations are run with single-node (OpenMP) and multi-node (MPI)  configurations, preferably on the `cosma6` and `cosma7` computer clusters. `Cosma7` is equipped with 
