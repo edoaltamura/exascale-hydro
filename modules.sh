@@ -1,6 +1,6 @@
 #!/bin/bash -l
 
-echo Loading modules for SWIFTsim...
+echo Loading modules for swiftsim...
 module purge
 module load intel_comp/2020
 module load intel_mpi/2020

@@ -1,4 +1,3 @@
-source modules.sh
 source compile.sh
 
 mkdir -p $plot_directory/$run_name
@@ -6,6 +5,4 @@ mkdir -p $plot_directory/$run_name
 if [[ -f $run_directory/$snapshot_name ]]
 then
   plot_run $run_directory $run_name $plot_directory $snapshot_name $catalogue_name
-  create_summary_plot $run_directory $run_name $plot_directory $snapshot_name $catalogue_name
-  #image_run $run_directory $run_name $plot_directory $snapshot_name $catalogue_name
 fi

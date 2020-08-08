@@ -1,4 +1,4 @@
-  #!/bin/bash -l
+#!/bin/bash -l
 
 # Bash function that provides plotting and analysis ability for a specific run
 # Adapted from Josh's xl-pipeline
@@ -22,9 +22,7 @@ plot_run () {
   run_name=$2
   plot_directory=$3
   snapshot_name=$4
-  catalogue_name=$5
 
-  catalogue_path=$run_directory/$catalogue_name
   output_path=$plot_directory/$run_name
 
   python3 performance/number_of_steps_simulation_time.py \
