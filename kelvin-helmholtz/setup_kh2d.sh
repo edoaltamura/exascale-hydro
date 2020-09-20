@@ -6,7 +6,6 @@
 # It then places the new compiled binaries in the current directory.
 
 source modules.sh
-source ../runtime_status
 old_directory=$(pwd)
 
 # Set-up run | you can change these values
@@ -85,4 +84,4 @@ fi
 
 #sbatch ./submit.slurm
 cd "$old_directory"
-summary -u dc-alta2
+sh ../runtime_status
