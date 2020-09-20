@@ -11,8 +11,13 @@ except:
 
 
 def time_to_solution(run_directory: str) -> float:
-    timesteps_glob = Path(run_directory).rglob('timesteps_*.txt')
-    print(timesteps_glob)
+
+    for i in os.listdir(run_directory):
+        if os.path.isfile(os.path.join(run_directory, i)) and i.startswith('timesteps_'):
+            timesteps_glob = os.path.join(run_directory, i)
+            print(timesteps_glob)
+            break
+
     data = np.genfromtxt(
         timesteps_glob, skip_footer=5, loose=True, invalid_raise=False
     ).T
