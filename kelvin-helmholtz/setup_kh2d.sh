@@ -11,7 +11,7 @@ old_directory=$(pwd)
 # Set-up run | you can change these values
 architecture="omp"
 resolution=512
-tiling="1x1"
+tiling="2x2"
 threads_per_tile=1
 nodes=1
 
@@ -54,28 +54,32 @@ mkdir -p ./ics
 cp "$old_directory"/param.yml .
 cp "$old_directory"/submit.slurm .
 
+tile_x=$(echo $tiling | cut -f 1 -d 'x')
+tile_y=$(echo $tiling | cut -f 2 -d 'x')
+
 # Generate initial conditions if not present
 if find "$run_dir/ics" -mindepth 1 -print -quit 2>/dev/null | grep -q .; then
-    echo "Initial conditions directory not empty."
+    echo "Initial conditions directory not empty. Contents are listed below:"
+    ls -lh "$run_dir/ics"
 else
     echo "Initial conditions directory is empty - generating ICs..."
     python3 "$old_directory"/makeics.py \
       --nparticles=$resolution \
-      --tileh=$(echo $tiling | cut -f 1 -d 'x') \
-      --tilev=$(echo $tiling | cut -f 2 -d 'x') \
+      --tileh=$tile_x \
+      --tilev=$tile_y \
       --outdir=$run_dir/ics
 fi
 
 sed -i "s/RUN_NAME/$run_name/" ./param.yml
 sed -i "s/RUN_NAME/$run_name/" ./submit.slurm
-sed -i "s/MAX_TOP_CELLS/$(($(echo $tiling | cut -f 1 -d 'x') * $threads_per_tile * 3))/" ./param.yml
+sed -i "s/MAX_TOP_CELLS/$(($tile_x * $threads_per_tile * 3))/" ./param.yml
 
 # Make a omp/mpi switch
 if [[ $run_dir == *"omp"* ]]; then
 
   sed -i "s/NODES/1/" ./submit.slurm
   sed -i "s/TASKSPNODE/1/" ./submit.slurm
-  sed -i "s/CPUSPTASK/$(($(echo $tiling | cut -f 1 -d 'x') * $threads_per_tile))/" ./submit.slurm
+  sed -i "s/CPUSPTASK/$(($tile_x * $tile_y * $threads_per_tile))/" ./submit.slurm
 
 fi
 
