@@ -27,7 +27,7 @@ fi
 
 if [[ $PWD == *"mpi"* ]]; then
 
-  mpirun -np $(($SLURM_NNODES * $SLURM_TASKS_PER_NODE)) \
+  mpirun -np $((SLURM_NNODES * SLURM_TASKS_PER_NODE)) \
     /cosma6/data/dp004/dc-alta2/exascale-hydro/kelvin-helmholtz-2D/swiftsim/examples/swift_mpi \
       --hydro \
       -v 1 \
