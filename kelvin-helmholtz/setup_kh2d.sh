@@ -90,7 +90,8 @@ setup_run(){
 
     sed -i "s/NODES/1/" ./submit.slurm
     sed -i "s/TASKSPNODE/1/" ./submit.slurm
-    sed -i "s/CPUSPTASK/$(($tile_x * $tile_y * $threads_per_tile))/" ./submit.slurm
+#    sed -i "s/CPUSPTASK/$(($tile_x * $tile_y * $threads_per_tile))/" ./submit.slurm
+    sed -i "s/CPUSPTASK/16/" ./submit.slurm  # Toggle this line for testing hyper-threading
 
   fi
 
