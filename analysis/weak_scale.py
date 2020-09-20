@@ -40,7 +40,7 @@ omp_dir = '/cosma6/data/dp004/dc-alta2/exascale-hydro/kelvin-helmholtz-2D/omp'
 omp_runs = [os.path.join(omp_dir, i) for i in os.listdir(omp_dir) if os.path.isdir(os.path.join(omp_dir, i)) and i.endswith('1')]
 for run in omp_runs:
     print(number_of_threads(run), time_to_solution(run))
-    ax.scatter(number_of_threads(run), time_to_solution(run))
+    ax.scatter(number_of_threads(run), time_to_solution(run), c='k')
 
 ax.grid(linestyle='--', color='grey', linewidth=0.5)
 ax.set_xlabel('Number of threads')
