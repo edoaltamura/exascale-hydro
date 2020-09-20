@@ -140,19 +140,19 @@ do
   setup_run "omp" 512 "$tiling" 1
 done
 
-declare -a tilings=("3x3" "4x4" "5X5")
+declare -a tilings=("3x3" "4x4" "5x5")
 for tiling in "${tilings[@]}"
 do
   setup_run "omp" 512 "$tiling" 2
 done
 
-declare -a tilings=("3x3" "4x4" "5X5")
+declare -a tilings=("3x3" "4x4" "5x5")
 for tiling in "${tilings[@]}"
 do
   setup_run "omp" 512 "$tiling" 3
 done
 
-declare -a tilings=("3x3" "4x4" "5X5")
+declare -a tilings=("3x3" "4x4" "5x5")
 for tiling in "${tilings[@]}"
 do
   setup_run "omp" 512 "$tiling" 4
