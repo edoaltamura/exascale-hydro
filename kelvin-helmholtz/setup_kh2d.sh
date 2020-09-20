@@ -52,8 +52,8 @@ cd $run_dir
 mkdir -p ./logs
 mkdir -p ./ics
 
-cp "$old_directory"/kelvin-helmholtz/param.yml .
-cp "$old_directory"/kelvin-helmholtz/submit.slurm .
+cp "$old_directory"/kelvin-helmholtz/param.yml $run_dir
+cp "$old_directory"/kelvin-helmholtz/submit.slurm $run_dir
 
 # Generate initial conditions
 python3 "$old_directory"/kelvin-helmholtz/makeics.py \
@@ -62,9 +62,9 @@ python3 "$old_directory"/kelvin-helmholtz/makeics.py \
   --tilev=$(echo $tiling | cut -f 2 -d 'x') \
   --outdir=$run_dir/ics
 
-sed -i "s/RUN_NAME/$run_name/" ./param.yml
-sed -i "s/RUN_NAME/$run_name/" ./submit.slurm
-sed -i "s/MAX_TOP_CELLS/$(($(echo $tiling | cut -f 1 -d 'x') * $threads_per_tile * 3))/" ./param.yml
+sed -i "s/RUN_NAME/$run_name/" $run_dir/param.yml
+sed -i "s/RUN_NAME/$run_name/" $run_dir/submit.slurm
+sed -i "s/MAX_TOP_CELLS/$(($(echo $tiling | cut -f 1 -d 'x') * $threads_per_tile * 3))/" $run_dir/param.yml
 
 # Make a omp/mpi switch
 if [[ $run_dir == *"omp"* ]]; then
