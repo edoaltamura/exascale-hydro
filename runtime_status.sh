@@ -18,4 +18,4 @@ function summary() {
     }'
 }
 
-summary -u dc-alta2
+export summary

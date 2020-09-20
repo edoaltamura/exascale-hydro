@@ -51,16 +51,17 @@ def launch(i: int, j: int, nparts: int, threads_per_tile: int = 1, mpi: bool = F
         bash(f"python3 makeIC_tile.py --nparticles={npart} --tileh={i} --tilev={j}")
         shutil.move(os.path.join(basepath, "kelvinHelmholtz.hdf5"), savedir)
 
-    shutil.copyfile(os.path.join(basepath, "kelvinHelmholtz.yml"), os.path.join(savedir, "kelvinHelmholtz.yml"))
+    shutil.copyfile(os.path.join(basepath, "kelvin-helmholtz/param.yml"), os.path.join(savedir,
+                                                                                       "kelvin-helmholtz/param.yml"))
     shutil.copyfile(os.path.join(basepath, "run.sh"), os.path.join(savedir, "run.sh"))
 
     # Copy parameter files into data folders and change parameters
     os.chdir(savedir)
-    edit_yaml("kelvinHelmholtz.yml", "Snapshots/subdir", os.path.join(savedir, 'data'))
-    edit_yaml("kelvinHelmholtz.yml", "Snapshots/time_first", 3)
-    edit_yaml("kelvinHelmholtz.yml", "Snapshots/delta_time", 0.04)
-    edit_yaml("kelvinHelmholtz.yml", "InitialConditions/file_name", os.path.join(savedir, "kelvinHelmholtz.hdf5"))
-    edit_yaml("kelvinHelmholtz.yml", "Scheduler/max_top_level_cells", i * threads_per_tile if i == j else None)
+    edit_yaml("kelvin-helmholtz/param.yml", "Snapshots/subdir", os.path.join(savedir, 'data'))
+    edit_yaml("kelvin-helmholtz/param.yml", "Snapshots/time_first", 3)
+    edit_yaml("kelvin-helmholtz/param.yml", "Snapshots/delta_time", 0.04)
+    edit_yaml("kelvin-helmholtz/param.yml", "InitialConditions/file_name", os.path.join(savedir, "kelvinHelmholtz.hdf5"))
+    edit_yaml("kelvin-helmholtz/param.yml", "Scheduler/max_top_level_cells", i * threads_per_tile if i == j else None)
 
     # Create SLURM submission scripts
     edit_slurm(f"run.sh", "#SBATCH -N", "#SBATCH -N 1")
@@ -69,10 +70,10 @@ def launch(i: int, j: int, nparts: int, threads_per_tile: int = 1, mpi: bool = F
     edit_slurm(f"run.sh", "#SBATCH -t", f"#SBATCH -t 72:00:00")
     if mpi:
         edit_slurm(f"run.sh", "mpirun",
-                   f"mpirun {os.path.join(basepath, 'swift_mpi')} --hydro -v 1 --pin --threads=8 kelvinHelmholtz.yml 2>&1 | tee output.log")
+                   f"mpirun {os.path.join(basepath, 'swift_mpi')} --hydro -v 1 --pin --threads=8 param.yml 2>&1 | tee output.log")
     else:
         edit_slurm(f"run.sh", "mpirun",
-                   f"{os.path.join(basepath, 'swift')} --hydro -v 1 --pin --threads={i * j * threads_per_tile} kelvinHelmholtz.yml 2>&1 | tee output.log")
+                   f"{os.path.join(basepath, 'swift')} --hydro -v 1 --pin --threads={i * j * threads_per_tile} param.yml 2>&1 | tee output.log")
 
     # Submit to SLURM
     print(f"Submitting tile{i}x{j}p{npart}...")
