@@ -34,6 +34,14 @@ if [ ! -d $destination_directory/kelvin-helmholtz-2D/swiftsim ]; then
   echo SWIFT source code not found - cloning from GitLab...
   git clone https://gitlab.cosma.dur.ac.uk/swift/swiftsim.git
   cd $destination_directory/kelvin-helmholtz-2D/swiftsim
+
+  # When using the 2d kernel, remember to hack the runner_ghost.c file on line 1047:
+  # Lines:  1045c1047
+  #<         if (p->density.wcount <= 1e-5 * kernel_root) { /* No neighbours case */
+  #---
+  #>         if (p->density.wcount == 0.f) { /* No neighbours case */
+  sed -i '1047s/== 0.f/<= 1e-5 * kernel_root/' $destination_directory/kelvin-helmholtz-2D/swiftsim/src/runner_ghost.c
+
   sh ./autogen.sh
   sh ./configure \
     --with-hydro-dimension=2 \
