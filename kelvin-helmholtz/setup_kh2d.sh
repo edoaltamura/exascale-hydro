@@ -84,4 +84,4 @@ fi
 
 #sbatch ./submit.slurm
 cd "$old_directory"
-sh ../runtime_status
+sh ../runtime_status.sh
