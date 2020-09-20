@@ -17,7 +17,7 @@ threads_per_tile=1
 nodes=1
 
 # Set-up exa-scale project directories
-destination_directory=/cosma6/data/dp004/dc-alta2/exscale-hydro
+destination_directory=/cosma6/data/dp004/dc-alta2/exascale-hydro
 mkdir -p $destination_directory
 mkdir -p $destination_directory/kelvin-helmholtz-2D
 mkdir -p $destination_directory/kelvin-helmholtz-2D/omp
