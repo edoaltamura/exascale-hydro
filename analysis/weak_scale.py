@@ -77,13 +77,13 @@ fig, ax = plt.subplots()
 
 for n in range(1, 5):
     threads, time2sol = weak_scale_omp(threads_per_tile=n)
-    ax.plot(threads, time2sol / time2sol[0], label=f"threads_per_tile = {n}")
+    ax.plot(threads, time2sol[0] / time2sol, label=f"threads_per_tile = {n}")
 
 ax.set_title("KH2D - SWIFT Open-MP - Cosma 6")
 ax.grid(linestyle='--', color='grey', linewidth=0.5)
 ax.set_xlabel('Number of threads')
-ax.set_ylabel('Weak-scaling efficiency ($t_N/t_0$)')
-ax.set_ylim([0, 1])
+ax.set_ylabel('Weak-scaling efficiency ($t_0/t_N$)')
+ax.set_ylim([0, 1.3])
 ax.axvspan(16, ax.get_xlim()[-1], alpha=0.25, facecolor='red')
 ax.text(17, 0.1, "Hyper-threading", color="grey", ha="left", va="bottom")
 ax.axhline(1, linestyle='-', color='black', alpha=0.1)
