@@ -45,6 +45,7 @@ omp_runs = [os.path.join(omp_dir, i) for i in os.listdir(omp_dir) if os.path.isd
 print(omp_runs)
 for run in omp_runs:
     print(number_of_threads(run), time_to_solution(run))
+    ax.scatter(number_of_threads(run), time_to_solution(run))
 
 
 ax.grid(linestyle='--', color='grey', linewidth=0.5)
