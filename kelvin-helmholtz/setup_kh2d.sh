@@ -11,8 +11,8 @@ old_directory=$(pwd)
 # Set-up run | you can change these values
 architecture="omp"
 resolution=512
-tiling="4x4"
-threads_per_tile=1
+tiling="1x1"
+threads_per_tile=4
 nodes=1
 
 # Set-up exa-scale project directories
