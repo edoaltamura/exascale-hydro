@@ -1,7 +1,7 @@
 import os
-import glob
-import unyt
+from pathlib import Path
 import numpy as np
+import unyt
 from matplotlib import pyplot as plt
 
 basepath = os.path.dirname(os.path.abspath(__file__))
@@ -13,10 +13,10 @@ except:
 
 
 def time_to_solution(run_directory: str) -> float:
-    timesteps_glob = glob(f"{run_directory}/timesteps_*.txt")
-    timesteps_filename = timesteps_glob[0]
+    timesteps_glob = Path(run_directory).rglob('timesteps_*.txt')[0]
+    print(timesteps_glob)
     data = np.genfromtxt(
-        timesteps_filename, skip_footer=5, loose=True, invalid_raise=False
+        timesteps_glob, skip_footer=5, loose=True, invalid_raise=False
     ).T
     wallclock_time = unyt.unyt_array(np.cumsum(data[-2]), units="ms").to("Hour")
     time2sol = wallclock_time[-1]
