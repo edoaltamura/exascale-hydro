@@ -27,10 +27,9 @@ def time_to_solution(run_directory: str) -> float:
 def number_of_threads(run_directory: str) -> int:
     dir_basename = os.path.basename(os.path.normpath(run_directory))
     assert len(dir_basename.split('x')) == 2
-    assert len(dir_basename.split('_')) == 2
     tile_x = dir_basename.split('x')[0][-1]
     tile_y = dir_basename.split('x')[1][0]
-    threads_per_tile = dir_basename.split('_')[1][0]
+    threads_per_tile = dir_basename.split('_')[-1][0]
     return int(tile_x) * int(tile_y) * int(threads_per_tile)
 
 fig = plt.figure()
@@ -48,6 +47,7 @@ for run in omp_runs:
     print(number_of_threads(run), time_to_solution(run))
 
 
-# ax.grid(linestyle='--', color='grey', linewidth=0.5)
-# fig.tight_layout()
+ax.grid(linestyle='--', color='grey', linewidth=0.5)
+fig.tight_layout()
+plt.show()
 # plt.savefig(os.path.join(basepath, 'wallclocktime.png'), to_slack=True, dpi=400)
