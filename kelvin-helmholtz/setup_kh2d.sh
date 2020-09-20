@@ -54,12 +54,17 @@ mkdir -p ./ics
 cp "$old_directory"/param.yml .
 cp "$old_directory"/submit.slurm .
 
-# Generate initial conditions
-python3 "$old_directory"/makeics.py \
-  --nparticles=$resolution \
-  --tileh=$(echo $tiling | cut -f 1 -d 'x') \
-  --tilev=$(echo $tiling | cut -f 2 -d 'x') \
-  --outdir=$run_dir/ics
+# Generate initial conditions if not present
+if find "$run_dir/ics" -mindepth 1 -print -quit 2>/dev/null | grep -q .; then
+    echo "Initial conditions directory not empty."
+else
+    echo "Initial conditions directory is empty - generating ICs..."
+    python3 "$old_directory"/makeics.py \
+      --nparticles=$resolution \
+      --tileh=$(echo $tiling | cut -f 1 -d 'x') \
+      --tilev=$(echo $tiling | cut -f 2 -d 'x') \
+      --outdir=$run_dir/ics
+fi
 
 sed -i "s/RUN_NAME/$run_name/" ./param.yml
 sed -i "s/RUN_NAME/$run_name/" ./submit.slurm
@@ -82,6 +87,6 @@ if [[ $run_dir == *"mpi"* ]]; then
 
 fi
 
-#sbatch ./submit.slurm
+sbatch ./submit.slurm
 cd "$old_directory"
 sh ../runtime_status.sh
