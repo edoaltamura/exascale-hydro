@@ -33,7 +33,7 @@ ax.axhline(1, linestyle='-', color='black')
 
 # Open-MP runs directory
 omp_dir = '/cosma6/data/dp004/dc-alta2/exascale-hydro/kelvin-helmholtz-2D/omp'
-omp_runs = [os.path.join(omp_dir, i) for i in os.listdir(path=omp_dir) if os.path.isdir(i)]
+omp_runs = [os.path.join(omp_dir, i) for i in os.listdir(omp_dir) if os.path.isdir(i)]
 print(omp_runs)
 for run in omp_runs:
     print(time_to_solution(run))
