@@ -11,9 +11,8 @@ old_directory=$(pwd)
 # Set-up run | you can change these values
 architecture="mpi"
 resolution=512
-tiling="2x2"
+tiling="3x3"
 threads_per_tile=4
-nodes=1
 
 # Set-up exa-scale project directories
 destination_directory=/cosma6/data/dp004/dc-alta2/exascale-hydro
@@ -64,6 +63,7 @@ cp "$old_directory"/submit.slurm .
 
 tile_x=$(echo $tiling | cut -f 1 -d 'x')
 tile_y=$(echo $tiling | cut -f 2 -d 'x')
+nodes=$((($tile_x * $tile_y * $threads_per_tile) % 16))
 
 # Generate initial conditions if not present
 if find "$run_dir/ics" -mindepth 1 -print -quit 2>/dev/null | grep -q .; then
