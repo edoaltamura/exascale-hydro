@@ -9,7 +9,7 @@ source modules.sh
 old_directory=$(pwd)
 
 # Set-up run | you can change these values
-architecture="omp"
+architecture="mpi"
 resolution=512
 tiling="2x2"
 threads_per_tile=4
