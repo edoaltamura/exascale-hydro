@@ -134,7 +134,7 @@ setup_run(){
 #done
 
 # HYPER-THREAD OPEN-MP
-declare -a tilings=("5x5" "6x6" "7x7" "8x8")
+declare -a tilings=("5x5" "6x6" "7x7")
 for tiling in "${tilings[@]}"
 do
   setup_run "omp" 512 "$tiling" 1
