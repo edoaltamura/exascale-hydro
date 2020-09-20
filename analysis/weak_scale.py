@@ -1,7 +1,6 @@
 import os
 import unyt
 import numpy as np
-from pathlib import Path
 from matplotlib import pyplot as plt
 
 try:
@@ -15,7 +14,6 @@ def time_to_solution(run_directory: str) -> float:
     for i in os.listdir(run_directory):
         if os.path.isfile(os.path.join(run_directory, i)) and i.startswith('timesteps_'):
             timesteps_glob = os.path.join(run_directory, i)
-            print(timesteps_glob)
             break
 
     data = np.genfromtxt(
@@ -26,6 +24,14 @@ def time_to_solution(run_directory: str) -> float:
 
     return time2sol
 
+def number_of_threads(run_directory: str) -> int:
+    dir_basename = os.path.basename(os.path.normpath(run_directory))
+    assert len(dir_basename.split('x')) == 2
+    assert len(dir_basename.split('_')) == 2
+    tile_x = dir_basename.split('x')[0][-1]
+    tile_y = dir_basename.split('x')[1][0]
+    threads_per_tile = dir_basename.split('_')[1][0]
+    return int(tile_x) * int(tile_y) * int(threads_per_tile)
 
 fig = plt.figure()
 ax = fig.add_subplot(111)
@@ -39,7 +45,7 @@ omp_dir = '/cosma6/data/dp004/dc-alta2/exascale-hydro/kelvin-helmholtz-2D/omp'
 omp_runs = [os.path.join(omp_dir, i) for i in os.listdir(omp_dir) if os.path.isdir(os.path.join(omp_dir, i))]
 print(omp_runs)
 for run in omp_runs:
-    print(time_to_solution(run))
+    print(number_of_threads(run), time_to_solution(run))
 
 
 # ax.grid(linestyle='--', color='grey', linewidth=0.5)
