@@ -11,7 +11,7 @@ old_directory=$(pwd)
 # Set-up run | you can change these values
 architecture="omp"
 resolution=512
-tiling="1x1"
+tiling="3x3"
 threads_per_tile=1
 nodes=1
 
