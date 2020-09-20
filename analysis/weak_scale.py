@@ -54,9 +54,9 @@ def weak_scale_omp(threads_per_tile: int = 1) -> Tuple[np.ndarray]:
 fig = plt.figure()
 ax = fig.add_subplot(111)
 
-fig.set_title("KH2D - SWIFT Open-MP - Cosma 6")
+ax.set_title("KH2D - SWIFT Open-MP - Cosma 6")
 
-for n in range(1,5):
+for n in range(1, 5):
     threads, time2sol = weak_scale_omp(threads_per_tile=n)
     ax.plot(threads, time2sol, label=f"threads_per_tile = {n}")
 
