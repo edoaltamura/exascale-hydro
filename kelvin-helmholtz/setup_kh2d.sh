@@ -11,7 +11,7 @@ old_directory=$(pwd)
 # Set-up run | you can change these values
 architecture="mpi"
 resolution=512
-tiling="4x4"
+tiling="5x5"
 threads_per_tile=4
 
 # Set-up exa-scale project directories
