@@ -121,17 +121,17 @@ do
   setup_run "omp" 512 "$tiling" 2
 done
 
-declare -a tilings=("1x1" "2x2")
-for tiling in "${tilings[@]}"
-do
-  setup_run "omp" 512 "$tiling" 3
-done
-
-declare -a tilings=("1x1" "2x2")
-for tiling in "${tilings[@]}"
-do
-  setup_run "omp" 512 "$tiling" 4
-done
+#declare -a tilings=("1x1" "2x2")
+#for tiling in "${tilings[@]}"
+#do
+#  setup_run "omp" 512 "$tiling" 3
+#done
+#
+#declare -a tilings=("1x1" "2x2")
+#for tiling in "${tilings[@]}"
+#do
+#  setup_run "omp" 512 "$tiling" 4
+#done
 
 declare -a tilings=("1x1" "2x2" "3x3" "4x4" "5x5" "6x6" "7x7" "8x8" "9x9" "10x10")
 for tiling in "${tilings[@]}"
@@ -139,8 +139,8 @@ do
   setup_run "mpi" 512 "$tiling" 1
 done
 
-declare -a tilings=("1x1" "2x2" "3x3" "4x4" "5x5" "6x6" "7x7" "8x8" "9x9" "10x10")
-for tiling in "${tilings[@]}"
-do
-  setup_run "mpi" 512 "$tiling" 2
-done
+#declare -a tilings=("1x1" "2x2" "3x3" "4x4" "5x5" "6x6" "7x7" "8x8" "9x9" "10x10")
+#for tiling in "${tilings[@]}"
+#do
+#  setup_run "mpi" 512 "$tiling" 2
+#done
