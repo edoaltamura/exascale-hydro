@@ -2,7 +2,7 @@
 
 #SBATCH -N NODES
 #SBATCH --tasks-per-node=TASKSPNODE
-#SBATCH --cpus-per-task=CPUSPTASK
+#SBATCH --cpus-per-task=16  ##CPUSPTASK # Toggle this line for testing hyper-threading
 #SBATCH -J RUN_NAME
 #SBATCH -o ./logs/%x.%J.swift.out
 #SBATCH -e ./logs/%x.%J.swift.err
@@ -22,7 +22,7 @@ if [[ $PWD == *"omp"* ]]; then
     --hydro \
     -v 1 \
     --pin \
-    --threads=$SLURM_CPUS_PER_TASK ./param.yml
+    --threads=CPUSPTASK ./param.yml
 fi
 
 if [[ $PWD == *"mpi"* ]]; then
