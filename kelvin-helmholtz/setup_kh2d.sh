@@ -70,7 +70,7 @@ if [[ $run_dir == *"omp"* ]]; then
 
   sed -i "s/NODES/1/" ./submit.slurm
   sed -i "s/TASKSPNODE/1/" ./submit.slurm
-  sed -i "s/CPUSPTASK/16/" ./submit.slurm
+  sed -i "s/CPUSPTASK/$(($(echo $tiling | cut -f 1 -d 'x') * $threads_per_tile))/" ./submit.slurm
 
 fi
 
