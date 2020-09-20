@@ -1,11 +1,9 @@
 import os
-from pathlib import Path
-import numpy as np
 import unyt
+import numpy as np
+from pathlib import Path
 from matplotlib import pyplot as plt
 
-basepath = os.path.dirname(os.path.abspath(__file__))
-os.chdir(basepath)
 try:
     plt.style.use("../mnras.mplstyle")
 except:
@@ -13,7 +11,7 @@ except:
 
 
 def time_to_solution(run_directory: str) -> float:
-    timesteps_glob = Path(run_directory).rglob('timesteps_*.txt')[0]
+    timesteps_glob = Path(run_directory).rglob('timesteps_*.txt')
     print(timesteps_glob)
     data = np.genfromtxt(
         timesteps_glob, skip_footer=5, loose=True, invalid_raise=False
