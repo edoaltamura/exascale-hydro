@@ -134,38 +134,38 @@ setup_run(){
 #done
 
 # HYPER-THREAD OPEN-MP
-declare -a tilings=("5x5" "6x6" "7x7")
-for tiling in "${tilings[@]}"
-do
-  setup_run "omp" 512 "$tiling" 1
-done
-
-declare -a tilings=("3x3" "4x4" "5x5")
-for tiling in "${tilings[@]}"
-do
-  setup_run "omp" 512 "$tiling" 2
-done
-
-declare -a tilings=("3x3" "4x4" "5x5")
-for tiling in "${tilings[@]}"
-do
-  setup_run "omp" 512 "$tiling" 3
-done
-
-declare -a tilings=("3x3" "4x4" "5x5")
-for tiling in "${tilings[@]}"
-do
-  setup_run "omp" 512 "$tiling" 4
-done
-
-
-#declare -a tilings=("1x1" "2x2" "3x3" "4x4" "5x5" "6x6" "7x7" "8x8" "9x9" "10x10")
+#declare -a tilings=("5x5" "6x6" "7x7")
 #for tiling in "${tilings[@]}"
 #do
-#  setup_run "mpi" 512 "$tiling" 1
+#  setup_run "omp" 512 "$tiling" 1
+#done
+#
+#declare -a tilings=("3x3" "4x4" "5x5")
+#for tiling in "${tilings[@]}"
+#do
+#  setup_run "omp" 512 "$tiling" 2
+#done
+#
+#declare -a tilings=("3x3" "4x4" "5x5")
+#for tiling in "${tilings[@]}"
+#do
+#  setup_run "omp" 512 "$tiling" 3
+#done
+#
+#declare -a tilings=("3x3" "4x4" "5x5")
+#for tiling in "${tilings[@]}"
+#do
+#  setup_run "omp" 512 "$tiling" 4
 #done
 
-#declare -a tilings=("1x1" "2x2" "3x3" "4x4" "5x5" "6x6" "7x7" "8x8" "9x9" "10x10")
+
+declare -a tilings=("4x4" "8x8" "12x12" "16x16" "20x20" "24x24")
+for tiling in "${tilings[@]}"
+do
+  setup_run "mpi" 512 "$tiling" 1
+done
+
+#declare -a tilings=("4x4" "8x8" "12x12" "16x16" "20x20" "24x24")
 #for tiling in "${tilings[@]}"
 #do
 #  setup_run "mpi" 512 "$tiling" 2

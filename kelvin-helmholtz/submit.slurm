@@ -2,7 +2,7 @@
 
 #SBATCH -N NODES
 #SBATCH --tasks-per-node=TASKSPNODE
-#SBATCH --cpus-per-task=16  ##CPUSPTASK # Toggle this line for testing hyper-threading
+#SBATCH --cpus-per-task=CPUSPTASK # Hard-set to "16" for testing hyper-threading on OMP
 #SBATCH -J RUN_NAME
 #SBATCH -o ./logs/%x.%J.swift.out
 #SBATCH -e ./logs/%x.%J.swift.err
@@ -27,7 +27,7 @@ fi
 
 if [[ $PWD == *"mpi"* ]]; then
 
-  mpirun -np $SLURM_NTASKS \
+  mpirun -np $(($SLURM_NNODES * $SLURM_TASKS_PER_NODE)) \
     /cosma6/data/dp004/dc-alta2/exascale-hydro/kelvin-helmholtz-2D/swiftsim/examples/swift_mpi \
       --hydro \
       -v 1 \
