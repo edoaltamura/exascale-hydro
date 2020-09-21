@@ -9,7 +9,7 @@
 #SBATCH -p cosma6
 #SBATCH -A dp004
 #SBATCH --exclusive
-#SBATCH -t 12:00:00
+#SBATCH -t 6:00:00
 
 source ~/exascale-hydro/modules.sh
 
