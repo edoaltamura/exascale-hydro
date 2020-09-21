@@ -83,7 +83,8 @@ setup_run(){
 
   sed -i "s/RUN_NAME/$run_name/" ./param.yml
   sed -i "s/RUN_NAME/$run_name/" ./submit.slurm
-  sed -i "s/MAX_TOP_CELLS/$(($tile_x * $threads_per_tile * 3))/" ./param.yml
+#  sed -i "s/MAX_TOP_CELLS/$(($tile_x * $threads_per_tile * 3))/" ./param.yml  # Wave1
+  sed -i "s/MAX_TOP_CELLS/$(($tile_x * 3))/" ./param.yml   # Wave2
 
   # Make a omp/mpi switch
   if [[ $run_dir == *"omp"* ]]; then
@@ -109,61 +110,61 @@ setup_run(){
 }
 
 
-#declare -a tilings=("1x1" "2x2" "3x3" "4x4")
-#for tiling in "${tilings[@]}"
-#do
-#  setup_run "omp" 512 "$tiling" 1
-#done
-#
-#declare -a tilings=("1x1" "2x2")
-#for tiling in "${tilings[@]}"
-#do
-#  setup_run "omp" 512 "$tiling" 2
-#done
-#
-#declare -a tilings=("1x1" "2x2")
-#for tiling in "${tilings[@]}"
-#do
-#  setup_run "omp" 512 "$tiling" 3
-#done
-#
-#declare -a tilings=("1x1" "2x2")
-#for tiling in "${tilings[@]}"
-#do
-#  setup_run "omp" 512 "$tiling" 4
-#done
-
-# HYPER-THREAD OPEN-MP
-#declare -a tilings=("5x5" "6x6" "7x7")
-#for tiling in "${tilings[@]}"
-#do
-#  setup_run "omp" 512 "$tiling" 1
-#done
-#
-#declare -a tilings=("3x3" "4x4" "5x5")
-#for tiling in "${tilings[@]}"
-#do
-#  setup_run "omp" 512 "$tiling" 2
-#done
-#
-#declare -a tilings=("3x3" "4x4" "5x5")
-#for tiling in "${tilings[@]}"
-#do
-#  setup_run "omp" 512 "$tiling" 3
-#done
-#
-#declare -a tilings=("3x3" "4x4" "5x5")
-#for tiling in "${tilings[@]}"
-#do
-#  setup_run "omp" 512 "$tiling" 4
-#done
-
-
-declare -a tilings=("4x4" "8x8" "12x12" "16x16" "20x20" "24x24")
+declare -a tilings=("1x1" "2x2" "3x3" "4x4")
 for tiling in "${tilings[@]}"
 do
-  setup_run "mpi" 512 "$tiling" 1
+  setup_run "omp" 512 "$tiling" 1
 done
+
+declare -a tilings=("1x1" "2x2")
+for tiling in "${tilings[@]}"
+do
+  setup_run "omp" 512 "$tiling" 2
+done
+
+declare -a tilings=("1x1" "2x2")
+for tiling in "${tilings[@]}"
+do
+  setup_run "omp" 512 "$tiling" 3
+done
+
+declare -a tilings=("1x1" "2x2")
+for tiling in "${tilings[@]}"
+do
+  setup_run "omp" 512 "$tiling" 4
+done
+
+# HYPER-THREAD OPEN-MP
+declare -a tilings=("5x5" "6x6" "7x7" "8x8")
+for tiling in "${tilings[@]}"
+do
+  setup_run "omp" 512 "$tiling" 1
+done
+
+declare -a tilings=("3x3" "4x4" "5x5" "6x6")
+for tiling in "${tilings[@]}"
+do
+  setup_run "omp" 512 "$tiling" 2
+done
+
+declare -a tilings=("3x3" "4x4" "5x5")
+for tiling in "${tilings[@]}"
+do
+  setup_run "omp" 512 "$tiling" 3
+done
+
+declare -a tilings=("3x3" "4x4" "5x5")
+for tiling in "${tilings[@]}"
+do
+  setup_run "omp" 512 "$tiling" 4
+done
+
+
+#declare -a tilings=("4x4" "8x8" "12x12" "16x16" "20x20" "24x24")
+#for tiling in "${tilings[@]}"
+#do
+#  setup_run "mpi" 512 "$tiling" 1
+#done
 
 #declare -a tilings=("4x4" "8x8" "12x12" "16x16" "20x20" "24x24")
 #for tiling in "${tilings[@]}"

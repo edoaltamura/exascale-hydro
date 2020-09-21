@@ -59,7 +59,7 @@ for n in range(1, 5):
     threads, time2sol = weak_scale_omp(threads_per_tile=n)
     ax.plot(threads, time2sol, label=f"threads_per_tile = {n}")
 
-ax.set_title("KH2D - SWIFT Open-MP - Cosma 6")
+ax.set_title("KH2D - SWIFT MPI:off - Cosma 6")
 ax.grid(linestyle='--', color='grey', linewidth=0.5)
 ax.set_xlabel('Number of threads')
 ax.set_ylabel('Time to solution [hours]')
