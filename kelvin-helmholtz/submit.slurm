@@ -2,7 +2,7 @@
 
 #SBATCH -N NODES
 #SBATCH --tasks-per-node=TASKSPNODE
-#SBATCH --cpus-per-task=16 #CPUSPTASK # Hard-set to "16" for testing hyper-threading on OMP
+#SBATCH --cpus-per-task=CPUSPTASK # Hard-set to "16" for testing hyper-threading on OMP
 #SBATCH -J RUN_NAME
 #SBATCH -o ./logs/%x.%J.swift.out
 #SBATCH -e ./logs/%x.%J.swift.err

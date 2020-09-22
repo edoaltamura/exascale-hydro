@@ -37,7 +37,7 @@ def number_of_threads(run_directory: str) -> int:
 
 def weak_scale_omp(threads_per_tile: int = 1) -> Tuple[np.ndarray]:
     # Open-MP runs directory
-    omp_dir = '/cosma6/data/dp004/dc-alta2/exascale-hydro/kelvin-helmholtz-2D/omp/wave1'
+    omp_dir = '/cosma6/data/dp004/dc-alta2/exascale-hydro/kelvin-helmholtz-2D/omp/wave2'
     omp_runs = [os.path.join(omp_dir, i) for i in os.listdir(omp_dir) if
                 os.path.isdir(os.path.join(omp_dir, i)) and i.endswith(str(threads_per_tile))]
     threads = []
@@ -69,9 +69,9 @@ ax.text(17, 0.1, "Hyper-threading", color="grey", ha="left", va="bottom")
 ax.axhline(1, linestyle='-', color='black', alpha=0.1)
 plt.legend()
 fig.tight_layout()
-# plt.show()
-plt.savefig(f'{out_dir}/kh2d_omp_time2solution.png', dpi=300)
-plt.close(fig)
+plt.show()
+# plt.savefig(f'{out_dir}/kh2d_omp_time2solution.png', dpi=300)
+# plt.close(fig)
 
 fig, ax = plt.subplots()
 
