@@ -4,8 +4,8 @@
 #SBATCH --tasks-per-node=TASKSPNODE
 #SBATCH --cpus-per-task=CPUSPTASK
 #SBATCH -J RUN_NAME
-#SBATCH -o ./logs/log_%x.out
-#SBATCH -e ./logs/log_%x.err
+#SBATCH -o ./logs/log_%J.out
+#SBATCH -e ./logs/log_%J.err
 #SBATCH -p cosma7
 #SBATCH -A do006
 #SBATCH --exclusive

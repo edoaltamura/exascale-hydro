@@ -32,13 +32,14 @@ setup_run(){
 
   # Set 1 cell per rank (2 ranks per node)
   # Note: this way you can allocate a max of 14 threads per cell
+  # Take particular care in rounding up the number of nodes, otherwise the
+  # last rank will be left out if $tiles^3 is an odd number. This is what bc and awk are for.
   tasks_per_node=2
-  nodes=$(( ($tiles * $tiles * $tiles) / 2 ))
+  nodes=$(bc -l <<< "$tiles * $tiles * $tiles / 2") | awk '{print ($0-int($0)<0.499)?int($0):int($0)+1}'
   total_top_cells=$(( $tiles * $top_cells_per_tile ))
 
 # If single tile, special case
   if [[ "$tiles" -eq 1 ]]; then
-    nodes=1
     tasks_per_node=1
   fi
 
@@ -58,7 +59,11 @@ setup_run(){
 
 }
 
-
+setup_run 128 1 14 3
+setup_run 128 2 14 3
+setup_run 128 3 14 3
+setup_run 128 4 14 3
+setup_run 128 5 14 3
 setup_run 256 1 14 3
 setup_run 256 2 14 3
 setup_run 256 3 14 3
