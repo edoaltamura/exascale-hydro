@@ -1,7 +1,7 @@
 #!/bin/bash -l
 
 #SBATCH -N NODES
-#SBATCH --tasks-per-node=2
+#SBATCH --tasks-per-node=TASKSPNODE
 #SBATCH --cpus-per-task=CPUSPTASK
 #SBATCH -J RUN_NAME
 #SBATCH -o ./logs/log_%x.out
