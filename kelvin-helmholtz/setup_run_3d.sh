@@ -1,5 +1,8 @@
 #!/bin/bash -l
 
+module purge
+module load python/3.6.5
+
 # Set-up run function
 setup_run(){
 
