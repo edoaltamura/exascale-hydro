@@ -37,6 +37,7 @@ setup_run(){
   tasks_per_node=2
   nodes=$(bc -l <<< "$tiles * $tiles * $tiles / 2") | awk '{print ($0-int($0)<0.499)?int($0):int($0)+1}'
   total_top_cells=$(( $tiles * $top_cells_per_tile ))
+  echo "Launching on $nodes nodes."
 
 # If single tile, special case
   if [[ "$tiles" -eq 1 ]]; then
