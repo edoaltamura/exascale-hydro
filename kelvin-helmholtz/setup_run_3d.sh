@@ -35,7 +35,7 @@ setup_run(){
   # Take particular care in rounding up the number of nodes, otherwise the
   # last rank will be left out if $tiles^3 is an odd number. This is what bc and awk are for.
   tasks_per_node=2
-  nodes=$(bc -l <<< "$tiles * $tiles * $tiles / 2") | awk '{print ($0-int($0)<0.499)?int($0):int($0)+1}'
+  nodes=$(bc -l <<< "($tiles * $tiles * $tiles) / 2") | awk '{print ($0-int($0)<0.499)?int($0):int($0)+1}'
   total_top_cells=$(( $tiles * $top_cells_per_tile ))
   echo "Launching on $nodes nodes."
 
@@ -53,10 +53,10 @@ setup_run(){
   # Generate initial conditions
   python3 "$old_directory"/make_ics_3d.py -n $resolution -t $tiles -o $run_dir
 
-  sbatch ./submit.slurm
+#  sbatch ./submit.slurm
   cd $old_directory
-  sleep 5
-  que
+#  sleep 5
+#  que
 
 }
 
