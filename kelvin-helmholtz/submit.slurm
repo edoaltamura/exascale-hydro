@@ -1,37 +1,32 @@
 #!/bin/bash -l
 
 #SBATCH -N NODES
-#SBATCH --tasks-per-node=TASKSPNODE
-#SBATCH --cpus-per-task=CPUSPTASK # Hard-set to "16" for testing hyper-threading on OMP
+#SBATCH --tasks-per-node=2
+#SBATCH --cpus-per-task=CPUSPTASK
 #SBATCH -J RUN_NAME
-#SBATCH -o ./logs/%x.%J.swift.out
-#SBATCH -e ./logs/%x.%J.swift.err
-#SBATCH -p cosma6
-#SBATCH -A dp004
+#SBATCH -o ./logs/log_%x.out
+#SBATCH -e ./logs/log_%x.err
+#SBATCH -p cosma7
+#SBATCH -A do006
 #SBATCH --exclusive
 #SBATCH -t 6:00:00
 
-source ~/exascale-hydro/modules.sh
+module purge
+module load intel_comp/2020-update2
+module load intel_mpi/2020-update2
+module load ucx/1.8.1
+module load parmetis/4.0.3-64bit
+module load parallel_hdf5/1.10.6
+module load fftw/3.3.8cosma7
+module load gsl/2.5
 
-# Make a omp/mpi switch
-if [[ $PWD == *"omp"* ]]; then
-
-  export OMP_NUM_THREADS=$SLURM_CPUS_PER_TASK
-
-  /cosma6/data/dp004/dc-alta2/exascale-hydro/kelvin-helmholtz-2D/swiftsim/examples/swift \
+mpirun -np $SLURM_NTASKS \
+  /cosma6/data/dp004/dc-alta2/exascale-hydro/kelvin-helmholtz-3D/swiftsim/examples/swift_mpi \
     --hydro \
     -v 1 \
     --pin \
-    --threads=CPUSPTASK ./param.yml
-fi
+    --threads=$SLURM_CPUS_PER_TASK ./param.yml
 
-if [[ $PWD == *"mpi"* ]]; then
 
-  mpirun -np "$SLURM_NTASKS" \
-    /cosma6/data/dp004/dc-alta2/exascale-hydro/kelvin-helmholtz-2D/swiftsim/examples/swift_mpi \
-      --hydro \
-      -v 1 \
-      --pin \
-      --threads="$SLURM_CPUS_PER_TASK" ./param.yml
-
-fi
+echo "Job done, info follows."
+sacct -j $SLURM_JOBID --format=JobID,JobName,Partition,AveRSS,MaxRSS,AveVMSize,MaxVMSize,Elapsed,ExitCode

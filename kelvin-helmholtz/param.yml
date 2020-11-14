@@ -15,7 +15,7 @@ TimeIntegration:
 
 # Parameters governing the snapshots
 Snapshots:
-  basename:            RUN_NAME  # Common part of the name of output files
+  basename:            kelvin_helmholtz_3d  # Common part of the name of output files
   subdir:              snapshots
   time_first:          0.01      # Time of the first output (in internal units)
   delta_time:          0.01      # Time difference between consecutive outputs (in internal units)
@@ -31,7 +31,7 @@ SPH:
 
 # Parameters related to the initial conditions
 InitialConditions:
-  file_name:  ./ics/kelvinHelmholtz.hdf5     # The file to read
+  file_name:  ./kelvin_helmholtz_3d.hdf5     # The file to read
   periodic:   1
 
 Scheduler:
