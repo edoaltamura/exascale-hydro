@@ -19,7 +19,7 @@ setup_run(){
   old_directory=$PWD
 
   echo "Run name structure: kh3d_{resolution-per-tile}_tile{num_tiles}_{threads_per_tile}"
-  run_name=kh2d_$resolution_tile$tiles_$threads_per_tile
+  run_name=kh3d_"$resolution"_tile"$tiles"_"$threads_per_tile"
   echo $run_name
   run_dir=$destination_directory/kelvin-helmholtz-3D/$run_name
   mkdir -p $run_dir
@@ -45,7 +45,7 @@ setup_run(){
 
   sbatch ./submit.slurm
   cd $old_directory
-  sleep 4
+  sleep 5
   que
 
 }
