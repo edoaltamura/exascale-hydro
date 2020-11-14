@@ -59,4 +59,8 @@ setup_run(){
 }
 
 
-setup_run 128 1 14 3
+setup_run 256 1 14 3
+setup_run 256 2 14 3
+setup_run 256 3 14 3
+setup_run 256 4 14 3
+setup_run 256 5 14 3
