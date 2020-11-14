@@ -18,8 +18,8 @@ setup_run(){
   mkdir -p $destination_directory/kelvin-helmholtz-3D
   old_directory=$PWD
 
-  echo "Run name structure: kh3d_{resolution-per-tile}_tile{num_tiles}_{threads_per_tile}"
-  run_name=kh3d_"$resolution"_tile"$tiles"_"$threads_per_tile"
+  echo "Run name structure: kh3d_N{num_particles-per-tile}_T{num_tiles}_P{processors-per-tile}_C{top_cells_per_tile}"
+  run_name=kh3d_N"$resolution"_T"$tiles"_P"$threads_per_tile"_C"$top_cells_per_tile"
   echo $run_name
   run_dir=$destination_directory/kelvin-helmholtz-3D/$run_name
   mkdir -p $run_dir
@@ -52,3 +52,4 @@ setup_run(){
 
 
 setup_run 128 2 14 3
+setup_run 128 3 14 3
