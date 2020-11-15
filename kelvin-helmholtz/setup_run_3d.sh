@@ -29,44 +29,67 @@ setup_run(){
   mkdir -p ./logs
   cp "$old_directory"/param.yml .
   cp "$old_directory"/submit.slurm .
+  cp "$old_directory"/resubmit.slurm .
+  cp "$old_directory"/auto_resubmit.slurm .
+
+  # Make launch scripts executable by SWIFT
+  chmod 744 ./submit.slurm
+  chmod 744 ./resubmit.slurm
+  chmod 744 ./auto_resubmit.slurm
 
   # Set 1 cell per rank (2 ranks per node)
   # Note: this way you can allocate a max of 14 threads per cell
   # Take particular care in rounding up the number of nodes, otherwise the
-  # last rank will be left out if $tiles^3 is an odd number. This is what bc and awk are for.
+  # last rank will be left out if $tiles^3 is an odd number.
+  # Examples:
+  # $(( (1 + 1) / 2 )) = 1
+  # $(( (2 + 1) / 2 )) = 1 --> int(1.5) = 1
+  # $(( (3 + 1) / 2 )) = 2
+  # $(( (4 + 1) / 2 )) = 2 --> int(2.5) = 2
+  # $(( (5 + 1) / 2 )) = 3
+  # $(( (6 + 1) / 2 )) = 3 --> int(3.5) = 3
   tasks_per_node=2
-  nodes=$(bc -l <<< "($tiles * $tiles * $tiles) / 2") | awk '{print ($0-int($0)<0.499)?int($0):int($0)+1}'
+  nodes=$(( ($tiles * $tiles * $tiles + 1) / $tasks_per_node ))
   total_top_cells=$(( $tiles * $top_cells_per_tile ))
   echo $nodes
 
-# If single tile, special case
+  # If single tile, special case
   if [[ "$tiles" -eq 1 ]]; then
     tasks_per_node=1
   fi
 
+  # Edit mutable parameters in the SWIFT param.yml
   sed -i "s/MAX_TOP_CELLS/$total_top_cells/" ./param.yml
+
+  # Edit mutable parameters in the submit file
   sed -i "s/NODES/$nodes/" ./submit.slurm
   sed -i "s/CPUSPTASK/$threads_per_tile/" ./submit.slurm
   sed -i "s/TASKSPNODE/$tasks_per_node/" ./submit.slurm
   sed -i "s/RUN_NAME/$run_name/" ./submit.slurm
+
+  # Edit mutable parameters in the resubmit file
+  sed -i "s/NODES/$nodes/" ./resubmit.slurm
+  sed -i "s/CPUSPTASK/$threads_per_tile/" ./resubmit.slurm
+  sed -i "s/TASKSPNODE/$tasks_per_node/" ./resubmit.slurm
+  sed -i "s/RUN_NAME/$run_name/" ./resubmit.slurm
 
   # Generate initial conditions
   python3 "$old_directory"/make_ics_3d.py -n $resolution -t $tiles -o $run_dir
 
 #  sbatch ./submit.slurm
   cd $old_directory
-#  sleep 5
-#  que
+  sleep 4
+  que
 
 }
 
 setup_run 128 1 14 3
-setup_run 128 2 14 3
-setup_run 128 3 14 3
-setup_run 128 4 14 3
-setup_run 128 5 14 3
-setup_run 256 1 14 3
-setup_run 256 2 14 3
-setup_run 256 3 14 3
-setup_run 256 4 14 3
-setup_run 256 5 14 3
+#setup_run 128 2 14 3
+#setup_run 128 3 14 3
+#setup_run 128 4 14 3
+#setup_run 128 5 14 3
+#setup_run 256 1 14 3
+#setup_run 256 2 14 3
+#setup_run 256 3 14 3
+#setup_run 256 4 14 3
+#setup_run 256 5 14 3

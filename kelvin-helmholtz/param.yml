@@ -36,3 +36,15 @@ InitialConditions:
 
 Scheduler:
   max_top_level_cells:    MAX_TOP_CELLS
+
+Restarts:
+  enable:             1
+  save:               1          # Keep copies
+  onexit:             1
+  subdir:             restart    # Sub-directory of the directory where SWIFT is run
+  basename:           swift
+  delta_hours:        2.3
+  stop_steps:         100
+  max_run_time:       4.8       # In hours
+  resubmit_on_exit:   1
+  resubmit_command:   ./auto_resubmit
