@@ -22,7 +22,7 @@ def get_timesteps_log(run_directory: str) -> str:
 
 
 def time_to_solution(timesteps_glob: str) -> float:
-    data = np.genfromtxt(timesteps_glob, skip_footer=0, loose=True, invalid_raise=False).T
+    data = np.genfromtxt(timesteps_glob, skip_footer=5, loose=True, invalid_raise=False).T
     time2sol = unyt.unyt_quantity(np.sum(data[-2]), units="ms").to("Hour")
 
     return time2sol.value
@@ -56,6 +56,7 @@ def weak_scale(run_list: List[str]) -> Tuple[np.ndarray]:
     time2sol = []
     for run in run_list:
         timesteps_file = get_timesteps_log(run)
+        print(f"Processing run {timesteps_file}")
         threads.append(number_of_threads(timesteps_file))
         time2sol.append(time_to_solution(timesteps_file))
 
@@ -77,9 +78,10 @@ threads, time2sol = weak_scale([
 ax.plot(threads, time2sol)
 
 ax.set_title("KH3D - SWIFT MPI - Cosma 7")
-ax.grid(linestyle='--', color='grey', linewidth=0.5)
+# ax.grid(linestyle='--', color='grey', linewidth=0.5)
 ax.set_xlabel('Number of threads')
 ax.set_ylabel('Time to solution [hours]')
+ax.set_xscale('log')
 # ax.set_ylim([0, 2])
 fig.tight_layout()
 plt.show()
