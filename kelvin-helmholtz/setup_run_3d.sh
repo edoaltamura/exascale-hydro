@@ -52,6 +52,8 @@ setup_run(){
   nodes=$(( ($tiles * $tiles * $tiles + 1) / $tasks_per_node ))
   total_top_cells=$(( $tiles * $top_cells_per_tile ))
   echo "Nodes: $nodes"
+  echo "MPI ranks: $(( $tiles * $tiles * $tiles ))"
+  echo "CPUs (= threads): $(( $tiles * $tiles * $tiles * $threads_per_tile ))"
 
   # If single tile, special case
   if [[ "$tiles" -eq 1 ]]; then
@@ -76,7 +78,7 @@ setup_run(){
   # Generate initial conditions
   python3 "$old_directory"/make_ics_3d.py -n $resolution -t $tiles -o $run_dir
 
-#  sbatch ./submit.slurm
+  sbatch ./submit.slurm
   cd $old_directory
   sleep 4
   que
@@ -84,12 +86,19 @@ setup_run(){
 }
 
 setup_run 128 1 14 3
-#setup_run 128 2 14 3
-#setup_run 128 3 14 3
-#setup_run 128 4 14 3
-#setup_run 128 5 14 3
-#setup_run 256 1 14 3
-#setup_run 256 2 14 3
-#setup_run 256 3 14 3
-#setup_run 256 4 14 3
-#setup_run 256 5 14 3
+setup_run 128 2 14 3
+setup_run 128 3 14 3
+setup_run 128 4 14 3
+setup_run 128 5 14 3
+
+setup_run 256 1 14 3
+setup_run 256 2 14 3
+setup_run 256 3 14 3
+setup_run 256 4 14 3
+setup_run 256 5 14 3
+
+setup_run 512 1 14 3
+setup_run 512 2 14 3
+setup_run 512 3 14 3
+setup_run 512 4 14 3
+setup_run 512 5 14 3
