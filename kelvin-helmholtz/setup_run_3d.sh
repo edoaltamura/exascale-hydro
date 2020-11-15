@@ -30,12 +30,12 @@ setup_run(){
   cp "$old_directory"/param.yml .
   cp "$old_directory"/submit.slurm .
   cp "$old_directory"/resubmit.slurm .
-  cp "$old_directory"/auto_resubmit.slurm .
+  cp "$old_directory"/auto_resubmit.sh .
 
   # Make launch scripts executable by SWIFT
   chmod 744 ./submit.slurm
   chmod 744 ./resubmit.slurm
-  chmod 744 ./auto_resubmit.slurm
+  chmod 744 ./auto_resubmit.sh
 
   # Set 1 cell per rank (2 ranks per node)
   # Note: this way you can allocate a max of 14 threads per cell
