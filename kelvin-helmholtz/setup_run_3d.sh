@@ -51,7 +51,7 @@ setup_run(){
   tasks_per_node=2
   nodes=$(( ($tiles * $tiles * $tiles + 1) / $tasks_per_node ))
   total_top_cells=$(( $tiles * $top_cells_per_tile ))
-  echo $nodes
+  echo "Nodes: $nodes"
 
   # If single tile, special case
   if [[ "$tiles" -eq 1 ]]; then
