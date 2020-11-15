@@ -85,20 +85,22 @@ setup_run(){
 
 }
 
-setup_run 128 1 14 3
-setup_run 128 2 14 3
-setup_run 128 3 14 3
-setup_run 128 4 14 3
-setup_run 128 5 14 3
+#setup_run 128 1 14 3
+#setup_run 128 2 14 3
+#setup_run 128 3 14 3
+#setup_run 128 4 14 3
+#setup_run 128 5 14 3
+#
+#setup_run 256 1 14 3
+#setup_run 256 2 14 3
+#setup_run 256 3 14 3
+#setup_run 256 4 14 3
+#setup_run 256 5 14 3
+#
+#setup_run 512 1 14 3
+#setup_run 512 2 14 3
+#setup_run 512 3 14 3
+#setup_run 512 4 14 3
+#setup_run 512 5 14 3
 
-setup_run 256 1 14 3
-setup_run 256 2 14 3
-setup_run 256 3 14 3
-setup_run 256 4 14 3
-setup_run 256 5 14 3
-
-setup_run 512 1 14 3
-setup_run 512 2 14 3
-setup_run 512 3 14 3
-setup_run 512 4 14 3
-setup_run 512 5 14 3
+setup_run 256 2 14 21
