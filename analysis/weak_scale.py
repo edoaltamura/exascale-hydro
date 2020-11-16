@@ -78,13 +78,13 @@ threads, time2sol = weak_scale([
 ])
 ax.plot(threads, time2sol)
 
-# threads, time2sol = weak_scale([
-#     "/cosma/home/dp004/dc-alta2/snap7/exascale-hydro/kelvin-helmholtz-3D/kh3d_N256_T1_P14_C3",
-#     "/cosma/home/dp004/dc-alta2/snap7/exascale-hydro/kelvin-helmholtz-3D/kh3d_N256_T2_P14_C3",
-#     "/cosma/home/dp004/dc-alta2/snap7/exascale-hydro/kelvin-helmholtz-3D/kh3d_N256_T3_P14_C3",
-#     "/cosma/home/dp004/dc-alta2/snap7/exascale-hydro/kelvin-helmholtz-3D/kh3d_N256_T4_P14_C3",
-#     "/cosma/home/dp004/dc-alta2/snap7/exascale-hydro/kelvin-helmholtz-3D/kh3d_N256_T5_P14_C3",
-# ])
+threads, time2sol = weak_scale([
+    "/cosma/home/dp004/dc-alta2/snap7/exascale-hydro/kelvin-helmholtz-3D/kh3d_N256_T1_P14_C3",
+    "/cosma/home/dp004/dc-alta2/snap7/exascale-hydro/kelvin-helmholtz-3D/kh3d_N256_T2_P14_C3",
+    "/cosma/home/dp004/dc-alta2/snap7/exascale-hydro/kelvin-helmholtz-3D/kh3d_N256_T3_P14_C3",
+    "/cosma/home/dp004/dc-alta2/snap7/exascale-hydro/kelvin-helmholtz-3D/kh3d_N256_T4_P14_C3",
+    "/cosma/home/dp004/dc-alta2/snap7/exascale-hydro/kelvin-helmholtz-3D/kh3d_N256_T5_P14_C3",
+])
 ax.plot(threads, time2sol)
 
 ax.set_title("KH3D - SWIFT MPI - Cosma 7")
