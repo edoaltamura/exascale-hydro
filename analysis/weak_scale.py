@@ -70,7 +70,6 @@ def weak_scale(run_list: List[str]) -> Tuple[np.ndarray]:
 fig, ax = plt.subplots()
 
 threads, time2sol = weak_scale([
-    "/cosma/home/dp004/dc-alta2/snap7/exascale-hydro/kh3d_N128_T1_P14_C3",
     "/cosma/home/dp004/dc-alta2/snap7/exascale-hydro/kh3d_N128_T2_P14_C3",
     "/cosma/home/dp004/dc-alta2/snap7/exascale-hydro/kh3d_N128_T3_P14_C3",
     "/cosma/home/dp004/dc-alta2/snap7/exascale-hydro/kh3d_N128_T4_P14_C3",
