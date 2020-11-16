@@ -76,7 +76,7 @@ threads, time2sol = weak_scale([
     "/cosma/home/dp004/dc-alta2/snap7/exascale-hydro/kelvin-helmholtz-3D/kh3d_N128_T4_P14_C3",
     "/cosma/home/dp004/dc-alta2/snap7/exascale-hydro/kelvin-helmholtz-3D/kh3d_N128_T5_P14_C3",
 ])
-ax.plot(threads, time2sol)
+ax.plot(threads, time2sol/time2sol[0])
 
 threads, time2sol = weak_scale([
     "/cosma/home/dp004/dc-alta2/snap7/exascale-hydro/kelvin-helmholtz-3D/kh3d_N256_T1_P14_C3",
@@ -85,12 +85,12 @@ threads, time2sol = weak_scale([
     "/cosma/home/dp004/dc-alta2/snap7/exascale-hydro/kelvin-helmholtz-3D/kh3d_N256_T4_P14_C3",
     "/cosma/home/dp004/dc-alta2/snap7/exascale-hydro/kelvin-helmholtz-3D/kh3d_N256_T5_P14_C3",
 ])
-ax.plot(threads, time2sol)
+ax.plot(threads, time2sol/time2sol[0])
 
 ax.set_title("KH3D - SWIFT MPI - Cosma 7")
 # ax.grid(linestyle='--', color='grey', linewidth=0.5)
 ax.set_xlabel('Number of threads')
-ax.set_ylabel('Time to solution [hours]')
+ax.set_ylabel('Time to solution [hours] / t(1)')
 ax.set_xscale('log')
 # ax.set_ylim([0, 2])
 fig.tight_layout()
