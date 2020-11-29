@@ -20,7 +20,7 @@ module load parallel_hdf5/1.10.6
 module load fftw/3.3.8cosma7
 module load gsl/2.5
 
-mpirun -np $SLURM_NTASKS \
+mpirun -np NTASKS_TRUE \
   /cosma6/data/dp004/dc-alta2/exascale-hydro/kelvin-helmholtz-3D/swiftsim/examples/swift_mpi \
     --hydro \
     -v 1 \

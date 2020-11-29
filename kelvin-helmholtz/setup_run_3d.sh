@@ -68,12 +68,14 @@ setup_run(){
   sed -i "s/CPUSPTASK/$threads_per_tile/" ./submit.slurm
   sed -i "s/TASKSPNODE/$tasks_per_node/" ./submit.slurm
   sed -i "s/RUN_NAME/$run_name/" ./submit.slurm
+  sed -i "s/NTASKS_TRUE/$(( $tiles * $tiles * $tiles ))/" ./submit.slurm
 
   # Edit mutable parameters in the resubmit file
   sed -i "s/NODES/$nodes/" ./resubmit.slurm
   sed -i "s/CPUSPTASK/$threads_per_tile/" ./resubmit.slurm
   sed -i "s/TASKSPNODE/$tasks_per_node/" ./resubmit.slurm
   sed -i "s/RUN_NAME/$run_name/" ./resubmit.slurm
+  sed -i "s/NTASKS_TRUE/$(( $tiles * $tiles * $tiles ))/" ./resubmit.slurm
 
   # Generate initial conditions
   python3 "$old_directory"/make_ics_3d.py -n $resolution -t $tiles -o $run_dir

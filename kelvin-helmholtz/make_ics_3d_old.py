@@ -1,9 +1,9 @@
 import h5py
 import numpy as np
+from numpy import *
 import os
 import psutil
 import argparse
-from tqdm import trange
 
 total_memory = psutil.virtual_memory().total
 print(f"Total physical memory: {total_memory / 1024 / 1024 / 1024:.2f} GB")
@@ -23,7 +23,6 @@ parser = argparse.ArgumentParser()
 parser.add_argument('-n', '--nparticles', type=int, default=128, required=False)
 parser.add_argument('-t', '--tile', type=int, default=2, required=False)
 parser.add_argument('-o', '--outdir', type=str, default='.', required=False)
-parser.add_argument('-s', '--silent-progressbar', action='store_true', default=False, required=False)
 args = parser.parse_args()
 
 # Parameters
@@ -36,24 +35,24 @@ v2 = -0.5  # Outskirts vlocity
 rho1 = 2  # Central density
 rho2 = 1  # Outskirts density
 omega0 = 0.1
-sigma = 0.05 / np.sqrt(2)
+sigma = 0.05 / sqrt(2)
 fileOutputName = "kelvin_helmholtz_3d.hdf5"
 # ---------------------------------------------------
 
 # Start by generating grids of particles at the two densities
 numPart2 = L2 * L2
-L1 = int(np.sqrt(numPart2 / rho2 * rho1))
+L1 = int(sqrt(numPart2 / rho2 * rho1))
 numPart1 = L1 * L1
-coords1 = np.zeros((numPart1, 3))
-coords2 = np.zeros((numPart2, 3))
-h1 = np.ones(numPart1) * 1.2348 / L1
-h2 = np.ones(numPart2) * 1.2348 / L2
-m1 = np.zeros(numPart1)
-m2 = np.zeros(numPart2)
-u1 = np.zeros(numPart1)
-u2 = np.zeros(numPart2)
-vel1 = np.zeros((numPart1, 3))
-vel2 = np.zeros((numPart2, 3))
+coords1 = zeros((numPart1, 3))
+coords2 = zeros((numPart2, 3))
+h1 = ones(numPart1) * 1.2348 / L1
+h2 = ones(numPart2) * 1.2348 / L2
+m1 = zeros(numPart1)
+m2 = zeros(numPart2)
+u1 = zeros(numPart1)
+u2 = zeros(numPart2)
+vel1 = zeros((numPart1, 3))
+vel2 = zeros((numPart2, 3))
 
 # Particles in the central region
 for i in range(L1):
@@ -78,29 +77,31 @@ for i in range(L2):
         vel2[index, 0] = v2
 
 # Now concatenate arrays
-where1 = np.abs(coords1[:, 1] - 0.5) < 0.25
-where2 = np.abs(coords2[:, 1] - 0.5) > 0.25
+where1 = abs(coords1[:, 1] - 0.5) < 0.25
+where2 = abs(coords2[:, 1] - 0.5) > 0.25
 
-coords = np.append(coords1[where1, :], coords2[where2, :], axis=0)
-vel = np.append(vel1[where1, :], vel2[where2, :], axis=0)
-h = np.append(h1[where1], h2[where2], axis=0)
-m = np.append(m1[where1], m2[where2], axis=0)
-u = np.append(u1[where1], u2[where2], axis=0)
-numPart = np.size(h)
+coords = append(coords1[where1, :], coords2[where2, :], axis=0)
+vel = append(vel1[where1, :], vel2[where2, :], axis=0)
+h = append(h1[where1], h2[where2], axis=0)
+m = append(m1[where1], m2[where2], axis=0)
+u = append(u1[where1], u2[where2], axis=0)
+numPart = size(h)
+ids = linspace(
+    1,
+    numPart * args.tile ** 3 * args.nparticles,
+    numPart * args.tile ** 3 * args.nparticles,
+    dtype=np.int64
+)
 m[:] = (0.5 * rho1 + 0.5 * rho2) / float(numPart)
 
 # Velocity perturbation
-vel[:, 1] = omega0 * np.sin(4 * np.pi * coords[:, 0]) * (
-        np.exp(-(coords[:, 1] - 0.25) ** 2 / (2 * sigma ** 2)) + np.exp(-(coords[:, 1] - 0.75) ** 2 / (2 * sigma ** 2)))
+vel[:, 1] = omega0 * sin(4 * pi * coords[:, 0]) * (
+        exp(-(coords[:, 1] - 0.25) ** 2 / (2 * sigma ** 2)) + exp(-(coords[:, 1] - 0.75) ** 2 / (2 * sigma ** 2)))
 
 # File
 fileOutput = h5py.File(os.path.join(args.outdir, fileOutputName), 'w')
 num_gas_particles = numPart * args.tile ** 3 * args.nparticles
-print((
-    f"Total number of gas particles (3D): {num_gas_particles:d} "
-    f"(approx. 10^{np.log10(num_gas_particles):.1f}) "
-    f"(approx. 2^{np.log2(num_gas_particles):.0f})"
-))
+print(f"Total number of gas particles (3D): {num_gas_particles:d}")
 
 # Header
 grp = fileOutput.create_group("/Header")
@@ -127,62 +128,38 @@ grp = fileOutput.create_group("/PartType0")
 dump_memory_usage()
 ds = grp.create_dataset('Coordinates', (num_gas_particles, 3), 'd')
 coords = np.tile(coords, (args.tile ** 2, 1))
-for i in trange(args.tile, desc=f"[x-stack]{ds.name.replace('/', ' ')}", disable=args.silent_progressbar):
+for i in range(args.tile):
     coords[numPart * args.tile * i:numPart * (i + 1) * args.tile, 0] += i
-    for j in trange(args.tile, desc=f"[y-stack]{ds.name.replace('/', ' ')}", leave=None,
-                    disable=args.silent_progressbar):
+    for j in range(args.tile):
         coords[numPart * (i * args.tile + j):numPart * (i * args.tile + j + 1), 1] += j
 
 # Stack layers
 dump_memory_usage()
-for k in trange(args.nparticles * args.tile, desc=f"[z-stack]{ds.name.replace('/', ' ')}",
-                disable=args.silent_progressbar):
-    buffer = coords.copy()
-    buffer[:, 2] += k / args.nparticles
-    ds[numPart * args.tile ** 2 * k:numPart * args.tile ** 2 * (k + 1)] = buffer
-del coords
-
+coords = np.tile(coords, (args.nparticles * args.tile, 1))
+for k in range(args.nparticles * args.tile):
+    coords[numPart * args.tile ** 2 * k:numPart * args.tile ** 2 * (k + 1), 2] += k / args.nparticles
+ds[()] = coords
 dump_memory_usage()
 ds = grp.create_dataset('Velocities', (num_gas_particles, 3), 'f')
-vel = np.tile(vel, (args.tile ** 2, 1)).reshape((-1, 3))
-for k in trange(args.nparticles * args.tile, desc=f"[z-stack]{ds.name.replace('/', ' ')}",
-                disable=args.silent_progressbar):
-    ds[numPart * args.tile ** 2 * k:numPart * args.tile ** 2 * (k + 1)] = vel
-del vel
-
+vel = np.tile(vel, (args.tile ** 2, 1))
+vel = np.tile(vel, (args.tile * args.nparticles, 1))
+ds[()] = vel
 dump_memory_usage()
 ds = grp.create_dataset('Masses', (num_gas_particles, 1), 'f')
-m = np.tile(m, (args.tile ** 2, 1)).reshape((-1, 1))
-for k in trange(args.nparticles * args.tile, desc=f"[z-stack]{ds.name.replace('/', ' ')}",
-                disable=args.silent_progressbar):
-    ds[numPart * args.tile ** 2 * k:numPart * args.tile ** 2 * (k + 1)] = m
-del m
-
+m = np.tile(m, (args.tile ** 2, 1))
+m = np.tile(m, (args.tile * args.nparticles, 1))
+ds[()] = m.reshape((num_gas_particles, 1))
 dump_memory_usage()
 ds = grp.create_dataset('SmoothingLength', (num_gas_particles, 1), 'f')
-h = np.tile(h, (args.tile ** 2, 1)).reshape((-1, 1))
-for k in trange(args.nparticles * args.tile, desc=f"[z-stack]{ds.name.replace('/', ' ')}",
-                disable=args.silent_progressbar):
-    ds[numPart * args.tile ** 2 * k:numPart * args.tile ** 2 * (k + 1)] = h
-del h
-
+h = np.tile(h, (args.tile ** 2, 1))
+h = np.tile(h, (args.tile * args.nparticles, 1))
+ds[()] = h.reshape((num_gas_particles, 1))
 dump_memory_usage()
 ds = grp.create_dataset('InternalEnergy', (num_gas_particles, 1), 'f')
-u = np.tile(u, (args.tile ** 2, 1)).reshape((-1, 1))
-for k in trange(args.nparticles * args.tile, desc=f"[z-stack]{ds.name.replace('/', ' ')}",
-                disable=args.silent_progressbar):
-    ds[numPart * args.tile ** 2 * k:numPart * args.tile ** 2 * (k + 1)] = u
-buffer_len = u.shape[0]
-del u
-
+u = np.tile(u, (args.tile ** 2, 1))
+u = np.tile(u, (args.tile * args.nparticles, 1))
+ds[()] = u.reshape((num_gas_particles, 1))
 dump_memory_usage()
-ds = grp.create_dataset('ParticleIDs', (num_gas_particles, 1), dtype=np.uint64)
-ids = np.linspace(1, buffer_len, buffer_len, dtype=np.uint64).reshape((-1, 1))
-for k in trange(args.nparticles * args.tile, desc=f"[z-stack]{ds.name.replace('/', ' ')}",
-                disable=args.silent_progressbar):
-    buffer = ids.copy()
-    buffer[:] += k * buffer_len
-    ds[numPart * args.tile ** 2 * k:numPart * args.tile ** 2 * (k + 1)] = buffer.reshape((-1, 1))
-del ids
-
+ds = grp.create_dataset('ParticleIDs', (num_gas_particles, 1), 'L')
+ds[()] = ids.reshape((num_gas_particles, 1))
 fileOutput.close()

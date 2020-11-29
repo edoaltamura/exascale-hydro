@@ -67,7 +67,9 @@ print(f"{logger_info('Domain decomposition')} Top-level-cells total: {args.top_c
 print(
     f"{logger_info('Domain decomposition')} Average particles per top-level-cell: {num_particles / (args.top_cells_per_tile * boxsize[0]) ** 3:.2f}")
 
-stride = int(np.log10(num_particles) ** 2 - 4 * np.log10(num_particles))
+stride = 1
+if num_particles > 32 ** 3:
+    stride = int(np.log10(num_particles) ** 2 - 4 * np.log10(num_particles))
 
 fig = plt.figure()
 ax = Axes3D(fig)
