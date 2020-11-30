@@ -95,7 +95,7 @@ ax.set_xscale('log')
 # ax.set_ylim([0, 2])
 fig.tight_layout()
 # plt.show()
-plt.savefig(f'~/kh2d_mpi_time2solution.png', dpi=300)
+plt.savefig('kh2d_mpi_time2solution.png', dpi=300)
 # plt.savefig(f'{out_dir}/kh2d_omp_time2solution.png', dpi=300)
 # plt.close(fig)
 
