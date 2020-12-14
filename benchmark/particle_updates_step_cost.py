@@ -11,7 +11,6 @@ from matplotlib.colors import LogNorm
 from glob import glob
 import os
 
-
 try:
     plt.style.use("../mnras.mplstyle")
 except:
@@ -23,7 +22,7 @@ def particle_updates_step_cost(
         snap_filepath_zoom: str,
         output_directory: str
 ) -> None:
-    run_directory = os.path.join(os.path.dirname(snap_filepath_zoom), os.pardir)
+    run_directory = snap_filepath_zoom
     timesteps_glob = glob(f"{run_directory}/timesteps_*.txt")
     timesteps_filename = timesteps_glob[0]
 
@@ -61,6 +60,7 @@ def particle_updates_step_cost(
     ax.set_ylim(wallclock_edges[0], wallclock_edges[-1])
     fig.tight_layout()
     fig.savefig(f"{output_directory}/{run_name}_particle_updates_step_cost.png")
+
 
 particle_updates_step_cost(
     "kh3d_N256_T5_P14_C3",
