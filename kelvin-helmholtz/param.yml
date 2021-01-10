@@ -9,20 +9,20 @@ InternalUnitSystem:
 # Parameters governing the time integration
 TimeIntegration:
   time_begin: 0.0   # The starting time of the simulation (in internal units).
-  time_end:   0.2   # The end time of the simulation (in internal units).
+  time_end:   0.3   # The end time of the simulation (in internal units).
   dt_min:     1e-6  # The minimal time-step size of the simulation (in internal units).
   dt_max:     1e-2  # The maximal time-step size of the simulation (in internal units).
 
 # Parameters governing the snapshots
 Snapshots:
-  basename:            kelvin_helmholtz_3d  # Common part of the name of output files
-  subdir:              snapshots
-  time_first:          0.01      # Time of the first output (in internal units)
-  delta_time:          0.01      # Time difference between consecutive outputs (in internal units)
+#  basename:            kelvin_helmholtz_3d  # Common part of the name of output files
+#  subdir:              snapshots
+  time_first:          1.      # Time of the first output (in internal units)
+  delta_time:          1.      # Time difference between consecutive outputs (in internal units)
 
 # Parameters governing the conserved quantities statistics
 Statistics:
-  delta_time:          1e-2 # Time between statistics output
+  delta_time:          0.1 # Time between statistics output
 
 # Parameters for the hydrodynamics scheme
 SPH:
