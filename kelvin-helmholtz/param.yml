@@ -15,8 +15,8 @@ TimeIntegration:
 
 # Parameters governing the snapshots
 Snapshots:
-#  basename:            kelvin_helmholtz_3d  # Common part of the name of output files
-#  subdir:              snapshots
+  basename:            kelvin_helmholtz_3d  # Common part of the name of output files
+  subdir:              snapshots
   time_first:          1.      # Time of the first output (in internal units)
   delta_time:          1.      # Time difference between consecutive outputs (in internal units)
 
