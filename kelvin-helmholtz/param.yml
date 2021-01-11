@@ -9,20 +9,18 @@ InternalUnitSystem:
 # Parameters governing the time integration
 TimeIntegration:
   time_begin: 0.0   # The starting time of the simulation (in internal units).
-  time_end:   0.3   # The end time of the simulation (in internal units).
+  time_end:   0.4   # The end time of the simulation (in internal units).
   dt_min:     1e-6  # The minimal time-step size of the simulation (in internal units).
   dt_max:     1e-2  # The maximal time-step size of the simulation (in internal units).
 
 # Parameters governing the snapshots
 Snapshots:
   basename:            kelvin_helmholtz_3d  # Common part of the name of output files
-  subdir:              snapshots
-  time_first:          1.      # Time of the first output (in internal units)
-  delta_time:          1.      # Time difference between consecutive outputs (in internal units)
+  delta_time:          1.                   # Time difference between consecutive outputs (in internal units)
 
 # Parameters governing the conserved quantities statistics
 Statistics:
-  delta_time:          0.1 # Time between statistics output
+  delta_time:          1. # Time between statistics output
 
 # Parameters for the hydrodynamics scheme
 SPH:
@@ -31,7 +29,7 @@ SPH:
 
 # Parameters related to the initial conditions
 InitialConditions:
-  file_name:  ./kelvin_helmholtz_3d.hdf5     # The file to read
+  file_name:  ./kelvin_helmholtz_3d.hdf5
   periodic:   1
 
 Scheduler:
@@ -39,12 +37,11 @@ Scheduler:
 
 Restarts:
   enable:             1
-  save:               1          # Keep copies
+  save:               0          # Keep copies
   onexit:             1
   subdir:             restart    # Sub-directory of the directory where SWIFT is run
   basename:           swift
-  delta_hours:        2.3
-  stop_steps:         100
-  max_run_time:       4.8       # In hours
+  delta_hours:        71.5
+  max_run_time:       71.5       # In hours
   resubmit_on_exit:   1
   resubmit_command:   ./auto_resubmit.sh

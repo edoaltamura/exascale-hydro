@@ -9,7 +9,8 @@
 #SBATCH -p cosma7
 #SBATCH -A do006
 #SBATCH --exclusive
-#SBATCH -t 5:00:00
+#SBATCH -t 72:00:00
+#SBATCH --exclude=m7448,m7449,m7450,m7451,m7452
 
 module purge
 module load intel_comp/2020-update2
