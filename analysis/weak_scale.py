@@ -76,11 +76,11 @@ threads, time2sol = weak_scale([
 ])
 ax.plot(threads, time2sol/time2sol[0])
 
-threads, time2sol = weak_scale([
-    "/cosma/home/dp004/dc-alta2/snap7/exascale-hydro/kelvin-helmholtz-3D/no_dump/kh3d_N256_T2_P14_C5",
-    "/cosma/home/dp004/dc-alta2/snap7/exascale-hydro/kelvin-helmholtz-3D/no_dump/kh3d_N256_T4_P14_C5",
-])
-ax.plot(threads, time2sol/time2sol[0])
+# threads, time2sol = weak_scale([
+#     "/cosma/home/dp004/dc-alta2/snap7/exascale-hydro/kelvin-helmholtz-3D/no_dump/kh3d_N256_T2_P14_C5",
+#     "/cosma/home/dp004/dc-alta2/snap7/exascale-hydro/kelvin-helmholtz-3D/no_dump/kh3d_N256_T4_P14_C5",
+# ])
+# ax.plot(threads, time2sol/time2sol[0])
 
 ax.set_title("KH3D - SWIFT MPI - Cosma 7")
 # ax.grid(linestyle='--', color='grey', linewidth=0.5)
