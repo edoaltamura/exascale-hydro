@@ -70,15 +70,15 @@ def weak_scale(run_list: List[str]) -> Tuple[np.ndarray]:
 fig, ax = plt.subplots()
 
 threads, time2sol = weak_scale([
-    "/cosma/home/dp004/dc-alta2/snap7/exascale-hydro/kelvin-helmholtz-3D/no_dump/kh3d_N128_T2_P14_C3",
-    "/cosma/home/dp004/dc-alta2/snap7/exascale-hydro/kelvin-helmholtz-3D/no_dump/kh3d_N128_T4_P14_C3",
-    "/cosma/home/dp004/dc-alta2/snap7/exascale-hydro/kelvin-helmholtz-3D/no_dump/kh3d_N128_T6_P14_C3",
+    "/cosma/home/dp004/dc-alta2/snap7/exascale-hydro/kelvin-helmholtz-3D/no_dump/kh3d_N128_T2_P14_C5",
+    "/cosma/home/dp004/dc-alta2/snap7/exascale-hydro/kelvin-helmholtz-3D/no_dump/kh3d_N128_T4_P14_C5",
+    "/cosma/home/dp004/dc-alta2/snap7/exascale-hydro/kelvin-helmholtz-3D/no_dump/kh3d_N128_T6_P14_C5",
 ])
 ax.plot(threads, time2sol/time2sol[0])
 
 threads, time2sol = weak_scale([
-    "/cosma/home/dp004/dc-alta2/snap7/exascale-hydro/kelvin-helmholtz-3D/no_dump/kh3d_N256_T2_P14_C3",
-    "/cosma/home/dp004/dc-alta2/snap7/exascale-hydro/kelvin-helmholtz-3D/no_dump/kh3d_N256_T4_P14_C3",
+    "/cosma/home/dp004/dc-alta2/snap7/exascale-hydro/kelvin-helmholtz-3D/no_dump/kh3d_N256_T2_P14_C5",
+    "/cosma/home/dp004/dc-alta2/snap7/exascale-hydro/kelvin-helmholtz-3D/no_dump/kh3d_N256_T4_P14_C5",
 ])
 ax.plot(threads, time2sol/time2sol[0])
 
