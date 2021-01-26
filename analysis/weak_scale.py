@@ -70,20 +70,15 @@ def weak_scale(run_list: List[str]) -> Tuple[np.ndarray]:
 fig, ax = plt.subplots()
 
 threads, time2sol = weak_scale([
-    "/cosma/home/dp004/dc-alta2/snap7/exascale-hydro/kelvin-helmholtz-3D/kh3d_N128_T1_P14_C3",
-    "/cosma/home/dp004/dc-alta2/snap7/exascale-hydro/kelvin-helmholtz-3D/kh3d_N128_T2_P14_C3",
-    "/cosma/home/dp004/dc-alta2/snap7/exascale-hydro/kelvin-helmholtz-3D/kh3d_N128_T3_P14_C3",
-    "/cosma/home/dp004/dc-alta2/snap7/exascale-hydro/kelvin-helmholtz-3D/kh3d_N128_T4_P14_C3",
-    "/cosma/home/dp004/dc-alta2/snap7/exascale-hydro/kelvin-helmholtz-3D/kh3d_N128_T5_P14_C3",
+    "/cosma/home/dp004/dc-alta2/snap7/exascale-hydro/kelvin-helmholtz-3D/no_dump/kh3d_N128_T2_P14_C3",
+    "/cosma/home/dp004/dc-alta2/snap7/exascale-hydro/kelvin-helmholtz-3D/no_dump/kh3d_N128_T4_P14_C3",
+    "/cosma/home/dp004/dc-alta2/snap7/exascale-hydro/kelvin-helmholtz-3D/no_dump/kh3d_N128_T6_P14_C3",
 ])
 ax.plot(threads, time2sol/time2sol[0])
 
 threads, time2sol = weak_scale([
-    "/cosma/home/dp004/dc-alta2/snap7/exascale-hydro/kelvin-helmholtz-3D/kh3d_N256_T1_P14_C3",
-    "/cosma/home/dp004/dc-alta2/snap7/exascale-hydro/kelvin-helmholtz-3D/kh3d_N256_T2_P14_C3",
-    "/cosma/home/dp004/dc-alta2/snap7/exascale-hydro/kelvin-helmholtz-3D/kh3d_N256_T3_P14_C3",
-    "/cosma/home/dp004/dc-alta2/snap7/exascale-hydro/kelvin-helmholtz-3D/kh3d_N256_T4_P14_C3",
-    "/cosma/home/dp004/dc-alta2/snap7/exascale-hydro/kelvin-helmholtz-3D/kh3d_N256_T5_P14_C3",
+    "/cosma/home/dp004/dc-alta2/snap7/exascale-hydro/kelvin-helmholtz-3D/no_dump/kh3d_N256_T2_P14_C3",
+    "/cosma/home/dp004/dc-alta2/snap7/exascale-hydro/kelvin-helmholtz-3D/no_dump/kh3d_N256_T4_P14_C3",
 ])
 ax.plot(threads, time2sol/time2sol[0])
 
@@ -94,7 +89,7 @@ ax.set_ylabel('Time to solution [hours] / t(1)')
 ax.set_xscale('log')
 # ax.set_ylim([0, 2])
 fig.tight_layout()
-# plt.show()
+plt.show()
 plt.savefig('kh2d_mpi_time2solution.png', dpi=300)
 # plt.savefig(f'{out_dir}/kh2d_omp_time2solution.png', dpi=300)
 # plt.close(fig)
