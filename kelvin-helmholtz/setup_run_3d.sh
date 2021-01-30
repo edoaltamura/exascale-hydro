@@ -64,7 +64,7 @@ setup_run(){
   sed -i "s/MAX_TOP_CELLS/$total_top_cells/" ./param.yml
 
   # Edit mutable parameters in the submit file
-  cat > submit.slurm << 'EOF'
+  cat > submit.slurm << EOF
 #!/bin/bash -l
 
 #SBATCH -N $nodes
@@ -93,11 +93,11 @@ mpirun -np $(( $tiles * $tiles * $tiles )) \
     --hydro \
     -v 1 \
     --pin \
-    --threads=$threads_per_tile ./param.yml
+    --threads=\$SLURM_CPUS_PER_TASK ./param.yml
 
 
 echo "Job done, info follows."
-sacct -j $SLURM_JOBID --format=JobID,JobName,Partition,AveRSS,MaxRSS,AveVMSize,MaxVMSize,Elapsed,ExitCode
+sacct -j \$SLURM_JOBID --format=JobID,JobName,Partition,AveRSS,MaxRSS,AveVMSize,MaxVMSize,Elapsed,ExitCode
 EOF
 
   # Generate the output list with times in the future
