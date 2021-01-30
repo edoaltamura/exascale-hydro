@@ -13,7 +13,7 @@ setup_run(){
   top_cells_per_tile=$4
 
   # Set-up exa-scale project directories
-  destination_directory=$HOME/snap7/exascale-hydro
+  destination_directory=$HOME/data7/exascale-hydro
   mkdir -p $destination_directory
   mkdir -p $destination_directory/kelvin-helmholtz-3D
   old_directory=$PWD
@@ -21,7 +21,7 @@ setup_run(){
   echo "Run name structure: kh3d_N{num_particles-per-tile}_T{num_tiles}_P{processors-per-tile}_C{top_cells_per_tile}"
   run_name=kh3d_N"$resolution"_T"$tiles"_P"$threads_per_tile"_C"$top_cells_per_tile"
   echo $run_name
-  run_dir=$destination_directory/kelvin-helmholtz-3D/no_dump/$run_name
+  run_dir=$destination_directory/kelvin-helmholtz-3D/memory_usage/$run_name
   mkdir -p $run_dir
 
   # We are now in the run data directory
@@ -64,49 +64,62 @@ setup_run(){
   sed -i "s/MAX_TOP_CELLS/$total_top_cells/" ./param.yml
 
   # Edit mutable parameters in the submit file
-  sed -i "s/NODES/$nodes/" ./submit.slurm
-  sed -i "s/CPUSPTASK/$threads_per_tile/" ./submit.slurm
-  sed -i "s/TASKSPNODE/$tasks_per_node/" ./submit.slurm
-  sed -i "s/RUN_NAME/$run_name/" ./submit.slurm
-  sed -i "s/NTASKS_TRUE/$(( $tiles * $tiles * $tiles ))/" ./submit.slurm
+  cat > submit.slurm << EOF
+#!/bin/bash -l
 
-  # Edit mutable parameters in the resubmit file
-  sed -i "s/NODES/$nodes/" ./resubmit.slurm
-  sed -i "s/CPUSPTASK/$threads_per_tile/" ./resubmit.slurm
-  sed -i "s/TASKSPNODE/$tasks_per_node/" ./resubmit.slurm
-  sed -i "s/RUN_NAME/$run_name/" ./resubmit.slurm
-  sed -i "s/NTASKS_TRUE/$(( $tiles * $tiles * $tiles ))/" ./resubmit.slurm
+#SBATCH -N $nodes
+#SBATCH --tasks-per-node=$tasks_per_node
+#SBATCH --cpus-per-task=$threads_per_tile
+#SBATCH -J $run_name
+#SBATCH -o ./logs/log_%J.out
+#SBATCH -e ./logs/log_%J.err
+#SBATCH -p cosma7
+#SBATCH -A do006
+#SBATCH --exclusive
+#SBATCH -t 72:00:00
+#SBATCH --exclude=m7448,m7449,m7450,m7451,m7452
+
+module purge
+module load intel_comp/2020-update2
+module load intel_mpi/2020-update2
+module load ucx/1.8.1
+module load parmetis/4.0.3-64bit
+module load parallel_hdf5/1.10.6
+module load fftw/3.3.8cosma7
+module load gsl/2.5
+
+mpirun -np $(( $tiles * $tiles * $tiles )) \
+  /cosma6/data/dp004/dc-alta2/exascale-hydro/kelvin-helmholtz-3D/swiftsim_intelmpi2020_fftwcosma7_memusage/examples/swift_mpi \
+    --hydro \
+    -v 1 \
+    --pin \
+    --threads=$SLURM_CPUS_PER_TASK ./param.yml
+
+
+echo "Job done, info follows."
+sacct -j $SLURM_JOBID --format=JobID,JobName,Partition,AveRSS,MaxRSS,AveVMSize,MaxVMSize,Elapsed,ExitCode
+EOF
+
+  # Generate the output list with times in the future
+  # Don't dump snapshots
+  cat > output_list.txt << EOF
+# Time
+100
+EOF
 
   # Generate initial conditions
   python3 "$old_directory"/make_ics_3d.py -n $resolution -t $tiles -o $run_dir
 
-  sbatch ./submit.slurm
+#  sbatch ./submit.slurm
   cd $old_directory
-  sleep 4
+#  sleep 4
   que
 
 }
 
-#setup_run 128 1 14 3
-setup_run 128 2 14 5
-#setup_run 128 3 14 3
-setup_run 128 4 14 5
-#setup_run 128 5 14 3
-setup_run 128 6 14 5
-setup_run 128 8 14 5
 
-#setup_run 256 1 14 3
 setup_run 256 2 14 5
-#setup_run 256 3 14 3
-setup_run 256 4 14 5
-#setup_run 256 5 14 3
-setup_run 256 6 14 5
-setup_run 256 8 14 5
-
-#setup_run 512 1 14 3
 #setup_run 512 2 14 3
 #setup_run 512 3 14 3
 #setup_run 512 4 14 3
 #setup_run 512 5 14 3
-
-#setup_run 256 2 14 21
