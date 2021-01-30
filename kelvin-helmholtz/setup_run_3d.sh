@@ -93,11 +93,11 @@ mpirun -np $(( $tiles * $tiles * $tiles )) \
     --hydro \
     -v 1 \
     --pin \
-    --threads=$SLURM_CPUS_PER_TASK ./param.yml
+    --threads=$threads_per_tile ./param.yml
 
 
 echo "Job done, info follows."
-sacct -j $SLURM_JOBID --format=JobID,JobName,Partition,AveRSS,MaxRSS,AveVMSize,MaxVMSize,Elapsed,ExitCode
+sacct -j "$SLURM_JOBID" --format=JobID,JobName,Partition,AveRSS,MaxRSS,AveVMSize,MaxVMSize,Elapsed,ExitCode
 EOF
 
   # Generate the output list with times in the future
