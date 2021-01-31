@@ -16,7 +16,6 @@ TimeIntegration:
 # Parameters governing the snapshots
 Snapshots:
   basename:            kelvin_helmholtz_3d  # Common part of the name of output files
-  delta_time:          1.                   # Time difference between consecutive outputs (in internal units)
   output_list_on:      1
   output_list:         ./output_list.txt
 
@@ -36,11 +35,3 @@ InitialConditions:
 
 Scheduler:
   max_top_level_cells:    MAX_TOP_CELLS
-
-Restarts:
-  enable:             1
-  save:               0          # Keep copies
-  onexit:             1
-  delta_hours:        71.5
-  max_run_time:       71.5       # In hours
-  resubmit_on_exit:   1
