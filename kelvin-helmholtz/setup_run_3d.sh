@@ -119,14 +119,19 @@ EOF
 
 }
 
-nohup setup_run 128 5 14 5 &
-nohup setup_run 128 6 14 5 &
-nohup setup_run 128 7 14 5 &
+
+setup_run 128 5 14 5 &
+setup_run 128 6 14 5 &
+setup_run 128 7 14 5 &
 #setup_run 128 8 14 5
 #setup_run 128 9 14 5
 
-nohup setup_run 256 5 14 5 &
-nohup setup_run 256 6 14 5 &
-nohup setup_run 256 7 14 5 &
+setup_run 256 5 14 5 &
+setup_run 256 6 14 5 &
+setup_run 256 7 14 5 &
 #setup_run 256 8 14 5
 #setup_run 256 9 14 5
+
+wait
+echo "All done!"
+exit 0
