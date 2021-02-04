@@ -62,7 +62,7 @@ setup_run(){
 
   # Edit mutable parameters in the SWIFT param.yml
   sed -i "s/MAX_TOP_CELLS/$total_top_cells/" ./param.yml
-  sed -i "s/file_name:  .\/kelvin_helmholtz_3d.hdf5/file_name:  ..\/..\/with_openmpi\/$run_name\/kelvin_helmholtz_3d.hdf5/" ./param.yml
+  sed -i "s/file_name:  .\/kelvin_helmholtz_3d.hdf5/file_name:  ..\/..\/with_intelmpi\/$run_name\/kelvin_helmholtz_3d.hdf5/" ./param.yml
 
   # Edit mutable parameters in the submit file
   cat > submit.slurm << EOF
@@ -71,13 +71,13 @@ setup_run(){
 #SBATCH -N $nodes
 #SBATCH --tasks-per-node=$tasks_per_node
 #SBATCH --cpus-per-task=$threads_per_tile
-#SBATCH -J $run_name
+#SBATCH -J ompi_$run_name
 #SBATCH -o ./logs/log_%J.out
 #SBATCH -e ./logs/log_%J.err
 #SBATCH -p cosma7
 #SBATCH -A do006
 #SBATCH --exclusive
-#SBATCH -t 72:00:00
+#SBATCH -t 1:00:00
 #SBATCH --exclude=m7448,m7449,m7450,m7451,m7452
 #SBATCH --reservation=bigswift
 
@@ -107,7 +107,8 @@ EOF
   # Don't dump snapshots
   cat > output_list.txt << EOF
 # Time
-100
+8
+9
 EOF
 
   # Generate initial conditions
@@ -121,17 +122,17 @@ EOF
 }
 
 
-setup_run 128 5 14 5 &
-setup_run 128 6 14 5 &
-setup_run 128 7 14 5 &
-setup_run 128 8 14 5 &
-setup_run 128 9 14 5 &
+setup_run 512 5 14 5 &
+setup_run 512 6 14 5 &
+setup_run 512 7 14 5 &
+setup_run 512 8 14 5 &
+setup_run 512 9 14 5 &
 
-setup_run 256 5 14 5 &
-setup_run 256 6 14 5 &
-setup_run 256 7 14 5 &
-setup_run 256 8 14 5 &
-setup_run 256 9 14 5 &
+#setup_run 1024 5 14 5 &
+#setup_run 1024 6 14 5 &
+#setup_run 1024 7 14 5 &
+#setup_run 256 8 14 5 &
+#setup_run 256 9 14 5 &
 
 wait
 echo "All done!"
