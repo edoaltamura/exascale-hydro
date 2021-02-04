@@ -13,7 +13,7 @@ setup_run(){
   top_cells_per_tile=$4
 
   # Set-up exa-scale project directories
-  destination_directory=$HOME/data7/exascale-hydro
+  destination_directory=$HOME/snap7/exascale-hydro
   mkdir -p $destination_directory
   mkdir -p $destination_directory/kelvin-helmholtz-3D
   old_directory=$PWD
@@ -112,7 +112,7 @@ EOF
 EOF
 
   # Generate initial conditions
-  python3 "$old_directory"/make_ics_3d.py -n $resolution -t $tiles -o $run_dir
+#  python3 "$old_directory"/make_ics_3d.py -n $resolution -t $tiles -o $run_dir
 
 #  sbatch ./submit.slurm
   cd $old_directory
@@ -122,17 +122,17 @@ EOF
 }
 
 
-setup_run 512 5 14 5 &
-setup_run 512 6 14 5 &
-setup_run 512 7 14 5 &
-#setup_run 512 8 14 5 &
-#setup_run 512 9 14 5 &
+#setup_run 512 5 14 5 &
+#setup_run 512 6 14 5 &
+#setup_run 512 7 14 5 &
+setup_run 512 8 14 5 &
+setup_run 512 9 14 5 &
 
-#setup_run 1024 5 14 5 &
-#setup_run 1024 6 14 5 &
-#setup_run 1024 7 14 5 &
-#setup_run 256 8 14 5 &
-#setup_run 256 9 14 5 &
+setup_run 1024 5 14 5 &
+setup_run 1024 6 14 5 &
+setup_run 1024 7 14 5 &
+setup_run 1024 8 14 5 &
+setup_run 1024 9 14 5 &
 
 wait
 echo "All done!"
