@@ -21,7 +21,7 @@ setup_run(){
   echo "Run name structure: kh3d_N{num_particles-per-tile}_T{num_tiles}_P{processors-per-tile}_C{top_cells_per_tile}"
   run_name=kh3d_N"$resolution"_T"$tiles"_P"$threads_per_tile"_C"$top_cells_per_tile"
   echo $run_name
-  run_dir=$destination_directory/kelvin-helmholtz-3D/february_mpi_tests/with_openmpi/$run_name
+  run_dir=$destination_directory/kelvin-helmholtz-3D/february_mpi_tests/with_intelmpi/$run_name
   mkdir -p $run_dir
 
   # We are now in the run data directory
@@ -62,7 +62,7 @@ setup_run(){
 
   # Edit mutable parameters in the SWIFT param.yml
   sed -i "s/MAX_TOP_CELLS/$total_top_cells/" ./param.yml
-  sed -i "s/file_name:  .\/kelvin_helmholtz_3d.hdf5/file_name:  ..\/..\/with_intelmpi\/$run_name\/kelvin_helmholtz_3d.hdf5/" ./param.yml
+#  sed -i "s/file_name:  .\/kelvin_helmholtz_3d.hdf5/file_name:  ..\/..\/with_intelmpi\/$run_name\/kelvin_helmholtz_3d.hdf5/" ./param.yml
 
   # Edit mutable parameters in the submit file
   cat > submit.slurm << EOF
@@ -71,7 +71,7 @@ setup_run(){
 #SBATCH -N $nodes
 #SBATCH --tasks-per-node=$tasks_per_node
 #SBATCH --cpus-per-task=$threads_per_tile
-#SBATCH -J ompi_$run_name
+#SBATCH -J $run_name
 #SBATCH -o ./logs/log_%J.out
 #SBATCH -e ./logs/log_%J.err
 #SBATCH -p cosma7
@@ -83,16 +83,16 @@ setup_run(){
 
 module purge
 module load cmake/3.18.1
-module load gnu_comp/10.2.0
-module load openmpi/4.0.5
+module load intel_comp/2018
+module load intel_mpi/2018
 module load ucx/1.8.1
 module load parmetis/4.0.3-64bit
-module load parallel_hdf5/1.10.6
+module load parallel_hdf5
 module load fftw/3.3.8cosma7
 module load gsl/2.5
 
 mpirun -np $(( $tiles * $tiles * $tiles )) \
-  /cosma6/data/dp004/dc-alta2/exascale-hydro/kelvin-helmholtz-3D/swiftsim_openmpi405_fftwcosma7/examples/swift_mpi \
+  /cosma6/data/dp004/dc-alta2/exascale-hydro/kelvin-helmholtz-3D/swiftsim_intelmpi2018_fftwcosma7/examples/swift_mpi \
     --hydro \
     -v 1 \
     --pin \
@@ -112,7 +112,7 @@ EOF
 EOF
 
   # Generate initial conditions
-#  python3 "$old_directory"/make_ics_3d.py -n $resolution -t $tiles -o $run_dir
+  python3 "$old_directory"/make_ics_3d.py -n $resolution -t $tiles -o $run_dir
 
 #  sbatch ./submit.slurm
   cd $old_directory
