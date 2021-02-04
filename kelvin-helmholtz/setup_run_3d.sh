@@ -112,11 +112,11 @@ EOF
 EOF
 
   # Generate initial conditions
-#  python3 "$old_directory"/make_ics_3d.py -n $resolution -t $tiles -o $run_dir
+  python3 "$old_directory"/make_ics_3d.py -n $resolution -t $tiles -o $run_dir
 
-#  sbatch ./submit.slurm
+  sbatch ./submit.slurm
   cd $old_directory
-#  sleep 4
+  sleep 4
   squeue -u dc-alta2
 
 }
