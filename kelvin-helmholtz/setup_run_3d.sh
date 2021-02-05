@@ -114,7 +114,7 @@ EOF
 
   # Generate initial conditions
 #  python3 "$old_directory"/make_ics_3d.py -n $resolution -t $tiles -o $run_dir
-  python3 "$old_directory"/make_ics_3d.py -n $resolution -t 1 -o $run_dir
+  python3 "$old_directory"/make_ics_3d.py -n $resolution -t 3 -o $run_dir
 
 #  sbatch ./submit.slurm
   cd $old_directory
@@ -125,17 +125,17 @@ EOF
 
 
 #setup_run 512 5 14 5 &
-setup_run 512 6 14 5 &
-setup_run 512 7 14 5 &
-setup_run 512 8 14 5 &
+#setup_run 512 6 14 5 &
+#setup_run 512 7 14 5 &
+#setup_run 512 8 14 5 &
 setup_run 512 9 14 5 &
 #
 #setup_run 650 5 14 5 &
 #setup_run 650 6 14 5 &
 #setup_run 650 7 14 5 &
 #setup_run 650 8 14 5 &
-setup_run 650 9 14 5 &
-setup_run 700 9 14 5 &
+#setup_run 650 9 14 5 &
+#setup_run 700 9 14 5 &
 
 wait
 echo "All done!"
