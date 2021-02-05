@@ -135,7 +135,7 @@ EOF
 #setup_run 650 7 14 5 &
 #setup_run 650 8 14 5 &
 #setup_run 650 9 14 5 &
-setup_run 700 8 14 5 &
+setup_run 650 8 14 5 &
 
 wait
 echo "All done!"
