@@ -80,7 +80,6 @@ setup_run(){
 #SBATCH --exclusive
 #SBATCH -t 1:00:00
 #SBATCH --exclude=m7448,m7449,m7450,m7451,m7452
-#SBATCH --reservation=bigswift
 
 module purge
 module load cmake/3.18.1
@@ -116,15 +115,26 @@ EOF
 #  python3 "$old_directory"/make_ics_3d.py -n $resolution -t $tiles -o $run_dir
   python3 "$old_directory"/make_ics_3d.py -n $resolution -t 1 -o $run_dir
 
-#  sbatch ./submit.slurm
+  sbatch ./submit.slurm
   cd $old_directory
-#  sleep 4
-#  squeue -u dc-alta2
+  sleep 4
+  squeue -u dc-alta2
 
 }
 
 
-#setup_run 512 5 14 5 &
+setup_run 128 2 14 5 &
+setup_run 128 3 14 5 &
+setup_run 128 4 14 5 &
+
+setup_run 256 2 14 5 &
+setup_run 256 3 14 5 &
+setup_run 256 4 14 5 &
+
+setup_run 512 2 14 5 &
+setup_run 512 3 14 5 &
+setup_run 512 4 14 5 &
+
 #setup_run 512 6 14 5 &
 #setup_run 512 7 14 5 &
 #setup_run 512 8 14 5 &
@@ -135,7 +145,7 @@ EOF
 #setup_run 650 7 14 5 &
 #setup_run 650 8 14 5 &
 #setup_run 650 9 14 5 &
-setup_run 600 9 14 5 &
+#setup_run 600 9 14 5 &
 
 wait
 echo "All done!"
