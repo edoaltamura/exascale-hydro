@@ -32,6 +32,7 @@ SPH:
 InitialConditions:
   file_name:  ./kelvin_helmholtz_3d.hdf5
   periodic:   1
+  replicate:  NTILES
 
 Scheduler:
   max_top_level_cells:    MAX_TOP_CELLS
