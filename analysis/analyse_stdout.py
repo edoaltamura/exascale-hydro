@@ -56,24 +56,24 @@ class Stdout:
                 result = result.group(1)
 
                 # Convert to final value type. Returning stops the loop
-                return result
+                return result.strip()
 
     def num_particles(self):
 
         return self.find_value_in_line(
-            delimiters=('main: Running on ', ' gas'),
+            delimiters=('main: Running on', 'gas'),
         )
 
     def num_ranks(self):
 
         return self.find_value_in_line(
-            delimiters=('main: MPI is up and running with ', ' node(s)'),
+            delimiters=('main: MPI is up and running with', 'node'),
         )
 
     def ic_loading_time(self):
 
         return self.find_value_in_line(
-            delimiters=('main: Reading initial conditions took ', ' ms.'),
+            delimiters=('main: Reading initial conditions took', 'ms'),
         )
 
     def scheduler_report_task_times(self, no_zeros: bool = False):
