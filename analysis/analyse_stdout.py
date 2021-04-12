@@ -14,38 +14,7 @@ class Stdout:
         with open(stdout_file_path, 'r') as file_handle:
             self.file_lines = file_handle.readlines()
 
-    def analyse_stdout(self, header: int = 40) -> Tuple[np.ndarray]:
 
-        lines = self.file_lines[header:]
-        timestep_number = np.empty(0, dtype=int)
-        particle_updates = np.empty(0, dtype=int)
-        timestep_duration = np.empty(0, dtype=float)
-
-        for line in lines:
-            if line.startswith(' '):
-                line = line.strip().split()
-                print(line)
-
-                # Split time-step number and duration
-                timestep_number = np.append(
-                    timestep_number,
-                    int(line[0])
-                )
-                particle_updates = np.append(
-                    particle_updates,
-                    int(line[7])
-                )
-                timestep_duration = np.append(
-                    timestep_duration,
-                    float(line[12])
-                )
-
-        max_timestep = timestep_number[-1]
-        assert len(timestep_number) == max_timestep + 1
-        assert len(particle_updates) == max_timestep + 1
-        assert len(timestep_duration) == max_timestep + 1
-
-        return timestep_number, particle_updates, timestep_duration
 
     def find_value_in_line(self, delimiters: Tuple[str]):
         for line in self.file_lines:
@@ -76,6 +45,38 @@ class Stdout:
         return self.find_value_in_line(
             delimiters=('main: Reading initial conditions took', 'ms'),
         )
+
+    def analyse_stdout(self, header: int = 40) -> Tuple[np.ndarray]:
+
+        lines = self.file_lines[header:]
+        timestep_number = np.empty(0, dtype=int)
+        particle_updates = np.empty(0, dtype=int)
+        timestep_duration = np.empty(0, dtype=float)
+
+        for line in lines:
+            if line.startswith(' '):
+                line = line.strip().split()
+
+                # Split time-step number and duration
+                timestep_number = np.append(
+                    timestep_number,
+                    int(line[0])
+                )
+                particle_updates = np.append(
+                    particle_updates,
+                    int(line[7])
+                )
+                timestep_duration = np.append(
+                    timestep_duration,
+                    float(line[12])
+                )
+
+        max_timestep = timestep_number[-1]
+        assert len(timestep_number) == max_timestep + 1
+        assert len(particle_updates) == max_timestep + 1
+        assert len(timestep_duration) == max_timestep + 1
+
+        return timestep_number, particle_updates, timestep_duration
 
     def scheduler_report_task_times(self, no_zeros: bool = False):
 
@@ -113,7 +114,7 @@ class Stdout:
                         result = re.search(f'{delimiters[0]}(.*){delimiters[1]}', line)
                         result = result.group(1)
 
-                        assert float_match.match(result) is not None
+                        assert float_match.match(result) is not None, f"{result}"
                         result = float(result)
 
                         # If slim version wanted, don't append zero values
