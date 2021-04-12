@@ -24,6 +24,7 @@ class Stdout:
         for line in lines:
             if line.startswith(' '):
                 line = line.strip().split()
+                print(line)
 
                 # Split time-step number and duration
                 timestep_number = np.append(
