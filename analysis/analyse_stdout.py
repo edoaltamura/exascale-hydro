@@ -42,6 +42,14 @@ class Stdout:
             )
         )
 
+    def threads_per_rank(self) -> int:
+
+        return int(
+            self.find_value_in_line(
+                delimiters=('ranks,', 'threads / rank'),
+            )
+        )
+
     def ic_loading_time(self) -> unyt_quantity:
 
         return unyt_quantity(
@@ -133,9 +141,14 @@ class Stdout:
             if no_zeros and len(scheduler_report[category]) == 0:
                 del scheduler_report[category]
 
+        # Note: these times are the total for all threads in rank 0.
+        # To get the average time spent in the rank, divide by the
+        # number of threads in each rank.
+        number_threads = self.threads_per_rank()
+
         # Assign time units and format key names
         for category in scheduler_report.copy():
-            scheduler_report[category] = unyt_array(scheduler_report[category], 'ms')
+            scheduler_report[category] = unyt_array(scheduler_report[category] / number_threads, 'ms')
             if ' ' in category:
                 new_category = category.replace(' ', '_')
                 scheduler_report[new_category] = scheduler_report[category]
@@ -150,6 +163,7 @@ if __name__ == '__main__':
 
     print('num_particles', test.num_particles())
     print('num_ranks', test.num_ranks())
+    print('threads_per_rank', test.threads_per_rank())
     print('ic_loading_time', test.ic_loading_time().to('minute'))
 
     timesteps = test.analyse_stdout()
