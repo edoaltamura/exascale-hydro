@@ -50,6 +50,14 @@ class Stdout:
             )
         )
 
+    def num_top_level_cells(self) -> int:
+
+        return int(
+            self.find_value_in_line(
+                delimiters=('local top-level cells (total=,', ')'),
+            )
+        )
+
     def ic_loading_time(self) -> unyt_quantity:
 
         return unyt_quantity(
@@ -164,6 +172,7 @@ if __name__ == '__main__':
     print('num_particles', test.num_particles())
     print('num_ranks', test.num_ranks())
     print('threads_per_rank', test.threads_per_rank())
+    print('num_top_level_cells', test.num_top_level_cells())
     print('ic_loading_time', test.ic_loading_time().to('minute'))
 
     timesteps = test.analyse_stdout()
