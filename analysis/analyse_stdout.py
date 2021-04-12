@@ -51,7 +51,7 @@ class Stdout:
         return timestep_number, particle_updates, timestep_duration
 
     def find_value_in_line(self, delimiters: Tuple[str]):
-        for line in self.file_handle.readlines():
+        for line in self.file_handle:
             line = line.strip()
             print(line)
 
