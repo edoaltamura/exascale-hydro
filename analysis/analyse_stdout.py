@@ -64,7 +64,10 @@ class Stdout:
                 if value_type is int:
                     assert result.isnumeric()
                 elif value_type is float:
-                    assert float_match.match(result) is not None
+                    if '.' in result:
+                        assert float_match.match(result) is not None
+                    else:
+                        assert result.isnumeric()
 
                 # Convert to final value type. Returning stops the loop
                 return value_type(result)
