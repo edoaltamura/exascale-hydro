@@ -14,7 +14,7 @@ class Stdout:
         with open(stdout_file_path, 'r') as file_handle:
             self.file_lines = file_handle.readlines()
 
-    def analyse_stdout(self, header: int = 18) -> Tuple[np.ndarray]:
+    def analyse_stdout(self, header: int = 19) -> Tuple[np.ndarray]:
 
         lines = self.file_lines[header:]
         timestep_number = np.empty(0, dtype=int)
