@@ -112,7 +112,7 @@ class Stdout:
                         # Search for value between delimiters
                         delimiters = f'{category}: ', ' ms'
                         result = re.search(f'{delimiters[0]}(.*){delimiters[1]}', line)
-                        result = result.group(1)
+                        result = result.group(1).strip()
 
                         assert float_match.match(result) is not None, f"{result}"
                         result = float(result)
