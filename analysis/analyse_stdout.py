@@ -11,21 +11,17 @@ float_match = re.compile('\d+(\.\d+)?')
 class Stdout:
     def __init__(self, stdout_file_path: str):
         assert isfile(stdout_file_path), f"File does not exist: {stdout_file_path}"
-        self.file_path = stdout_file_path
-        self.file_handle = open(stdout_file_path, 'r')
-
-    def __del__(self):
-        self.file_handle.close()
+        with open(stdout_file_path, 'r') as file_handle:
+            self.file_lines = file_handle.readlines()
 
     def analyse_stdout(self, header: int = 18) -> Tuple[np.ndarray]:
 
-        lines = self.file_handle.readlines()[header:]
+        lines = self.file_lines[header:]
         timestep_number = np.empty(0, dtype=int)
         particle_updates = np.empty(0, dtype=int)
         timestep_duration = np.empty(0, dtype=float)
 
         for line in lines:
-            print(line)
             if line.startswith(' '):
                 line = line.strip().split()
 
@@ -51,9 +47,8 @@ class Stdout:
         return timestep_number, particle_updates, timestep_duration
 
     def find_value_in_line(self, delimiters: Tuple[str]):
-        for line in self.file_handle:
+        for line in self.file_lines:
             line = line.strip()
-            print(line)
 
             # Check if both delimiters are in the line
             if delimiters[0] in line and delimiters[1] in line:
@@ -82,17 +77,6 @@ class Stdout:
         )
 
     def scheduler_report_task_times(self, no_zeros: bool = False):
-        command = [
-            r"grep 'scheduler_report_task_times: '",
-            f"{self.file_path}"
-        ]
-        output = subprocess.check_output(command, shell=True)
-
-        # Convert from binary and split lines
-        output = output.decode("utf-8").split('\n')
-
-        # Remove empty lines
-        output = list(filter(None, output))
 
         categories = [
             'drift',
@@ -119,23 +103,24 @@ class Stdout:
         for category in categories:
             scheduler_report[category] = np.empty(0, dtype=float)
 
-        for line in output:
-            for category in categories:
-                if category in line:
-                    # Search for value between delimiters
-                    delimiters = f'{category}: ', ' ms'
-                    result = re.search(f'{delimiters[0]}(.*){delimiters[1]}', line)
-                    result = result.group(1)
+        for line in self.file_lines:
+            if 'scheduler_report_task_times: ' in line:
+                for category in categories:
+                    if category in line:
+                        # Search for value between delimiters
+                        delimiters = f'{category}: ', ' ms'
+                        result = re.search(f'{delimiters[0]}(.*){delimiters[1]}', line)
+                        result = result.group(1)
 
-                    assert float_match.match(result) is not None
-                    result = float(result)
+                        assert float_match.match(result) is not None
+                        result = float(result)
 
-                    # If slim version wanted, don't append zero values
-                    if not (no_zeros and round(result, 2) == 0.):
-                        scheduler_report[category] = np.append(
-                            scheduler_report[category],
-                            result
-                        )
+                        # If slim version wanted, don't append zero values
+                        if not (no_zeros and round(result, 2) == 0.):
+                            scheduler_report[category] = np.append(
+                                scheduler_report[category],
+                                result
+                            )
 
         # If slim version wanted, delete the fields with no contribution
         if no_zeros:
