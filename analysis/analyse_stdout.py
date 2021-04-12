@@ -53,6 +53,7 @@ class Stdout:
     def find_value_in_line(self, delimiters: Tuple[str], value_type: type):
         for line in self.file_handle.readlines():
             line = line.strip()
+            print(line)
 
             # Check if both delimiters are in the line
             if delimiters[0] in line and delimiters[1] in line:
