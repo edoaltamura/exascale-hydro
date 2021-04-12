@@ -155,7 +155,7 @@ class Stdout:
 
 
 if __name__ == '__main__':
-    cwd = '/cosma/home/dp004/dc-alta2/data7/exascale-hydro/kelvin-helmholtz-3D/february_mpi_tests/with_intelmpi'
+    cwd = '/cosma/home/dp004/dc-alta2/data7/exascale-hydro/kelvin-helmholtz-3D/february_mpi_tests/with_intelmpi/'
     test = Stdout(cwd + 'kh3d_N256_T9_P14_C5/logs/log_2951736.out')
 
     print(test.num_particles())
