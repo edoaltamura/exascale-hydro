@@ -145,4 +145,5 @@ if __name__ == '__main__':
     print(timesteps[2].sum())
 
     tasks = test.scheduler_report_task_times(no_zeros=True)
-    print(tasks)
+    for key in tasks:
+        print(key, tasks[key])
