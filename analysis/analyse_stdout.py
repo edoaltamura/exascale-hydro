@@ -84,7 +84,7 @@ class Stdout:
 
         return timestep_number, particle_updates, unyt_array(timestep_duration, 'ms')
 
-    def scheduler_report_task_times(self, no_zeros: bool = False) -> Dict[unyt_array]:
+    def scheduler_report_task_times(self, no_zeros: bool = False) -> Dict[str, unyt_array]:
 
         categories = [
             'drift',
