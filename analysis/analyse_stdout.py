@@ -126,10 +126,10 @@ class Stdout:
                 del scheduler_report[category]
 
         # Assign time units and format key names
-        for category in list(scheduler_report):
-            scheduler_report[category] = unyt_array(scheduler_report[category], 'ms')
-            scheduler_report[category.replace(' ', '_')] = scheduler_report[category]
-            del scheduler_report[category]
+        # for category in list(scheduler_report):
+        #     scheduler_report[category] = unyt_array(scheduler_report[category], 'ms')
+        #     scheduler_report[category.replace(' ', '_')] = scheduler_report[category]
+        #     del scheduler_report[category]
 
         return scheduler_report
 
