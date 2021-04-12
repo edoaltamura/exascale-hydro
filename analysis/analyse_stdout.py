@@ -126,7 +126,7 @@ class Stdout:
                 del scheduler_report[category]
 
         # Assign time units and format key names
-        for category in list(scheduler_report):
+        for category in scheduler_report.copy():
             if ' ' in category:
                 print(category)
                 new_category = category.replace(' ', '_')
