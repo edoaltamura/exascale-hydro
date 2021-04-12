@@ -14,7 +14,7 @@ class Stdout:
         with open(stdout_file_path, 'r') as file_handle:
             self.file_lines = file_handle.readlines()
 
-    def find_value_in_line(self, delimiters: Tuple[str]):
+    def find_value_in_line(self, delimiters: Tuple[str]) -> str:
         for line in self.file_lines:
             line = line.strip()
 
@@ -26,7 +26,7 @@ class Stdout:
                 # Convert to final value type. Returning stops the loop
                 return result.strip()
 
-    def num_particles(self):
+    def num_particles(self) -> int:
 
         return int(
             self.find_value_in_line(
@@ -34,7 +34,7 @@ class Stdout:
             )
         )
 
-    def num_ranks(self):
+    def num_ranks(self) -> int:
 
         return int(
             self.find_value_in_line(
@@ -42,7 +42,7 @@ class Stdout:
             )
         )
 
-    def ic_loading_time(self):
+    def ic_loading_time(self) -> unyt_quantity:
 
         return unyt_quantity(
             float(
@@ -150,11 +150,11 @@ if __name__ == '__main__':
 
     print('num_particles', test.num_particles())
     print('num_ranks', test.num_ranks())
-    print('ic_loading_time', test.ic_loading_time())
+    print('ic_loading_time', test.ic_loading_time().to('minute'))
 
     timesteps = test.analyse_stdout()
-    print('total wall-clock time', timesteps[2].sum().to('hour'))
+    print('total wall-clock time', timesteps[2].sum().to('minute'))
 
     tasks = test.scheduler_report_task_times(no_zeros=True)
     for key in tasks:
-        print(key, tasks[key])
+        print(key, tasks[key].sum().to('minute'))
