@@ -1,8 +1,8 @@
 from os.path import isfile
 import re
-import subprocess
 import numpy as np
 from typing import Tuple, Dict
+from unyt import unyt_array
 
 # Matching tool for floats in strings
 float_match = re.compile('\d+(\.\d+)?')
@@ -74,7 +74,7 @@ class Stdout:
         assert len(particle_updates) == max_timestep + 1
         assert len(timestep_duration) == max_timestep + 1
 
-        return timestep_number, particle_updates, timestep_duration
+        return timestep_number, particle_updates, unyt_array(timestep_duration, 'ms')
 
     def scheduler_report_task_times(self, no_zeros: bool = False):
 
@@ -105,6 +105,7 @@ class Stdout:
 
             for line in self.file_lines:
                 if 'scheduler_report_task_times: ' in line and category in line:
+
                     # Search for value between delimiters
                     delimiters = f'{category}:', 'ms'
                     result = re.search(f'{delimiters[0]}(.*){delimiters[1]}', line)
@@ -123,6 +124,10 @@ class Stdout:
             # If slim version wanted, delete the fields with no contribution
             if no_zeros and len(scheduler_report[category]) == 0:
                 del scheduler_report[category]
+
+        # Assign time units
+        for category in scheduler_report:
+            scheduler_report[category] = unyt_array(scheduler_report[category], 'ms')
 
         return scheduler_report
 
