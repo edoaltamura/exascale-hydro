@@ -153,7 +153,7 @@ if __name__ == '__main__':
     print('ic_loading_time', test.ic_loading_time())
 
     timesteps = test.analyse_stdout()
-    print('total wall-clock time', timesteps[2].sum().to('h'))
+    print('total wall-clock time', timesteps[2].sum().to('hour'))
 
     tasks = test.scheduler_report_task_times(no_zeros=True)
     for key in tasks:
