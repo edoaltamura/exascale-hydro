@@ -106,7 +106,7 @@ class Stdout:
             for line in self.file_lines:
                 if 'scheduler_report_task_times: ' in line and category in line:
                     # Search for value between delimiters
-                    delimiters = f'{category}: ', ' ms'
+                    delimiters = f'{category}:', 'ms'
                     result = re.search(f'{delimiters[0]}(.*){delimiters[1]}', line)
                     result = result.group(1).strip()
 
@@ -138,6 +138,6 @@ if __name__ == '__main__':
     timesteps = test.analyse_stdout()
     print(timesteps[2].sum())
 
-    tasks = test.scheduler_report_task_times(no_zeros=True)
+    tasks = test.scheduler_report_task_times(no_zeros=False)
     for key in tasks:
         print(key, tasks[key])
