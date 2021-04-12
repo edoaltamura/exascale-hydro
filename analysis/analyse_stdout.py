@@ -21,6 +21,8 @@ class Stdout:
             # Check if both delimiters are in the line
             if delimiters[0] in line and delimiters[1] in line:
                 result = re.search(f'{delimiters[0]}(.*){delimiters[1]}', line)
+                if result is None:
+                    raise ValueError(f'Keyword could not be matched to delimiters {delimiters}')
                 result = result.group(1)
 
                 # Convert to final value type. Returning stops the loop
