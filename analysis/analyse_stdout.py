@@ -89,7 +89,7 @@ class Stdout:
             value_type=float
         )
 
-    def scheduler_report_task_times(self, no_zeros: bool = False) -> Dict[np.ndarray]:
+    def scheduler_report_task_times(self, no_zeros: bool = False):
         command = [
             r"grep 'scheduler_report_task_times: '",
             f"{self.file_path}"
