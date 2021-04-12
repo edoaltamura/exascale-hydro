@@ -54,12 +54,11 @@ class Stdout:
 
     def num_top_level_cells(self) -> int:
 
-        tlc = self.find_value_in_line(
-                delimiters=('main: highest-level cell dimensions are [', '].'),
+        return int(
+            self.find_value_in_line(
+                delimiters=('parts in', 'cells.'),
             )
-        tlc = np.array([int(i) for i in tlc.split()])
-
-        return np.product(tlc)
+        )
 
     def ic_loading_time(self) -> unyt_quantity:
 
