@@ -17,36 +17,35 @@ class Stdout:
     def __del__(self):
         self.file_handle.close()
 
-    def analyse_stdout(self) -> Tuple[np.ndarray]:
+    def analyse_stdout(self, header: int = 18) -> Tuple[np.ndarray]:
 
-        # The `grep` argument retrieves lines which start with empty space
-        # The `tail` arguments exclude the title of the SWIFT stdout
-        # The `awk` command saves only the columns for:
-        #   - time-step number
-        #   - number of particles updates
-        #   - time-step duration [ms]
-        command = [
-            r"grep '^ '",
-            f"{self.file_path}",
-            r"| tail -n +18 | awk '{print $1, $8, $13}'"
-        ]
-        output = subprocess.check_output(command, shell=True)
+        lines = self.file_handle.readlines()[header:]
+        timestep_number = np.empty(0, dtype=int)
+        particle_updates = np.empty(0, dtype=int)
+        timestep_duration = np.empty(0, dtype=float)
 
-        # Convert from binary and split lines
-        output = output.decode("utf-8").split('\n')
+        for line in lines:
+            if line.startswith(' '):
+                line = line.strip().split()
 
-        # Remove empty lines
-        output = list(filter(None, output))
+                # Split time-step number and duration
+                timestep_number = np.append(
+                    timestep_number,
+                    int(line[0])
+                )
+                particle_updates = np.append(
+                    particle_updates,
+                    int(line[7])
+                )
+                timestep_duration = np.append(
+                    timestep_duration,
+                    float(line[12])
+                )
 
-        # Split timestep number and duration
-        timestep_number = np.zeros(len(output), dtype=int)
-        particle_updates = np.zeros(len(output), dtype=int)
-        timestep_duration = np.zeros(len(output), dtype=float)
-        for i, line in enumerate(output):
-            line = line.split()
-            timestep_number[i] = int(line[0])
-            particle_updates[i] = int(line[1])
-            timestep_duration[i] = float(line[3])
+        max_timestep = timestep_number[-1]
+        assert len(timestep_number) == max_timestep + 1
+        assert len(particle_updates) == max_timestep + 1
+        assert len(timestep_duration) == max_timestep + 1
 
         return timestep_number, particle_updates, timestep_duration
 
@@ -55,7 +54,7 @@ class Stdout:
             line = line.strip()
 
             # Check if both delimiters are in the line
-            if delimiters[0] in line and delimiters[1] in line:
+            if delimiters[0] in line:
                 result = re.search(f'{delimiters[0]}(.*){delimiters[1]}', line)
                 result = result.group(1)
 
