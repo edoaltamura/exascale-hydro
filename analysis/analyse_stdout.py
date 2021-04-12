@@ -50,7 +50,7 @@ class Stdout:
 
         return timestep_number, particle_updates, timestep_duration
 
-    def find_value_in_line(self, delimiters: Tuple[str], value_type: type):
+    def find_value_in_line(self, delimiters: Tuple[str]):
         for line in self.file_handle.readlines():
             line = line.strip()
             print(line)
@@ -60,37 +60,25 @@ class Stdout:
                 result = re.search(f'{delimiters[0]}(.*){delimiters[1]}', line)
                 result = result.group(1)
 
-                # Check if expecting a numeric value
-                if value_type is int:
-                    assert result.isnumeric()
-                elif value_type is float:
-                    if '.' in result:
-                        assert float_match.match(result) is not None
-                    else:
-                        assert result.isnumeric()
-
                 # Convert to final value type. Returning stops the loop
-                return value_type(result)
+                return result
 
     def num_particles(self):
 
         return self.find_value_in_line(
             delimiters=('main: Running on ', ' gas'),
-            value_type=int
         )
 
     def num_ranks(self):
 
         return self.find_value_in_line(
             delimiters=('main: MPI is up and running with ', ' node(s)'),
-            value_type=float
         )
 
     def ic_loading_time(self):
 
         return self.find_value_in_line(
             delimiters=('main: Reading initial conditions took ', ' ms.'),
-            value_type=float
         )
 
     def scheduler_report_task_times(self, no_zeros: bool = False):
