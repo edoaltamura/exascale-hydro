@@ -2,7 +2,7 @@ from os.path import isfile
 import re
 import numpy as np
 from typing import Tuple, Dict
-from unyt import unyt_array
+from unyt import unyt_array, unyt_quantity
 
 # Matching tool for floats in strings
 float_match = re.compile('\d+(\.\d+)?')
@@ -28,20 +28,28 @@ class Stdout:
 
     def num_particles(self):
 
-        return self.find_value_in_line(
-            delimiters=('main: Running on', 'gas'),
+        return int(
+            self.find_value_in_line(
+                delimiters=('main: Running on', 'gas'),
+            )
         )
 
     def num_ranks(self):
 
-        return self.find_value_in_line(
-            delimiters=('main: MPI is up and running with', 'node'),
+        return int(
+            self.find_value_in_line(
+                delimiters=('main: MPI is up and running with', 'node'),
+            )
         )
 
     def ic_loading_time(self):
 
-        return self.find_value_in_line(
-            delimiters=('main: Reading initial conditions took', 'ms'),
+        return unyt_quantity(
+            float(
+                self.find_value_in_line(
+                    delimiters=('main: Reading initial conditions took', 'ms'),
+                )
+            ), 'ms'
         )
 
     def analyse_stdout(self, header: int = 40) -> Tuple[np.ndarray]:
@@ -129,11 +137,9 @@ class Stdout:
         for category in scheduler_report.copy():
             scheduler_report[category] = unyt_array(scheduler_report[category], 'ms')
             if ' ' in category:
-                print(category)
                 new_category = category.replace(' ', '_')
                 scheduler_report[new_category] = scheduler_report[category]
-                del scheduler_report[category], new_category
-
+                del scheduler_report[category]
 
         return scheduler_report
 
@@ -142,12 +148,12 @@ if __name__ == '__main__':
     cwd = '/cosma/home/dp004/dc-alta2/data7/exascale-hydro/kelvin-helmholtz-3D/february_mpi_tests/with_intelmpi/'
     test = Stdout(cwd + 'kh3d_N256_T9_P14_C5/logs/log_2951736.out')
 
-    print(test.num_particles())
-    print(test.num_ranks())
-    print(test.ic_loading_time())
+    print('num_particles', test.num_particles())
+    print('num_ranks', test.num_ranks())
+    print('ic_loading_time', test.ic_loading_time())
 
     timesteps = test.analyse_stdout()
-    print(timesteps[2].sum())
+    print('total wall-clock time', timesteps[2].sum())
 
     tasks = test.scheduler_report_task_times(no_zeros=True)
     for key in tasks:
