@@ -53,6 +53,7 @@ class Stdout:
         )
 
     def num_top_level_cells(self) -> int:
+
         return int(
             self.find_value_in_line(
                 delimiters=('parts in', 'cells.'),
