@@ -55,7 +55,7 @@ class Stdout:
     def num_top_level_cells(self) -> int:
 
         tlc = self.find_value_in_line(
-                delimiters=(' main: highest-level cell dimensions are [', ']'),
+                delimiters=('main: highest-level cell dimensions are [', ']'),
             )
         tlc = np.array([int(i) for i in tlc.split()])
 
