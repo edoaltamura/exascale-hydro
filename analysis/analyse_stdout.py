@@ -14,8 +14,6 @@ class Stdout:
         with open(stdout_file_path, 'r') as file_handle:
             self.file_lines = file_handle.readlines()
 
-
-
     def find_value_in_line(self, delimiters: Tuple[str]):
         for line in self.file_lines:
             line = line.strip()
@@ -105,30 +103,26 @@ class Stdout:
         for category in categories:
             scheduler_report[category] = np.empty(0, dtype=float)
 
-        for line in self.file_lines:
-            if 'scheduler_report_task_times: ' in line:
-                for category in categories:
-                    if category in line:
-                        # Search for value between delimiters
-                        delimiters = f'{category}: ', ' ms'
-                        result = re.search(f'{delimiters[0]}(.*){delimiters[1]}', line)
-                        result = result.group(1).strip()
+            for line in self.file_lines:
+                if 'scheduler_report_task_times: ' in line and category in line:
+                    # Search for value between delimiters
+                    delimiters = f'{category}: ', ' ms'
+                    result = re.search(f'{delimiters[0]}(.*){delimiters[1]}', line)
+                    result = result.group(1).strip()
 
-                        assert float_match.match(result) is not None, f"{result}"
-                        result = float(result)
+                    assert float_match.match(result) is not None, f"{result}"
+                    result = float(result)
 
-                        # If slim version wanted, don't append zero values
-                        if not (no_zeros and round(result, 2) == 0.):
-                            scheduler_report[category] = np.append(
-                                scheduler_report[category],
-                                result
-                            )
+                    # If slim version wanted, don't append zero values
+                    if not (no_zeros and round(result, 2) == 0.):
+                        scheduler_report[category] = np.append(
+                            scheduler_report[category],
+                            result
+                        )
 
-        # If slim version wanted, delete the fields with no contribution
-        if no_zeros:
-            for category in categories:
-                if len(scheduler_report[category]) == 0:
-                    del scheduler_report[category]
+            # If slim version wanted, delete the fields with no contribution
+            if no_zeros and len(scheduler_report[category]) == 0:
+                del scheduler_report[category]
 
         return scheduler_report
 
