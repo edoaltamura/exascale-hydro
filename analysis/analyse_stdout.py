@@ -1,7 +1,7 @@
 from os.path import isfile
 import re
 import numpy as np
-from typing import Tuple, Dict
+from typing import Tuple, Dict, Union
 from unyt import unyt_array, unyt_quantity
 
 # Matching tool for floats in strings
@@ -52,7 +52,7 @@ class Stdout:
             ), 'ms'
         )
 
-    def analyse_stdout(self, header: int = 40) -> Tuple[np.ndarray]:
+    def analyse_stdout(self, header: int = 40) -> Tuple[Union[np.ndarray, unyt_array]]:
 
         lines = self.file_lines[header:]
         timestep_number = np.empty(0, dtype=int)
@@ -84,7 +84,7 @@ class Stdout:
 
         return timestep_number, particle_updates, unyt_array(timestep_duration, 'ms')
 
-    def scheduler_report_task_times(self, no_zeros: bool = False):
+    def scheduler_report_task_times(self, no_zeros: bool = False) -> Dict[unyt_array]:
 
         categories = [
             'drift',
@@ -153,7 +153,7 @@ if __name__ == '__main__':
     print('ic_loading_time', test.ic_loading_time())
 
     timesteps = test.analyse_stdout()
-    print('total wall-clock time', timesteps[2].sum())
+    print('total wall-clock time', timesteps[2].sum().to('h'))
 
     tasks = test.scheduler_report_task_times(no_zeros=True)
     for key in tasks:
