@@ -54,7 +54,7 @@ class Stdout:
 
         return int(
             self.find_value_in_line(
-                delimiters=('local top-level cells (total=,', ')'),
+                delimiters=('local top-level cells (total=', ')'),
             )
         )
 
