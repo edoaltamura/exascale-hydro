@@ -25,6 +25,7 @@ class Stdout:
         timestep_duration = np.empty(0, dtype=float)
 
         for line in lines:
+            print(line)
             if line.startswith(' '):
                 line = line.strip().split()
 
@@ -54,7 +55,7 @@ class Stdout:
             line = line.strip()
 
             # Check if both delimiters are in the line
-            if delimiters[0] in line:
+            if delimiters[0] in line and delimiters[1] in line:
                 result = re.search(f'{delimiters[0]}(.*){delimiters[1]}', line)
                 result = result.group(1)
 
