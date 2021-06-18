@@ -175,7 +175,7 @@ class Stdout:
 
 if __name__ == '__main__':
     cwd = '/cosma8/data/dr004/dc-alta2/4ranks_node/kh3d_N128_T8_P32_C4'
-    test = Stdout(cwd + 'logs/log_3494526.out')
+    test = Stdout(cwd + '/logs/log_3494526.out')
 
     print('num_particles', test.num_particles())
     print('num_ranks', test.num_ranks())
