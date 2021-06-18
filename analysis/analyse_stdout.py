@@ -189,6 +189,8 @@ if __name__ == '__main__':
 
     print('total wall-clock time', timesteps[2].sum().to('minute'))
     print('clean wall-clock time', timesteps[2][is_clean].sum().to('minute'))
+    print('total number of timesteps', len(timesteps[0]))
+    print('number of clean timesteps', len(timesteps[0][is_clean]))
 
     tasks = test.scheduler_report_task_times(no_zeros=True)
     for key in tasks:
