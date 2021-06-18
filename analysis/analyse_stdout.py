@@ -76,6 +76,7 @@ class Stdout:
         timestep_number = np.empty(0, dtype=int)
         particle_updates = np.empty(0, dtype=int)
         timestep_duration = np.empty(0, dtype=float)
+        timestep_properties = np.empty(0, dtype=int)
 
         for line in lines:
             if line.startswith(' '):
@@ -94,13 +95,18 @@ class Stdout:
                     timestep_duration,
                     float(line[12])
                 )
+                timestep_properties = np.append(
+                    timestep_properties,
+                    int(line[13])
+                )
 
         max_timestep = timestep_number[-1]
         assert len(timestep_number) == max_timestep + 1
         assert len(particle_updates) == max_timestep + 1
         assert len(timestep_duration) == max_timestep + 1
+        assert len(timestep_properties) == max_timestep + 1
 
-        return timestep_number, particle_updates, unyt_array(timestep_duration, 'ms')
+        return timestep_number, particle_updates, unyt_array(timestep_duration, 'ms'), timestep_properties
 
     def scheduler_report_task_times(self, no_zeros: bool = False) -> Dict[str, unyt_array]:
 
@@ -168,8 +174,8 @@ class Stdout:
 
 
 if __name__ == '__main__':
-    cwd = '/cosma/home/dp004/dc-alta2/data7/exascale-hydro/kelvin-helmholtz-3D/february_mpi_tests/with_intelmpi/'
-    test = Stdout(cwd + 'kh3d_N256_T9_P14_C5/logs/log_2951736.out')
+    cwd = '/cosma8/data/dr004/dc-alta2/4ranks_node/kh3d_N128_T8_P32_C4'
+    test = Stdout(cwd + 'logs/log_3494526.out')
 
     print('num_particles', test.num_particles())
     print('num_ranks', test.num_ranks())
@@ -178,7 +184,10 @@ if __name__ == '__main__':
     print('ic_loading_time', test.ic_loading_time().to('minute'))
 
     timesteps = test.analyse_stdout()
-    print('total wall-clock time', timesteps[2].sum().to('minute'))
+
+    is_clean = np.logical_and(timesteps[3] == 0, timesteps[1] == timesteps[1][0])
+
+    print('total wall-clock time', timesteps[2][is_clean].sum().to('minute'))
 
     tasks = test.scheduler_report_task_times(no_zeros=True)
     for key in tasks:
