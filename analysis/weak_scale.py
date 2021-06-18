@@ -44,17 +44,18 @@ for i, log in enumerate(logs):
     ranks[i] = test.num_ranks()
     threads[i] = test.num_ranks() * test.threads_per_rank()
 
-    timesteps = test.analyse_stdout()
-    is_clean = np.logical_and(
-        timesteps[3] == 0,
-        timesteps[1] == timesteps[1][0],
-    )
-    times[i] = timesteps[2][common_timesteps][is_clean].sum().to('minute')
-    print(timesteps[0][common_timesteps][is_clean].shape)
+    timestep_number, particle_updates, timestep_duration, timestep_properties = test.analyse_stdout()
+    timestep_number = timestep_number[common_timesteps]
+    particle_updates = particle_updates[common_timesteps]
+    timestep_duration = timestep_duration[common_timesteps]
+    timestep_properties = timestep_properties[common_timesteps]
 
-    good_timesteps.append(
-        list(timesteps[0][common_timesteps][is_clean])
+    is_clean = np.logical_and(
+        timestep_properties == 0,
+        particle_updates == particle_updates[0],
     )
+    times[i] = timestep_duration[is_clean].sum().to('minute')
+    print(timestep_number[is_clean].shape)
 
 print('particles', particles)
 print('ranks', ranks)
