@@ -124,13 +124,13 @@ fi
 }
 
 
-setup_run 128 2 32 4 4 &
-setup_run 128 3 32 4 4 &
-setup_run 128 4 32 4 4 &
-setup_run 128 5 32 4 4 &
-setup_run 128 6 32 4 4 &
-setup_run 128 7 32 4 4 &
-setup_run 128 8 32 4 4 &
+setup_run 128 2 16 4 8 &
+setup_run 128 3 16 4 8 &
+setup_run 128 4 16 4 8 &
+setup_run 128 5 16 4 8 &
+setup_run 128 6 16 4 8 &
+setup_run 128 7 16 4 8 &
+setup_run 128 8 16 4 8 &
 
 
 wait
