@@ -124,21 +124,9 @@ fi
 
 #setup_run 128 2 16 4 8 &
 #setup_run 128 3 16 4 8 &
-#setup_run 128 4 16 4 8 &
-#setup_run 128 5 16 4 8 &
-setup_run 128 6 16 4 8 &
-setup_run 128 7 16 4 8 &
-setup_run 128 8 16 4 8 &
-setup_run 128 9 16 4 8 &
-setup_run 128 10 16 4 8 &
-setup_run 128 11 16 4 8 &
-setup_run 128 12 16 4 8 &
-setup_run 128 13 16 4 8 &
-setup_run 128 14 16 4 8 &
+setup_run 128 7 64 4 2 &
+setup_run 128 8 64 4 2 &
 
-#setup_run 128 9 32 4 4 &
-#setup_run 128 10 32 4 4 &
-#setup_run 128 11 32 4 4 &
 
 
 wait
