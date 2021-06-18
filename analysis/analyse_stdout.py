@@ -187,7 +187,8 @@ if __name__ == '__main__':
 
     is_clean = np.logical_and(timesteps[3] == 0, timesteps[1] == timesteps[1][0])
 
-    print('total wall-clock time', timesteps[2][is_clean].sum().to('minute'))
+    print('total wall-clock time', timesteps[2].sum().to('minute'))
+    print('clean wall-clock time', timesteps[2][is_clean].sum().to('minute'))
 
     tasks = test.scheduler_report_task_times(no_zeros=True)
     for key in tasks:
