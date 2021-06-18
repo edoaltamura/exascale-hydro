@@ -39,6 +39,7 @@ print('threads', threads)
 print('times', times)
 
 fig, axes = plt.subplots()
+axes.axhline(1, lw=0.5, ls='--', c='lightgrey')
 axes.plot(threads, times / times[0], lw=0.5)
 axes.set_xlabel('Cores [-]')
 axes.set_ylabel('Parallel efficiency relative to $2^3$ tiles [-]')
