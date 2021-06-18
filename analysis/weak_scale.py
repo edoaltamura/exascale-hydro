@@ -43,6 +43,12 @@ axes.plot(threads, times / times[0], lw=0.5)
 axes.set_xlabel('Cores [-]')
 axes.set_ylabel('Parallel efficiency relative to $2^3$ tiles [-]')
 axes.set_xscale('log')
+axes.set_xlim(threads.min(), threads.max())
 # axes.set_ylim(0, 1.5)
-# axes.set_xlim(6e1, 3e4)
+
+ax_nodes = axes.twinx()
+ax_nodes.set_xscale("log")
+ax_nodes.set_xlim(threads.min() / 128, threads.max() / 128)
+ax_nodes.set_xlabel("Nodes [-]")
+
 plt.show()
