@@ -79,7 +79,7 @@ ax_nodes.set_xlabel("Nodes [-]")
 
 ax_partupdate = axes.twinx()
 ax_partupdate.set_ylim(0 * reference_time_per_update, 1.5 * reference_time_per_update)
-ax_partupdate.set_ylabel("Time to update one particle [$\\mu$s]", labelpad=2)
+ax_partupdate.set_ylabel("Time to update one particle [$\\mu$s]", labelpad=3)
 
 for i in range(len(threads)):
     exponent = np.floor(np.log10(particles[i]))
