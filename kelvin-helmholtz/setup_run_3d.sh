@@ -14,7 +14,7 @@ setup_run(){
   tasks_per_node=$5
 
   # Set-up exa-scale project directories
-  destination_directory=/cosma8/data/dr004/dc-alta2/2ranks_node
+  destination_directory=/cosma8/data/dr004/dc-alta2/"$tasks_per_node"ranks_node
   mkdir -p $destination_directory
   old_directory=$PWD
 
@@ -124,15 +124,13 @@ fi
 }
 
 
-setup_run 128 2 64 4 2 &
-setup_run 128 3 64 4 2 &
-setup_run 128 4 64 4 2 &
-setup_run 128 5 64 4 2 &
-setup_run 128 6 64 4 2 &
-setup_run 128 7 64 4 2 &
-setup_run 128 8 64 4 2 &
-
-
+setup_run 128 2 32 4 4 &
+setup_run 128 3 32 4 4 &
+setup_run 128 4 32 4 4 &
+setup_run 128 5 32 4 4 &
+setup_run 128 6 32 4 4 &
+setup_run 128 7 32 4 4 &
+setup_run 128 8 32 4 4 &
 
 
 wait
