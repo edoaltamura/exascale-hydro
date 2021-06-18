@@ -51,4 +51,11 @@ ax_nodes.set_xscale("log")
 ax_nodes.set_xlim(threads.min() / 128, threads.max() / 128)
 ax_nodes.set_xlabel("Nodes [-]")
 
+for i in range(len(threads)):
+    exponent = np.floor(np.log10(particles[i]))
+    mantissa = np.floor(particles[i] / 10 ** (exponent - 2)) / 100.
+    axes.text(threads[i], times[i] / times[0] - 0.14,
+              "$N_p = %.2f\\times10^{%d}~\\rightarrow$" % (mantissa, exponent),
+              rotation=90, va="top", fontsize=6, color='C0', ha="center", backgroundcolor='w')
+
 plt.show()
