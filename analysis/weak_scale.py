@@ -51,6 +51,7 @@ for i, log in enumerate(logs):
         np.isin(timesteps[0], common_timesteps)
     )
     times[i] = timesteps[2][is_clean].sum().to('minute')
+    print(timesteps[0][is_clean].shape)
 
     good_timesteps.append(
         list(timesteps[0][is_clean])
