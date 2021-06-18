@@ -132,4 +132,3 @@ setup_run 128 8 64 4 2 &
 
 wait
 echo "All done!"
-exit 0
