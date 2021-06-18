@@ -21,6 +21,7 @@ particles = np.empty(len(logs))
 ranks = np.empty(len(logs))
 threads = np.empty(len(logs))
 times = np.empty(len(logs))
+good_timesteps = []
 
 for i, log in enumerate(logs):
     test = Stdout(os.path.join(cwd, log))
@@ -33,10 +34,19 @@ for i, log in enumerate(logs):
     is_clean = np.logical_and(timesteps[3] == 0, timesteps[1] == timesteps[1][0])
     times[i] = timesteps[2][is_clean].sum().to('minute')
 
+    good_timesteps.append(
+        list(timesteps[0][is_clean])
+    )
+
 print('particles', particles)
 print('ranks', ranks)
 print('threads', threads)
 print('times', times)
+
+common_timesteps = list(set(good_timesteps[0]).intersection(*good_timesteps[1:]))
+common_timesteps = np.asarray(common_timesteps)
+
+print('common timesteps', common_timesteps)
 
 fig, axes = plt.subplots()
 axes.axhline(1, lw=0.5, ls='--', c='lightgrey')
