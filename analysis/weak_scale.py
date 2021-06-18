@@ -69,7 +69,7 @@ axes.set_xlabel('Cores [-]')
 axes.set_ylabel('Parallel efficiency relative to $2^3$ tiles [-]')
 axes.set_xscale('log')
 axes.set_xlim(128, 5e4)
-# axes.set_ylim(0, 1.5)
+axes.set_ylim(0, 1.5)
 
 ax_nodes = axes.twiny()
 ax_nodes.set_xscale("log")
