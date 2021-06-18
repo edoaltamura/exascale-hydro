@@ -5,6 +5,8 @@ import argparse
 from matplotlib import pyplot as plt
 from mpl_toolkits.mplot3d import Axes3D
 
+plt.style.use('../mnras.mplstyle')
+
 parser = argparse.ArgumentParser()
 parser.add_argument('-i', '--ic-file', type=str, required=True)
 parser.add_argument('-t', '--top-cells-per-tile', type=int, default=3, required=False)
@@ -84,7 +86,7 @@ print(f"{logger_info('Plotting')} Generating dot-plot of particle positions... (
 # plt.savefig(os.path.join(args.outdir, 'coordinates.png'))
 # plt.close(fig)
 
-fig = plt.figure()
+fig = plt.figure(constrained_layout=True)
 ax = fig.gca(projection='3d')
 ax.set_aspect('equal')
 print(f"{logger_info('Plotting')} Generating tiling block-diagram...")
@@ -118,7 +120,7 @@ ax.set_aspect('equal')
 print(f"{logger_info('Plotting')} Generating tiling top-level-cells diagram...")
 
 for p, s, c in zip(positions, sizes, colors):
-    plotCubeAt(pos=p, size=s, ax=ax, color=c, alpha=0.2)
+    plotCubeAt(pos=p, size=s, ax=ax, color=c, alpha=0.3)
 
 top_cells_positions = []
 top_cells_sizes = []
@@ -135,7 +137,7 @@ for i in range(int(boxsize[0]) * args.top_cells_per_tile):
                 top_cells_colors.append("white")
 
 for p, s, c in zip(top_cells_positions, top_cells_sizes, top_cells_colors):
-    plotCubeAt(pos=p, size=s, ax=ax, color=c, alpha=0.8)
+    plotCubeAt(pos=p, size=s, ax=ax, color=c, alpha=0.3)
 ax.set_xlabel('x')
 ax.set_ylabel('y')
 ax.set_zlabel('z')

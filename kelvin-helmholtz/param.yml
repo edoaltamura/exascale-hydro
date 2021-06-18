@@ -30,7 +30,7 @@ SPH:
 
 # Parameters related to the initial conditions
 InitialConditions:
-  file_name:  ./kelvin_helmholtz_3d.hdf5
+  file_name:  ../kelvin_helmholtz_3d.hdf5
   periodic:   1
   replicate:  NTILES
 

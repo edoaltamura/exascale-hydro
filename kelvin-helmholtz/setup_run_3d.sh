@@ -11,6 +11,7 @@ setup_run(){
   tiles=$2
   threads_per_tile=$3
   top_cells_per_tile=$4
+  tasks_per_node=$5
 
   # Set-up exa-scale project directories
   destination_directory=$HOME/data7/exascale-hydro
@@ -48,7 +49,6 @@ setup_run(){
   # $(( (4 + 1) / 2 )) = 2 --> int(2.5) = 2
   # $(( (5 + 1) / 2 )) = 3
   # $(( (6 + 1) / 2 )) = 3 --> int(3.5) = 3
-  tasks_per_node=2
   nodes=$(( ($tiles * $tiles * $tiles + 1) / $tasks_per_node ))
   total_top_cells=$(( $tiles * $top_cells_per_tile ))
   echo "Nodes: $nodes"
@@ -75,24 +75,23 @@ setup_run(){
 #SBATCH -J swtile_$run_name
 #SBATCH -o ./logs/log_%J.out
 #SBATCH -e ./logs/log_%J.err
-#SBATCH -p cosma7
-#SBATCH -A do006
+#SBATCH -p cosma8
+#SBATCH -A dr004
 #SBATCH --exclusive
 #SBATCH -t 1:00:00
-#SBATCH --exclude=m7448,m7449,m7450,m7451,m7452
 
 module purge
 module load cmake/3.18.1
-module load intel_comp/2018
-module load intel_mpi/2018
+module load intel_comp/2020-update2
+module load intel_mpi/2020-update2
 module load ucx/1.8.1
 module load parmetis/4.0.3-64bit
-module load parallel_hdf5
-module load fftw/3.3.8cosma7
+module load parallel_hdf5/1.12.0
+module load fftw/3.3.8epyc
 module load gsl/2.5
 
 mpirun -np $(( $tiles * $tiles * $tiles )) \
-  /cosma6/data/dp004/dc-alta2/exascale-hydro/kelvin-helmholtz-3D/swiftsim_intelmpi2018_fftwcosma7/examples/swift_mpi \
+  ../../swiftsim/examples/swift_mpi \
     --hydro \
     -v 1 \
     --pin \
@@ -113,39 +112,24 @@ EOF
 
   # Generate initial conditions
 #  python3 "$old_directory"/make_ics_3d.py -n $resolution -t $tiles -o $run_dir
-  python3 "$old_directory"/make_ics_3d.py -n $resolution -t 1 -o $run_dir
+#  python3 "$old_directory"/make_ics_3d.py -n $resolution -t 1 -o $run_dir
 
-  sbatch ./submit.slurm
+#  sbatch ./submit.slurm
   cd $old_directory
-  sleep 4
+  sleep 2
   squeue -u dc-alta2
 
 }
 
 
-setup_run 128 2 14 5 &
-setup_run 128 3 14 5 &
-setup_run 128 4 14 5 &
+setup_run 128 2 64 4 2 &
+setup_run 128 3 64 4 2 &
+setup_run 128 4 64 4 2 &
+setup_run 128 5 64 4 2 &
+setup_run 128 6 64 4 2 &
+setup_run 128 7 64 4 2 &
+setup_run 128 8 64 4 2 &
 
-setup_run 256 2 14 5 &
-setup_run 256 3 14 5 &
-setup_run 256 4 14 5 &
-
-setup_run 512 2 14 5 &
-setup_run 512 3 14 5 &
-setup_run 512 4 14 5 &
-
-#setup_run 512 6 14 5 &
-#setup_run 512 7 14 5 &
-#setup_run 512 8 14 5 &
-#setup_run 512 9 14 5 &
-#
-#setup_run 650 5 14 5 &
-#setup_run 650 6 14 5 &
-#setup_run 650 7 14 5 &
-#setup_run 650 8 14 5 &
-#setup_run 650 9 14 5 &
-#setup_run 600 9 14 5 &
 
 wait
 echo "All done!"
