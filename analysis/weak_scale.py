@@ -33,6 +33,10 @@ for i, log in enumerate(logs):
     is_clean = np.logical_and(timesteps[3] == 0, timesteps[1] == timesteps[1][0])
     times[i] = timesteps[2][is_clean].sum().to('minute')
 
+print('particles', particles)
+print('ranks', ranks)
+print('threads', threads)
+print('times', times)
 
 fig, axes = plt.subplots()
 axes.plot(threads, times / times[0])
