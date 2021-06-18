@@ -48,7 +48,7 @@ for i, log in enumerate(logs):
     is_clean = np.logical_and(
         timesteps[3] == 0,
         timesteps[1] == timesteps[1][0],
-        np.isin(timesteps[0], common_timesteps)
+        np.isin(common_timesteps, timesteps[0])
     )
     times[i] = timesteps[2][is_clean].sum().to('minute')
     print(timesteps[0][is_clean].shape)
