@@ -55,7 +55,8 @@ for i, log in enumerate(logs):
         particle_updates == particle_updates[0],
     )
     times[i] = timestep_duration[is_clean].sum().to('minute')
-    print(timestep_number[is_clean].shape)
+
+    reference_time_per_update = 1e6 * times[i] * threads[i] / particles[i]  # micro-second
 
 print('particles', particles)
 print('ranks', ranks)
@@ -75,6 +76,10 @@ ax_nodes = axes.twiny()
 ax_nodes.set_xscale("log")
 ax_nodes.set_xlim(1, 5e4 / 128)
 ax_nodes.set_xlabel("Nodes [-]")
+
+ax_partupdate = axes.twinx()
+ax_partupdate.set_ylim(0 * reference_time_per_update, 1.5 * reference_time_per_update)
+ax_partupdate.set_ylabel("Time to update one particle [$\\mu$s]", labelpad=2)
 
 for i in range(len(threads)):
     exponent = np.floor(np.log10(particles[i]))
