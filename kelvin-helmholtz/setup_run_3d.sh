@@ -111,7 +111,7 @@ EOF
 
   # Generate initial conditions
 #  python3 "$old_directory"/make_ics_3d.py -n $resolution -t $tiles -o $run_dir
-#  python3 "$old_directory"/make_ics_3d.py -n $resolution -t 1 -o $run_dir
+  python3 "$old_directory"/make_ics_3d.py -n $resolution -t 1 -o $destination_directory
 
 #  sbatch ./submit.slurm
   cd $old_directory
