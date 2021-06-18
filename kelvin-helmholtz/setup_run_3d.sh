@@ -77,7 +77,7 @@ setup_run(){
 #SBATCH -p cosma8
 #SBATCH -A dr004
 #SBATCH --exclusive
-#SBATCH -t 1:00:00
+#SBATCH -t 4:00:00
 
 module purge
 module load cmake/3.18.1
@@ -115,11 +115,9 @@ if [ ! -f "$destination_directory"/kelvin_helmholtz_3d.hdf5 ]; then
     python3 "$old_directory"/make_ics_3d.py -n $resolution -t 1 -o $destination_directory
 fi
 
-
   sbatch ./submit.slurm
   cd $old_directory
   sleep 2
-  squeue -u dc-alta2
 
 }
 
@@ -128,14 +126,21 @@ fi
 #setup_run 128 3 16 4 8 &
 #setup_run 128 4 16 4 8 &
 #setup_run 128 5 16 4 8 &
-#setup_run 128 6 16 4 8 &
-#setup_run 128 7 16 4 8 &
-#setup_run 128 8 16 4 8 &
+setup_run 128 6 16 4 8 &
+setup_run 128 7 16 4 8 &
+setup_run 128 8 16 4 8 &
+setup_run 128 9 16 4 8 &
+setup_run 128 10 16 4 8 &
+setup_run 128 11 16 4 8 &
+setup_run 128 12 16 4 8 &
+setup_run 128 13 16 4 8 &
+setup_run 128 14 16 4 8 &
 
-setup_run 128 9 32 4 4 &
-setup_run 128 10 32 4 4 &
-setup_run 128 11 32 4 4 &
+#setup_run 128 9 32 4 4 &
+#setup_run 128 10 32 4 4 &
+#setup_run 128 11 32 4 4 &
 
 
 wait
+squeue -u dc-alta2
 echo "All done!"
