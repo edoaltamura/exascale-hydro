@@ -111,9 +111,12 @@ EOF
 
   # Generate initial conditions
 #  python3 "$old_directory"/make_ics_3d.py -n $resolution -t $tiles -o $run_dir
-  python3 "$old_directory"/make_ics_3d.py -n $resolution -t 1 -o $destination_directory
+if [ ! -f "$destination_directory"/kelvin_helmholtz_3d.hdf5 ]; then
+    python3 "$old_directory"/make_ics_3d.py -n $resolution -t 1 -o $destination_directory
+fi
 
-#  sbatch ./submit.slurm
+
+  sbatch ./submit.slurm
   cd $old_directory
   sleep 2
   squeue -u dc-alta2
@@ -128,6 +131,8 @@ setup_run 128 5 64 4 2 &
 setup_run 128 6 64 4 2 &
 setup_run 128 7 64 4 2 &
 setup_run 128 8 64 4 2 &
+
+
 
 
 wait
