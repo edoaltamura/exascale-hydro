@@ -132,12 +132,10 @@ fi
 #setup_run 128 7 16 4 8 &
 #setup_run 128 8 16 4 8 &
 
-setup_run 128 9 16 4 8 &
-setup_run 128 10 16 4 8 &
-setup_run 128 11 16 4 8 &
-setup_run 128 12 16 4 8 &
-setup_run 128 13 16 4 8 &
-setup_run 128 14 16 4 8 &
+setup_run 128 9 32 4 4 &
+setup_run 128 10 32 4 4 &
+setup_run 128 11 32 4 4 &
+
 
 wait
 echo "All done!"
