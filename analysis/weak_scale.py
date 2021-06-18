@@ -54,9 +54,9 @@ for i, log in enumerate(logs):
         timestep_properties == 0,
         particle_updates == particle_updates[0],
     )
-    times[i] = timestep_duration[is_clean].sum().to('minute')
+    times[i] = timestep_duration[is_clean].sum().to('microsecond')
 
-    reference_time_per_update = 1e6 * times[i] * threads[i] / particles[i]  # micro-second
+    reference_time_per_update = times[i] * threads[i] / particles[i]  # micro-second
 
 print('particles', particles)
 print('ranks', ranks)
