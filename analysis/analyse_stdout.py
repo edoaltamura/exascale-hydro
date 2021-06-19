@@ -86,11 +86,10 @@ class Stdout:
                 start_integration = True
                 continue
 
-            if start_integration and line.startswith(' '):
-                line = line.strip().split()
+            if start_integration and line.startswith(' ') and len(line.strip().split()) == 0:
+                break
 
-                if len(line) == 0 and len(timestep_number) > 0:
-                    break
+            if start_integration and line.startswith(' '):
 
                 try:
 
@@ -115,7 +114,7 @@ class Stdout:
                 except (ValueError, IndexError) as err:
                     print((
                         f"Error found in file: {self.stdout_file_path}\n"
-                        f"Error found in line {line_number}:\t{lines[line_number]}"
+                        f"Error found in line {line_number}: {lines[line_number]}"
                     ))
                     raise err
 
