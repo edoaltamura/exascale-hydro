@@ -32,7 +32,7 @@ def get_stdout_path(
     return latest_file
 
 
-logs = [get_stdout_path(4, threads_per_node, t, threads_per_node / 4) for t in range(2, 9)]
+logs = [get_stdout_path(8, threads_per_node, t, threads_per_node / 8) for t in range(2, 9)]
 
 good_timesteps = []
 for i, log in enumerate(logs):
