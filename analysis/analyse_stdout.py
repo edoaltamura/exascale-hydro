@@ -85,7 +85,7 @@ class Stdout:
                 start_integration = True
                 continue
 
-            if start_integration and not line.startswith('['):
+            if start_integration and line.startswith(' '):
                 line = line.strip().split()
 
                 try:
