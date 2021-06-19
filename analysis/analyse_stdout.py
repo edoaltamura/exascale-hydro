@@ -128,11 +128,11 @@ class Stdout:
                         ))
                         raise err
 
-        max_timestep = timestep_number[-1]
-        assert len(timestep_number) == max_timestep + 1
-        assert len(particle_updates) == max_timestep + 1
-        assert len(timestep_duration) == max_timestep + 1
-        assert len(timestep_properties) == max_timestep + 1
+        # max_timestep = timestep_number[-1]
+        # assert len(timestep_number) == max_timestep + 1
+        # assert len(particle_updates) == max_timestep + 1
+        # assert len(timestep_duration) == max_timestep + 1
+        # assert len(timestep_properties) == max_timestep + 1
 
         return timestep_number, particle_updates, unyt_array(timestep_duration, 'ms'), timestep_properties
 
