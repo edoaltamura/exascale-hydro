@@ -114,7 +114,8 @@ class Stdout:
                 except (ValueError, IndexError) as err:
                     print((
                         f"Error found in file: {self.stdout_file_path}\n"
-                        f"Error found in line {line_number}: {lines[line_number]}"
+                        f"Error found in line {line_number}: {lines[line_number]}\n"
+                        f"Split line: {line}"
                     ))
                     raise err
 
