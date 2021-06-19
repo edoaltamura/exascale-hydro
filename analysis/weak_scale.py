@@ -33,7 +33,7 @@ def get_stdout_path(
     return latest_file
 
 
-logs = [get_stdout_path(8, threads_per_node, t, threads_per_node / 8) for t in range(2, 12)]
+logs = [get_stdout_path(8, threads_per_node, t, threads_per_node / 8) for t in range(2, 15)]
 
 good_timesteps = []
 no_clean_steps = []
