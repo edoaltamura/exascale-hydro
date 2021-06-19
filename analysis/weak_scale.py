@@ -100,7 +100,13 @@ print('times_mean', times_mean)
 
 fig, axes = plt.subplots()
 axes.axhline(1, lw=0.5, ls='--', c='lightgrey')
-axes.errorbar(threads, times_mean / times_mean[0], yerr=times_std / times_mean[0], lw=0.5, marker='o', markersize=3)
+axes.errorbar(
+    threads,
+    times_mean / times_mean[0],
+    yerr=times_std / times_mean[0],
+    lw=0.5, marker='o', markersize=2,
+    label=''
+)
 axes.set_xlabel('Cores [-]')
 axes.set_ylabel('Parallel efficiency relative to $2^3$ tiles [-]')
 axes.set_xscale('log')

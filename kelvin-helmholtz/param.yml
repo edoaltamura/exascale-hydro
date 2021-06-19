@@ -9,7 +9,7 @@ InternalUnitSystem:
 # Parameters governing the time integration
 TimeIntegration:
   time_begin: 0.0   # The starting time of the simulation (in internal units).
-  time_end:   10.4   # The end time of the simulation (in internal units).
+  time_end:   100.4   # The end time of the simulation (in internal units).
   dt_min:     1e-6  # The minimal time-step size of the simulation (in internal units).
   dt_max:     1e-2  # The maximal time-step size of the simulation (in internal units).
 
@@ -33,6 +33,10 @@ InitialConditions:
   file_name:  ../kelvin_helmholtz_3d.hdf5
   periodic:   1
   replicate:  NTILES
+
+DomainDecomposition:
+  initial_type: grid
+  initial_grid: [NTILES, NTILES, NTILES]
 
 Scheduler:
   max_top_level_cells:    MAX_TOP_CELLS

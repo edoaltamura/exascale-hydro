@@ -77,17 +77,18 @@ setup_run(){
 #SBATCH -p cosma8
 #SBATCH -A dr004
 #SBATCH --exclusive
-#SBATCH -t 4:00:00
+#SBATCH -t 3:00:00
 
 module purge
 module load cmake/3.18.1
-module load intel_comp/2020-update2
-module load intel_mpi/2020-update2
+module load intel_comp/2021.1.0
+module load intel_mpi/2018
 module load ucx/1.8.1
+module load fftw/3.3.9epyc
+module load parallel_hdf5/1.10.6
 module load parmetis/4.0.3-64bit
-module load parallel_hdf5/1.12.0
-module load fftw/3.3.8epyc
 module load gsl/2.5
+
 
 mpirun -np $(( $tiles * $tiles * $tiles )) \
   ../../swiftsim/examples/swift_mpi \
@@ -105,15 +106,15 @@ EOF
   # Don't dump snapshots
   cat > output_list.txt << EOF
 # Time
-8
-9
+89
+90
 EOF
 
   # Generate initial conditions
-#  python3 "$old_directory"/make_ics_3d.py -n $resolution -t $tiles -o $run_dir
-if [ ! -f "$destination_directory"/kelvin_helmholtz_3d.hdf5 ]; then
-    python3 "$old_directory"/make_ics_3d.py -n $resolution -t 1 -o $destination_directory
-fi
+  if [ ! -f "$destination_directory"/kelvin_helmholtz_3d.hdf5 ]; then
+      #  python3 "$old_directory"/make_ics_3d.py -n $resolution -t $tiles -o $run_dir
+      python3 "$old_directory"/make_ics_3d.py -n $resolution -t 1 -o $destination_directory
+  fi
 
   sbatch ./submit.slurm
   cd $old_directory
@@ -121,13 +122,38 @@ fi
 
 }
 
+setup_run 256 2 64 4 2 &
+setup_run 256 3 64 4 2 &
+setup_run 256 4 64 4 2 &
+setup_run 256 5 64 4 2 &
+setup_run 256 6 64 4 2 &
+setup_run 256 7 64 4 2 &
+setup_run 256 8 64 4 2 &
 
-#setup_run 128 2 16 4 8 &
-#setup_run 128 3 16 4 8 &
-setup_run 128 7 64 4 2 &
-setup_run 128 8 64 4 2 &
+setup_run 256 2 32 4 4 &
+setup_run 256 3 32 4 4 &
+setup_run 256 4 32 4 4 &
+setup_run 256 5 32 4 4 &
+setup_run 256 6 32 4 4 &
+setup_run 256 7 32 4 4 &
+setup_run 256 8 32 4 4 &
+setup_run 256 9 32 4 4 &
+setup_run 256 10 32 4 4 &
+setup_run 256 11 32 4 4 &
 
-
+setup_run 256 2 16 4 8 &
+setup_run 256 3 16 4 8 &
+setup_run 256 4 16 4 8 &
+setup_run 256 5 16 4 8 &
+setup_run 256 6 16 4 8 &
+setup_run 256 7 16 4 8 &
+setup_run 256 8 16 4 8 &
+setup_run 256 9 16 4 8 &
+setup_run 256 10 16 4 8 &
+setup_run 256 11 16 4 8 &
+setup_run 256 12 16 4 8 &
+setup_run 256 13 16 4 8 &
+setup_run 256 14 16 4 8 &
 
 wait
 squeue -u dc-alta2
