@@ -11,6 +11,11 @@ threads_per_node = 128
 def get_stdout_path(
         ranks_per_node: int, particle_load: int, tiling_order: int, threads_per_rank: int
 ):
+    ranks_per_node = int(ranks_per_node)
+    particle_load = int(particle_load)
+    tiling_order = int(tiling_order)
+    threads_per_rank = int(threads_per_rank)
+
     log_directory = os.path.join(
         cwd,
         f'{ranks_per_node}ranks_node',
