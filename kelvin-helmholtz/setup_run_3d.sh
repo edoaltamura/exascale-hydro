@@ -61,7 +61,7 @@ setup_run(){
 
   # Edit mutable parameters in the SWIFT param.yml
   sed -i "s/MAX_TOP_CELLS/$total_top_cells/" ./param.yml
-  sed -i "s/NTILES/$tiles/" ./param.yml
+  sed -i "s/NTILES/$tiles/g" ./param.yml
 #  sed -i "s/file_name:  .\/kelvin_helmholtz_3d.hdf5/file_name:  ..\/..\/with_intelmpi\/$run_name\/kelvin_helmholtz_3d.hdf5/" ./param.yml
 
   # Edit mutable parameters in the submit file
