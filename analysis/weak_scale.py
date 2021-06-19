@@ -32,7 +32,7 @@ def get_stdout_path(
     return latest_file
 
 
-logs = [get_stdout_path(8, threads_per_node, t, threads_per_node / 8) for t in range(2, 14)]
+logs = [get_stdout_path(8, threads_per_node, t, threads_per_node / 8) for t in range(2, 12)]
 
 good_timesteps = []
 no_clean_steps = []
@@ -99,12 +99,12 @@ axes.plot(threads, times_mean / times_mean[0], lw=0.5)
 axes.set_xlabel('Cores [-]')
 axes.set_ylabel('Parallel efficiency relative to $2^3$ tiles [-]')
 axes.set_xscale('log')
-axes.set_xlim(128, 5e4)
+axes.set_xlim(threads_per_node, 5e4)
 axes.set_ylim(0, 1.5)
 
 ax_nodes = axes.twiny()
 ax_nodes.set_xscale("log")
-ax_nodes.set_xlim(1, 5e4 / 128)
+ax_nodes.set_xlim(1, 5e4 / threads_per_node)
 ax_nodes.set_xlabel("Nodes [-]")
 
 ax_partupdate = axes.twinx()
