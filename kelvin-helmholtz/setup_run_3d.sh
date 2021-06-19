@@ -80,8 +80,8 @@ setup_run(){
 #SBATCH -t 3:00:00
 
 module purge
-module load cmake/3.18.1
 module load intel_comp/2021.1.0
+module load compiler
 module load intel_mpi/2018
 module load ucx/1.8.1
 module load fftw/3.3.9epyc
