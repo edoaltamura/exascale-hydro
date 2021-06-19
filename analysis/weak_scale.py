@@ -8,6 +8,7 @@ plt.style.use('../mnras.mplstyle')
 cwd = '/cosma8/data/dr004/dc-alta2'
 threads_per_node = 128
 
+
 def get_stdout_path(
         ranks_per_node: int, particle_load: int, tiling_order: int, threads_per_rank: int
 ):
@@ -41,15 +42,15 @@ for i, log in enumerate(logs):
     test = Stdout(os.path.join(cwd, log))
     timestep_number, particle_updates, timestep_duration, timestep_properties = test.analyse_stdout()
 
-    is_clean = np.logical_and(
-        timestep_properties == 0,
-        particle_updates == particle_updates[0]
-    )
-
     if len(timestep_number[is_clean]) > 0:
+        is_clean = np.logical_and(
+            timestep_properties == 0,
+            particle_updates == particle_updates[0]
+        )
         good_timesteps.append(
             list(timestep_number[is_clean])
         )
+
     else:
         no_clean_steps.append(log)
 
