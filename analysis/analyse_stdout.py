@@ -115,24 +115,23 @@ class Stdout:
 
                 except (ValueError, IndexError) as err:
 
-                    print(f"Found {len(timestep_number)} timesteps in stdout:\n{timestep_number}")
+                    print((
+                        f"Found {len(timestep_number)} timesteps in stdout:\n{timestep_number}\n"
+                        f"Error found in file: {self.stdout_file_path}\n"
+                        f"Error found in line {line_number}: {lines[line_number]}\n"
+                        f"Split line: {line}"
+                    ))
 
                     if len(timestep_properties) > 0:
                         break
-
                     else:
-                        print((
-                            f"Error found in file: {self.stdout_file_path}\n"
-                            f"Error found in line {line_number}: {lines[line_number]}\n"
-                            f"Split line: {line}"
-                        ))
                         raise err
 
-        # max_timestep = timestep_number[-1]
-        # assert len(timestep_number) == max_timestep + 1
-        # assert len(particle_updates) == max_timestep + 1
-        # assert len(timestep_duration) == max_timestep + 1
-        # assert len(timestep_properties) == max_timestep + 1
+        max_timestep = timestep_number[-1]
+        assert len(timestep_number) == max_timestep + 1
+        assert len(particle_updates) == max_timestep + 1
+        assert len(timestep_duration) == max_timestep + 1
+        assert len(timestep_properties) == max_timestep + 1
 
         return timestep_number, particle_updates, unyt_array(timestep_duration, 'ms'), timestep_properties
 
