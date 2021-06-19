@@ -89,6 +89,9 @@ class Stdout:
             if start_integration and line.startswith(' '):
                 line = line.strip().split()
 
+                if len(line) == 0 and len(timestep_number) > 0:
+                    break
+
                 try:
 
                     # Split time-step number and duration
@@ -110,7 +113,10 @@ class Stdout:
                     )
 
                 except (ValueError, IndexError) as err:
-                    print(f"File: {self.stdout_file_path}\nError found in line {line_number}:\n", line)
+                    print((
+                        f"Error found in file: {self.stdout_file_path}\n"
+                        f"Error found in line {line_number}:\t{lines[line_number]}"
+                    ))
                     raise err
 
         max_timestep = timestep_number[-1]
