@@ -84,7 +84,7 @@ class Stdout:
             if line.startswith('#   Step'):
                 start_integration = True
 
-            if start_integration and line.startswith(' '):
+            if start_integration and not line.startswith('['):
                 line = line.strip().split()
 
                 try:
