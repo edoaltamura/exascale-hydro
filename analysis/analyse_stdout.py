@@ -91,6 +91,8 @@ class Stdout:
 
             if start_integration and line.startswith(' '):
 
+                line = line.strip().split()
+
                 try:
 
                     # Split time-step number and duration
