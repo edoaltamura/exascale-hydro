@@ -35,6 +35,7 @@ def get_stdout_path(
 logs = [get_stdout_path(8, threads_per_node, t, threads_per_node / 8) for t in range(2, 9)]
 
 good_timesteps = []
+no_clean_steps = []
 for i, log in enumerate(logs):
     print(log)
     test = Stdout(os.path.join(cwd, log))
@@ -45,18 +46,26 @@ for i, log in enumerate(logs):
         particle_updates == particle_updates[0]
     )
     print(timestep_number[is_clean])
-    good_timesteps.append(
-        list(timestep_number[is_clean])
-    )
+
+    if len(timestep_number[is_clean]) > 0:
+        good_timesteps.append(
+            list(timestep_number[is_clean])
+        )
+    else:
+        no_clean_steps.append(log)
 
 common_timesteps = list(set(good_timesteps[0]).intersection(*good_timesteps[1:]))
 common_timesteps = np.asarray(common_timesteps)
 print('common timesteps', common_timesteps)
 
+print('runs with no clean timesteps:', no_clean_steps)
+logs = [log for log in logs if log not in no_clean_steps]
+
 particles = np.empty(len(logs))
 ranks = np.empty(len(logs))
 threads = np.empty(len(logs))
-times = np.empty(len(logs))
+times_mean = np.empty(len(logs))
+times_std = np.empty(len(logs))
 time_per_update = np.empty(len(logs))
 
 for i, log in enumerate(logs):
@@ -76,18 +85,18 @@ for i, log in enumerate(logs):
         timestep_properties == 0,
         particle_updates == particle_updates[0],
     )
-    times[i] = timestep_duration[is_clean].sum().to('microsecond')
-
-    time_per_update[i] = times[i] * threads[i] / particles[i]  # micro-second
+    times_mean[i] = timestep_duration[is_clean].mean().to('microsecond')
+    times_std[i] = timestep_duration[is_clean].std().to('microsecond')
+    time_per_update[i] = times_mean[i] * threads[i] / particles[i]  # micro-second
 
 print('particles', particles)
 print('ranks', ranks)
 print('threads', threads)
-print('times', times)
+print('times_mean', times_mean)
 
 fig, axes = plt.subplots()
 axes.axhline(1, lw=0.5, ls='--', c='lightgrey')
-axes.plot(threads, times / times[0], lw=0.5)
+axes.plot(threads, times_mean / times_mean[0], lw=0.5)
 axes.set_xlabel('Cores [-]')
 axes.set_ylabel('Parallel efficiency relative to $2^3$ tiles [-]')
 axes.set_xscale('log')
@@ -106,7 +115,7 @@ ax_partupdate.set_ylabel("Time to update one particle [$\\mu$s]", labelpad=4)
 for i in range(len(threads)):
     exponent = np.floor(np.log10(particles[i]))
     mantissa = np.floor(particles[i] / 10 ** (exponent - 2)) / 100.
-    axes.text(threads[i], times[i] / times[0] - 0.14,
+    axes.text(threads[i], times_mean[i] / times_mean[0] - 0.14,
               "$N_p = %.2f\\times10^{%d}~\\rightarrow$" % (mantissa, exponent),
               rotation=90, va="top", fontsize=6, color='C0', ha="center", backgroundcolor='w')
 
