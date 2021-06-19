@@ -27,7 +27,7 @@ def get_stdout_path(
     return latest_file
 
 
-logs = [get_stdout_path(4, 128, t, 32) for t in range(2, 9)]
+logs = [get_stdout_path(8, 128, t, 16) for t in range(2, 9)]
 
 particles = np.empty(len(logs))
 ranks = np.empty(len(logs))
