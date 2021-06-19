@@ -52,6 +52,7 @@ particles = np.empty(len(logs))
 ranks = np.empty(len(logs))
 threads = np.empty(len(logs))
 times = np.empty(len(logs))
+time_per_update = np.empty(len(logs))
 
 for i, log in enumerate(logs):
     test = Stdout(os.path.join(cwd, log))
@@ -72,7 +73,7 @@ for i, log in enumerate(logs):
     )
     times[i] = timestep_duration[is_clean].sum().to('microsecond')
 
-    reference_time_per_update = times[i] * threads[i] / particles[i]  # micro-second
+    time_per_update[i] = times[i] * threads[i] / particles[i]  # micro-second
 
 print('particles', particles)
 print('ranks', ranks)
@@ -94,7 +95,7 @@ ax_nodes.set_xlim(1, 5e4 / 128)
 ax_nodes.set_xlabel("Nodes [-]")
 
 ax_partupdate = axes.twinx()
-ax_partupdate.set_ylim(0 * reference_time_per_update, 1.5 * reference_time_per_update)
+ax_partupdate.set_ylim(0 * time_per_update.mean(), 1.5 * time_per_update.mean())
 ax_partupdate.set_ylabel("Time to update one particle [$\\mu$s]", labelpad=4)
 
 for i in range(len(threads)):
