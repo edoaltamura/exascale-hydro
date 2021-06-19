@@ -126,7 +126,7 @@ class Stdout:
                         break
                     else:
                         raise err
-
+        print(timestep_number)
         max_timestep = timestep_number[-1]
         assert len(timestep_number) == max_timestep + 1
         assert len(particle_updates) == max_timestep + 1
