@@ -23,7 +23,6 @@ def get_stdout_path(
         log_stdouts,
         key=os.path.getctime
     )
-    print(log_stdouts, latest_file)
 
     return latest_file
 
