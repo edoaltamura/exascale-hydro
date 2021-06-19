@@ -78,8 +78,13 @@ class Stdout:
         timestep_duration = np.empty(0, dtype=float)
         timestep_properties = np.empty(0, dtype=int)
 
+        start_integration = False
         for line in lines:
-            if line.startswith(' '):
+
+            if line.startswith('#   Step'):
+                start_integration = True
+
+            if start_integration and line.startswith(' '):
                 line = line.strip().split()
 
                 # Split time-step number and duration
