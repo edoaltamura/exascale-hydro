@@ -42,14 +42,18 @@ for i, log in enumerate(logs):
     test = Stdout(os.path.join(cwd, log))
     timestep_number, particle_updates, timestep_duration, timestep_properties = test.analyse_stdout()
 
-    if len(timestep_number[is_clean]) > 0:
+    if len(timestep_number) > 0:
         is_clean = np.logical_and(
             timestep_properties == 0,
             particle_updates == particle_updates[0]
         )
-        good_timesteps.append(
-            list(timestep_number[is_clean])
-        )
+
+        if len(timestep_number[is_clean]) > 0:
+            good_timesteps.append(
+                list(timestep_number[is_clean])
+            )
+        else:
+            no_clean_steps.append(log)
 
     else:
         no_clean_steps.append(log)
