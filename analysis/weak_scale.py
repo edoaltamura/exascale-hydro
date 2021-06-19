@@ -7,25 +7,28 @@ plt.style.use('../mnras.mplstyle')
 
 cwd = '/cosma8/data/dr004/dc-alta2'
 
-logs = [
-    '2ranks_node/kh3d_N128_T2_P64_C4/logs/log_3494228.out',
-    '2ranks_node/kh3d_N128_T3_P64_C4/logs/log_3494229.out',
-    '2ranks_node/kh3d_N128_T4_P64_C4/logs/log_3494230.out',
-    '2ranks_node/kh3d_N128_T5_P64_C4/logs/log_3494231.out',
-    '2ranks_node/kh3d_N128_T6_P64_C4/logs/log_3494233.out',
-    '2ranks_node/kh3d_N128_T7_P64_C4/logs/log_3494232.out',
-    '2ranks_node/kh3d_N128_T8_P64_C4/logs/log_3494234.out',
-]
 
-log_directory = os.path.join(cwd, '2ranks_node', 'kh3d_N128_T2_P64_C4', 'logs')
-log_stdouts = [file for file in os.listdir(log_directory) if file.endswith('.out')]
-log_stdouts = [os.path.join(log_directory, file) for file in log_stdouts]
-latest_file = max(
-    log_stdouts,
-    key=os.path.getctime
-)
-print(log_stdouts, latest_file)
+def get_stdout_path(
+        ranks_per_node: int, particle_load: int, tiling_order: int, threads_per_rank: int
+):
+    log_directory = os.path.join(
+        cwd,
+        f'{ranks_per_node}ranks_node',
+        f'kh3d_N{particle_load}_T{tiling_order}_P{threads_per_rank}_C4',
+        'logs'
+    )
+    log_stdouts = [file for file in os.listdir(log_directory) if file.endswith('.out')]
+    log_stdouts = [os.path.join(log_directory, file) for file in log_stdouts]
+    latest_file = max(
+        log_stdouts,
+        key=os.path.getctime
+    )
+    print(log_stdouts, latest_file)
 
+    return latest_file
+
+
+logs = [get_stdout_path(2, 128, t, 64) for t in range(2, 8)]
 
 particles = np.empty(len(logs))
 ranks = np.empty(len(logs))
@@ -34,6 +37,7 @@ times = np.empty(len(logs))
 good_timesteps = []
 
 for i, log in enumerate(logs):
+    print(log)
     test = Stdout(os.path.join(cwd, log))
     timesteps = test.analyse_stdout()
     is_clean = np.logical_and(timesteps[3] == 0, timesteps[1] == timesteps[1][0])
