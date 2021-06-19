@@ -115,8 +115,9 @@ class Stdout:
 
                 except (ValueError, IndexError) as err:
 
+                    print(f"Found {len(timestep_properties)} timesteps in stdout.")
+
                     if len(timestep_properties) > 0:
-                        print(f"Found {len(timestep_properties)} timesteps in stdout.")
                         break
 
                     else:
