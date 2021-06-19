@@ -79,7 +79,7 @@ class Stdout:
         timestep_properties = np.empty(0, dtype=int)
 
         start_integration = False
-        for line in lines:
+        for line_number, line in enumerate(lines):
 
             if line.startswith('#   Step'):
                 start_integration = True
@@ -109,7 +109,7 @@ class Stdout:
                     )
 
                 except (ValueError, IndexError) as err:
-                    print(line)
+                    print(line_number, line)
                     raise err
 
         max_timestep = timestep_number[-1]
