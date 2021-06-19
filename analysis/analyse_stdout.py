@@ -126,12 +126,13 @@ class Stdout:
                         break
                     else:
                         raise err
-        print(timestep_number)
-        max_timestep = timestep_number[-1]
-        assert len(timestep_number) == max_timestep + 1
-        assert len(particle_updates) == max_timestep + 1
-        assert len(timestep_duration) == max_timestep + 1
-        assert len(timestep_properties) == max_timestep + 1
+
+        if len(timestep_number) > 0:
+            max_timestep = timestep_number[-1]
+            assert len(timestep_number) == max_timestep + 1
+            assert len(particle_updates) == max_timestep + 1
+            assert len(timestep_duration) == max_timestep + 1
+            assert len(timestep_properties) == max_timestep + 1
 
         return timestep_number, particle_updates, unyt_array(timestep_duration, 'ms'), timestep_properties
 
