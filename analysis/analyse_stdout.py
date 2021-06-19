@@ -108,7 +108,7 @@ class Stdout:
                         int(line[13])
                     )
 
-                except ValueError as err:
+                except (ValueError, IndexError) as err:
                     print(line)
                     raise err
 
