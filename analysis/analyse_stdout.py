@@ -87,23 +87,29 @@ class Stdout:
             if start_integration and line.startswith(' '):
                 line = line.strip().split()
 
-                # Split time-step number and duration
-                timestep_number = np.append(
-                    timestep_number,
-                    int(line[0])
-                )
-                particle_updates = np.append(
-                    particle_updates,
-                    int(line[7])
-                )
-                timestep_duration = np.append(
-                    timestep_duration,
-                    float(line[12])
-                )
-                timestep_properties = np.append(
-                    timestep_properties,
-                    int(line[13])
-                )
+                try:
+
+                    # Split time-step number and duration
+                    timestep_number = np.append(
+                        timestep_number,
+                        int(line[0])
+                    )
+                    particle_updates = np.append(
+                        particle_updates,
+                        int(line[7])
+                    )
+                    timestep_duration = np.append(
+                        timestep_duration,
+                        float(line[12])
+                    )
+                    timestep_properties = np.append(
+                        timestep_properties,
+                        int(line[13])
+                    )
+
+                except ValueError as err:
+                    print(line)
+                    raise err
 
         max_timestep = timestep_number[-1]
         assert len(timestep_number) == max_timestep + 1
