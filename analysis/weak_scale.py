@@ -17,6 +17,16 @@ logs = [
     '2ranks_node/kh3d_N128_T8_P64_C4/logs/log_3494234.out',
 ]
 
+log_directory = os.path.join(cwd, '2ranks_node', 'kh3d_N128_T2_P64_C4', 'logs')
+log_stdouts = [file for file in os.listdir(log_directory) if file.endswith('.out')]
+log_stdouts = [os.path.join(log_directory, file) for file in log_stdouts]
+latest_file = max(
+    log_stdouts,
+    key=os.path.getctime
+)
+print(log_stdouts, latest_file)
+
+
 particles = np.empty(len(logs))
 ranks = np.empty(len(logs))
 threads = np.empty(len(logs))
