@@ -29,26 +29,29 @@ def get_stdout_path(
 
 logs = [get_stdout_path(2, 128, t, 64) for t in range(2, 9)]
 
-particles = np.empty(len(logs))
-ranks = np.empty(len(logs))
-threads = np.empty(len(logs))
-times = np.empty(len(logs))
 good_timesteps = []
-
 for i, log in enumerate(logs):
     print(log)
     test = Stdout(os.path.join(cwd, log))
-    timesteps = test.analyse_stdout()
-    is_clean = np.logical_and(timesteps[3] == 0, timesteps[1] == timesteps[1][0])
+    timestep_number, particle_updates, timestep_duration, timestep_properties = test.analyse_stdout()
 
+    is_clean = np.logical_and(
+        timestep_properties == 0,
+        particle_updates == particle_updates[0]
+    )
+    print(timestep_number[is_clean])
     good_timesteps.append(
-        list(timesteps[0][is_clean])
+        list(timestep_number[is_clean])
     )
 
 common_timesteps = list(set(good_timesteps[0]).intersection(*good_timesteps[1:]))
 common_timesteps = np.asarray(common_timesteps)
-
 print('common timesteps', common_timesteps)
+
+particles = np.empty(len(logs))
+ranks = np.empty(len(logs))
+threads = np.empty(len(logs))
+times = np.empty(len(logs))
 
 for i, log in enumerate(logs):
     test = Stdout(os.path.join(cwd, log))
