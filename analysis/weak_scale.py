@@ -6,7 +6,8 @@ from analyse_stdout import Stdout
 plt.style.use('../mnras.mplstyle')
 
 cwd = '/cosma8/data/dr004/dc-alta2'
-
+threads_per_node = 128
+ranks_per_node = 4
 
 def get_stdout_path(
         ranks_per_node: int, particle_load: int, tiling_order: int, threads_per_rank: int
@@ -27,7 +28,7 @@ def get_stdout_path(
     return latest_file
 
 
-logs = [get_stdout_path(2, 128, t, 64) for t in range(2, 9)]
+logs = [get_stdout_path(ranks_per_node, threads_per_node, t, threads_per_node / ranks_per_node) for t in range(2, 9)]
 
 good_timesteps = []
 for i, log in enumerate(logs):
@@ -95,7 +96,7 @@ ax_nodes.set_xlim(1, 5e4 / 128)
 ax_nodes.set_xlabel("Nodes [-]")
 
 ax_partupdate = axes.twinx()
-ax_partupdate.set_ylim(0 * time_per_update.mean(), 1.5 * time_per_update.mean())
+ax_partupdate.set_ylim(0 * np.median(time_per_update), 1.5 * np.median(time_per_update))
 ax_partupdate.set_ylabel("Time to update one particle [$\\mu$s]", labelpad=4)
 
 for i in range(len(threads)):
