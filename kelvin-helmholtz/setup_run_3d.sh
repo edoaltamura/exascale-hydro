@@ -122,38 +122,38 @@ EOF
 
 }
 
-setup_run 256 2 64 4 2 &
-setup_run 256 3 64 4 2 &
-setup_run 256 4 64 4 2 &
-setup_run 256 5 64 4 2 &
-setup_run 256 6 64 4 2 &
-setup_run 256 7 64 4 2 &
-setup_run 256 8 64 4 2 &
+setup_run 256 2 64 4 2
+setup_run 256 3 64 4 2
+setup_run 256 4 64 4 2
+setup_run 256 5 64 4 2
+setup_run 256 6 64 4 2
+setup_run 256 7 64 4 2
+setup_run 256 8 64 4 2
 
-setup_run 256 2 32 4 4 &
-setup_run 256 3 32 4 4 &
-setup_run 256 4 32 4 4 &
-setup_run 256 5 32 4 4 &
-setup_run 256 6 32 4 4 &
-setup_run 256 7 32 4 4 &
-setup_run 256 8 32 4 4 &
-setup_run 256 9 32 4 4 &
-setup_run 256 10 32 4 4 &
-setup_run 256 11 32 4 4 &
+setup_run 256 2 32 4 4
+setup_run 256 3 32 4 4
+setup_run 256 4 32 4 4
+setup_run 256 5 32 4 4
+setup_run 256 6 32 4 4
+setup_run 256 7 32 4 4
+setup_run 256 8 32 4 4
+setup_run 256 9 32 4 4
+setup_run 256 10 32 4 4
+setup_run 256 11 32 4 4
 
-setup_run 256 2 16 4 8 &
-setup_run 256 3 16 4 8 &
-setup_run 256 4 16 4 8 &
-setup_run 256 5 16 4 8 &
-setup_run 256 6 16 4 8 &
-setup_run 256 7 16 4 8 &
-setup_run 256 8 16 4 8 &
-setup_run 256 9 16 4 8 &
-setup_run 256 10 16 4 8 &
-setup_run 256 11 16 4 8 &
-setup_run 256 12 16 4 8 &
-setup_run 256 13 16 4 8 &
-setup_run 256 14 16 4 8 &
+setup_run 256 2 16 4 8
+setup_run 256 3 16 4 8
+setup_run 256 4 16 4 8
+setup_run 256 5 16 4 8
+setup_run 256 6 16 4 8
+setup_run 256 7 16 4 8
+setup_run 256 8 16 4 8
+setup_run 256 9 16 4 8
+setup_run 256 10 16 4 8
+setup_run 256 11 16 4 8
+setup_run 256 12 16 4 8
+setup_run 256 13 16 4 8
+setup_run 256 14 16 4 8
 
 wait
 squeue -u dc-alta2
