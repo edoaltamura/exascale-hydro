@@ -45,7 +45,6 @@ for i, log in enumerate(logs):
         timestep_properties == 0,
         particle_updates == particle_updates[0]
     )
-    print(timestep_number[is_clean])
 
     if len(timestep_number[is_clean]) > 0:
         good_timesteps.append(
