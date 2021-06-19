@@ -114,12 +114,18 @@ class Stdout:
                     )
 
                 except (ValueError, IndexError) as err:
-                    print((
-                        f"Error found in file: {self.stdout_file_path}\n"
-                        f"Error found in line {line_number}: {lines[line_number]}\n"
-                        f"Split line: {line}"
-                    ))
-                    raise err
+
+                    if len(timestep_properties) > 0:
+                        print(f"Found {len(timestep_properties)} timesteps in stdout.")
+                        break
+
+                    else:
+                        print((
+                            f"Error found in file: {self.stdout_file_path}\n"
+                            f"Error found in line {line_number}: {lines[line_number]}\n"
+                            f"Split line: {line}"
+                        ))
+                        raise err
 
         max_timestep = timestep_number[-1]
         assert len(timestep_number) == max_timestep + 1
