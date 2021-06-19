@@ -11,6 +11,7 @@ float_match = re.compile('\d+(\.\d+)?')
 class Stdout:
     def __init__(self, stdout_file_path: str):
         assert isfile(stdout_file_path), f"File does not exist: {stdout_file_path}"
+        self.stdout_file_path = stdout_file_path
         with open(stdout_file_path, 'r') as file_handle:
             self.file_lines = file_handle.readlines()
 
@@ -109,7 +110,7 @@ class Stdout:
                     )
 
                 except (ValueError, IndexError) as err:
-                    print(line_number, line)
+                    print(f"File: {self.stdout_file_path}\nError found in line {line_number}:\n", line)
                     raise err
 
         max_timestep = timestep_number[-1]
