@@ -149,5 +149,5 @@ for __ranks_per_node in [2, 4, 8]:
                 rotation=90, va="top", fontsize=4, color='C0', ha="center", backgroundcolor='none'
             )
 
-    plt.legend(loc="lower left")
+axes.legend(loc="lower left")
 plt.show()
