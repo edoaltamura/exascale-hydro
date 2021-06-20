@@ -122,12 +122,12 @@ axes.errorbar(
 axes.set_xlabel('Cores [-]')
 axes.set_ylabel('Parallel efficiency relative to $2^3$ tiles [-]')
 axes.set_xscale('log')
-axes.set_xlim(threads_per_node / 2, 1e6)
+axes.set_xlim(threads_per_node / 2, 5e5)
 axes.set_ylim(0, 1.5)
 
 ax_nodes = axes.twiny()
 ax_nodes.set_xscale("log")
-ax_nodes.set_xlim(0.5, 1e6 / threads_per_node)
+ax_nodes.set_xlim(0.5, 5e5 / threads_per_node)
 ax_nodes.set_xlabel("Nodes [-]")
 
 ax_partupdate = axes.twinx()
@@ -139,6 +139,6 @@ for i in range(len(threads)):
     mantissa = np.floor(particles[i] / 10 ** (exponent - 2)) / 100.
     axes.text(threads[i], times_mean[i] / times_mean[0] - 0.14,
               "$N_p = %.2f\\times10^{%d}~\\rightarrow$" % (mantissa, exponent),
-              rotation=90, va="top", fontsize=6, color='C0', ha="center", backgroundcolor='w')
+              rotation=90, va="top", fontsize=4, color='C0', ha="center", backgroundcolor='none')
 
 plt.show()
