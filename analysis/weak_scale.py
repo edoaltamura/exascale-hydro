@@ -8,7 +8,7 @@ plt.style.use('../mnras.mplstyle')
 cwd = '/cosma8/data/dr004/dc-alta2'#/with_intelmpi2020u2'
 threads_per_node = 128
 __particle_load = 256
-__ranks_per_node = 8
+__ranks_per_node = 4
 
 
 def get_stdout_path(
