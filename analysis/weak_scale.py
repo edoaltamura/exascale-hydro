@@ -35,7 +35,17 @@ def get_stdout_path(
     return latest_file
 
 
-logs = [get_stdout_path(__ranks_per_node, __particle_load, t, threads_per_node / __ranks_per_node) for t in range(2, 15)]
+tiling_orders = {
+    2: [2, 3, 4, 5, 6, 7, 8],
+    4: [2, 3, 4, 5, 6, 7, 8, 9, 10, 11],
+    8: [2, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14]
+}
+
+logs = []
+for t in tiling_orders[__ranks_per_node]:
+    logs.append(get_stdout_path(
+        __ranks_per_node, __particle_load, t, threads_per_node / __ranks_per_node
+    ))
 
 good_timesteps = []
 no_clean_steps = []
