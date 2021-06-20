@@ -122,12 +122,12 @@ axes.errorbar(
 axes.set_xlabel('Cores [-]')
 axes.set_ylabel('Parallel efficiency relative to $2^3$ tiles [-]')
 axes.set_xscale('log')
-axes.set_xlim(threads_per_node / 2, 5e4)
+axes.set_xlim(threads_per_node / 2, 1e6)
 axes.set_ylim(0, 1.5)
 
 ax_nodes = axes.twiny()
 ax_nodes.set_xscale("log")
-ax_nodes.set_xlim(0.5, 5e4 / threads_per_node)
+ax_nodes.set_xlim(0.5, 1e6 / threads_per_node)
 ax_nodes.set_xlabel("Nodes [-]")
 
 ax_partupdate = axes.twinx()
