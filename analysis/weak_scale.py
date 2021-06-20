@@ -133,7 +133,7 @@ for __ranks_per_node in [2, 4, 8]:
         times_mean / times_mean[0],
         yerr=times_std / times_mean[0],
         lw=0.5, marker='o', markersize=2,
-        label=f'COSMA8 - Full steps, {__ranks_per_node} MPI ranks per node, {__particle_load}$^2$ particles per tile'
+        label=f'{__ranks_per_node} MPI ranks per node'
     )
 
     ax_partupdate.set_ylim(0 * np.median(time_per_update), 1.5 * np.median(time_per_update))
@@ -149,5 +149,5 @@ for __ranks_per_node in [2, 4, 8]:
                 rotation=90, va="top", fontsize=4, color='C0', ha="center", backgroundcolor='none'
             )
 
-axes.legend(loc="lower left")
+axes.legend(loc="lower left", title=f"COSMA8 - Full steps, {__particle_load}$^3$ particles per tile")
 plt.show()
