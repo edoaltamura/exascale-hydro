@@ -7,6 +7,7 @@ plt.style.use('../mnras.mplstyle')
 
 cwd = '/cosma8/data/dr004/dc-alta2'#/with_intelmpi2020u2'
 threads_per_node = 128
+__particle_load = 256
 
 
 def get_stdout_path(
@@ -33,7 +34,7 @@ def get_stdout_path(
     return latest_file
 
 
-logs = [get_stdout_path(2, threads_per_node, t, threads_per_node / 2) for t in range(2, 9)]
+logs = [get_stdout_path(2, __particle_load, t, threads_per_node / 2) for t in range(2, 9)]
 
 good_timesteps = []
 no_clean_steps = []
