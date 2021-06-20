@@ -149,5 +149,9 @@ for __ranks_per_node in [2, 4, 8]:
                 rotation=90, va="top", fontsize=4, color='C0', ha="center", backgroundcolor='none'
             )
 
-axes.legend(loc="lower center", title=f"COSMA8 - Full steps, {__particle_load}$^3$ particles per tile", fontsize=5)
+axes.legend(
+    loc="lower center",
+    title=f"COSMA8 - Full steps, {__particle_load}$^3$ particles per tile"
+)
+
 plt.show()
