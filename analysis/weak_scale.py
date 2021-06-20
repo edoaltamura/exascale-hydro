@@ -5,7 +5,7 @@ from analyse_stdout import Stdout
 
 plt.style.use('../mnras.mplstyle')
 
-cwd = '/cosma8/data/dr004/dc-alta2/with_intelmpi2020u2'
+cwd = '/cosma8/data/dr004/dc-alta2'#/with_intelmpi2020u2'
 threads_per_node = 128
 
 
