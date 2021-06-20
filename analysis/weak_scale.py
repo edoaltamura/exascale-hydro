@@ -153,5 +153,5 @@ axes.legend(
     loc="lower center",
     title=f"COSMA8 - Full steps, {__particle_load}$^3$ particles per tile"
 )
-
+plt.savefig('cosma8_256parts.pdf')
 plt.show()
