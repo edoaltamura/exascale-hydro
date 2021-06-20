@@ -128,7 +128,6 @@ for __ranks_per_node in [2, 4, 8]:
     print('threads', threads)
     print('times_mean', times_mean)
 
-
     axes.errorbar(
         threads,
         times_mean / times_mean[0],
